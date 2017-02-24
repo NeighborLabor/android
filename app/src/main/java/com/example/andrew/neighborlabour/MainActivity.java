@@ -2,23 +2,17 @@ package com.example.andrew.neighborlabour;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-
-import com.parse.ParseObject;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
+        Log.e(TAG, "Main Activity Created");
     }
 
-    public void testFunction(View view){
-        ParseObject test = (Listing) ParseObject.create("Listing");
-
-
-
-
-    }
 }
