@@ -33,11 +33,11 @@ public class ParseProject extends Application{
         Parse.enableLocalDatastore(this);
         Parse.initialize(new Parse.Configuration.Builder(this)
             .applicationId("nl")
-            .server("http://159.203.73.182:1337/parse").build());
+            .server("http://159.203.73.182:1337/parse/").build());
 
         Log.e(TAG, "successfully connected to Parse");
 
-        ParseAnonymousUtils.logIn(new LogInCallback(){
+        /**ParseAnonymousUtils.logIn(new LogInCallback(){
             @Override
             public void done(ParseUser user, ParseException e){
                 if(e != null){
@@ -45,11 +45,11 @@ public class ParseProject extends Application{
                 }else{
 
                     //createListing();
-                    getMyListings();
+                    //getMyListings();
 
                 }
             }
-        });
+        }); **/
 
     }
 

@@ -19,7 +19,7 @@ public class AuthManager {
         //TODO: better content checking
         final ParseUser newUser = new ParseUser();
 
-        if(user.email != null & user.email.length() >= 6){
+        if(user.email != null & user.email.length() >= 0){
             newUser.setUsername(user.email);
             newUser.setEmail(user.email);
         }else{
@@ -29,7 +29,7 @@ public class AuthManager {
         if(user.password != null & user.password.length() >= 6){
             newUser.setPassword(user.password);
         }else{
-            //cb.done("ERROR: Password doesn't meet requirments");
+            cb.done("ERROR: Password doesn't meet requirments", null);
         }
 
         if(user.phone != null & user.phone.length() >= 7){

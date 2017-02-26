@@ -8,7 +8,7 @@ import java.util.List;
 
 public class User {
     public String password = null;
-    public String email = null;
+    public String email;
     public String phone = null;
     public String bio = null;
     public String name = null;
