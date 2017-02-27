@@ -1,14 +1,16 @@
 package com.example.andrew.neighborlabour.listings;
 
 import android.content.Context;
-import android.util.Log;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
+        //create view if it doesnt exist
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext())
                     .inflate(R.layout.listing_item, parent, false);
@@ -33,14 +36,24 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
             holder.body = (TextView) convertView.findViewById(R.id.tvBody);
             holder.title = (TextView) convertView.findViewById(R.id.tvTitle);
             holder.compensationDuration = (TextView) convertView.findViewById(R.id.tvCompensationDuration);
+            holder.address = (TextView) convertView.findViewById(R.id.tvAddress);
             convertView.setTag(holder);
         }
 
+        //set
         final ParseObject listing = getItem(position);
         final ViewHolder holder = (ViewHolder)convertView.getTag();
 
+        //set text fields
         holder.body.setText(listing.getString("descr"));
         holder.title.setText(listing.getString("title"));
+        holder.compensationDuration.setText(getCompensationDuration(listing));
+        holder.address.setText( listing.getString("address") + " (" + getDistanceFromUser(listing) + ")");
+
+        return convertView;
+    }
+
+    public String getCompensationDuration(ParseObject listing){
         String compensationDuration = "$" + listing.getDouble("compensation") + " / ";
         int duration = listing.getInt("duration");
         if(duration > 59){
@@ -52,9 +65,20 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         }else{
             compensationDuration += duration + " mins";
         }
-        holder.compensationDuration.setText(compensationDuration);
+        return compensationDuration;
+    }
 
-        return convertView;
+    public String getDistanceFromUser(ParseObject listing){
+        Location userLocation = ParseProject.getUserLocation();
+        if(userLocation != null){
+            ParseGeoPoint parseListingLocation = listing.getParseGeoPoint("geopoint");
+            Location listingLocation = new Location("");
+            listingLocation.setLatitude(parseListingLocation.getLatitude());
+            listingLocation.setLongitude(parseListingLocation.getLongitude());
+            float distanceInMeters = userLocation.distanceTo(listingLocation);
+            return (Math.round(distanceInMeters * 1609.34 * 10) / 10) + " miles";
+        }
+        return null;
     }
 
 
@@ -62,6 +86,7 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         public TextView title;
         public TextView body;
         public TextView compensationDuration;
+        public TextView address;
     }
 
 }

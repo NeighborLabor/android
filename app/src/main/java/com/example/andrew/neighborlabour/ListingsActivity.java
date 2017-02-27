@@ -1,8 +1,11 @@
 package com.example.andrew.neighborlabour;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.andrew.neighborlabour.Utils.ListCB;
@@ -16,17 +19,16 @@ import java.util.List;
 
 public class ListingsActivity extends AppCompatActivity {
 
-    private static final String TAG = "ListingActivity";
+    private static final String TAG = "ListingsActivity";
 
     ListView lvListings;
-
     ListingArrayAdapter listingAdapter;
     ArrayList<ParseObject> mlistings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listing_activity);
+        setContentView(R.layout.listings_activity);
         Log.i(TAG, "Main Activity Created");
         setupListings();
     }
@@ -40,6 +42,17 @@ public class ListingsActivity extends AppCompatActivity {
         lvListings.setAdapter(listingAdapter);
 
         Log.i(TAG, "Listing Adapter Setup");
+
+        lvListings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+                Log.i(TAG, "listing clicked "+  i + mlistings.get(i).getString("title"));
+                Intent intent = new Intent(ParseProject.getContext(), ListingActivity.class);
+                intent.putExtra("ObjectId", mlistings.get(i).getObjectId());
+                startActivity(intent);
+            }
+        });
+
         refreshListings();
     }
 
