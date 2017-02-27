@@ -23,9 +23,9 @@ public class Tests {
     final static String TAG = "TESTS";
 
     public static void getListing(){
-        ListingManager.getListing("j8B9TBcDBS", new ParseObjectCB() {
+        ListingManager.getListing("j8B9TBcDBS", new ListingCB() {
             @Override
-            public void done(String error, ParseObject response) {
+            public void done(String error, Listing response) {
                 Log.i(TAG, "Listing: " + response.toString());
             }
         });

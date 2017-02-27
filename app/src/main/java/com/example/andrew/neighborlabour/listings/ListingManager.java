@@ -1,6 +1,5 @@
 package com.example.andrew.neighborlabour.listings;
 
-import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
@@ -218,6 +217,11 @@ public class ListingManager {
                                             Log.i(TAG, "employer not found");
                                         }
 
+                                        if(parseListing.getParseUser("worker") == null){
+                                            cb.done(null, listing);
+                                            return;
+                                        }
+
                                         //get worker
                                         parseListing.getParseUser("worker").fetchIfNeededInBackground(new GetCallback<ParseUser>() {
                                             @Override
@@ -225,12 +229,13 @@ public class ListingManager {
 
                                                 //set worker
                                                 if(e == null){
-                                                    listing.setworker(worker);
+                                                    listing.setWorker(worker);
                                                 }else{
                                                     Log.i(TAG, "employer not found");
                                                 }
 
                                                 cb.done(null, listing);
+                                                return;
                                             }
                                         });
 

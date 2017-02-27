@@ -54,7 +54,7 @@ public class Listing {
         this.employer = employer;
     }
 
-    public void setworker(ParseUser worker){
+    public void setWorker(ParseUser worker){
         this.worker = worker;
     }
 

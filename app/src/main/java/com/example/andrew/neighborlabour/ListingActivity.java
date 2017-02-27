@@ -60,6 +60,7 @@ public class ListingActivity extends AppCompatActivity {
             @Override
             public void done(String error, Listing listing) {
                 title.setText(listing.title);
+                tvEmployer.setText(listing.employer.getUsername());
             }
         });
     }
