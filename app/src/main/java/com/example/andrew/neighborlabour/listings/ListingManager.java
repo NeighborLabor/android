@@ -1,7 +1,11 @@
 package com.example.andrew.neighborlabour.listings;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Log;
 
+import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.Utils.ListCB;
 import com.example.andrew.neighborlabour.Utils.ListingCB;
 import com.example.andrew.neighborlabour.Utils.ParseObjectCB;
@@ -15,6 +19,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +29,26 @@ import java.util.List;
 
 public class ListingManager {
     public static final String TAG = "ListingManager";
+
+    public static ParseGeoPoint getLocationFromAddress(String strAddress){
+        Log.i(TAG, "getting geo-location for " + strAddress);
+        Geocoder coder = new Geocoder(ParseProject.getContext());
+        List<Address> address;
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address==null) return null;
+
+            Address location=address.get(0);
+            Log.i(TAG, "Created Location " + (double) (location.getLatitude()) + "," + (double) (location.getLongitude()));
+            ParseGeoPoint point = new ParseGeoPoint((double) (location.getLatitude()), (double) (location.getLongitude()));
+            return point;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public static void createListing(Listing listing, final SuccessCB cb){
         //TODO: Better content checking on inputs
@@ -66,14 +91,19 @@ public class ListingManager {
 
         if(listing.address != null && listing.address.length() >= 6){
             newListing.put("address", listing.address);
+            ParseGeoPoint location = getLocationFromAddress(listing.address);
+            if(location != null) newListing.put("geopoint", location );
         }else{
             cb.done("Error: Address doesn't meet requirements", false);
             return;
         }
 
+        //set employer
         ParseObject currentUser = ParseUser.getCurrentUser();
         String userId = currentUser.getObjectId();
         newListing.put("createdBy", ParseObject.createWithoutData("_User", userId));
+        //set active to false
+        newListing.put("active", false);
 
         newListing.saveInBackground(new SaveCallback() {
             @Override
