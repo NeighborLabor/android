@@ -23,12 +23,11 @@ public class ListingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        title = (TextView)findViewById(R.id.tvTitle);
-
         Intent intent = getIntent();
         final String listingId = intent.getStringExtra("ObjectId");
-
         setContentView(R.layout.listing_activity);
+
+        title = (TextView)findViewById(R.id.tvTitle);
         Log.e(TAG, "listingId: " + listingId);
 
         title.setText("listingId");
@@ -36,7 +35,7 @@ public class ListingActivity extends AppCompatActivity {
         ListingManager.getListing(listingId, new ListingCB() {
             @Override
             public void done(String error, Listing listing) {
-                //title.setText("listingId");
+                title.setText(listing.title);
             }
         });
     }
