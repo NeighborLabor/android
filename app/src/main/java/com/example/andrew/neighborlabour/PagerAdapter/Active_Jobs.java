@@ -2,6 +2,8 @@ package com.example.andrew.neighborlabour.PagerAdapter;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +17,10 @@ import com.example.andrew.neighborlabour.R;
 
 public class Active_Jobs extends Fragment{
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstance){
-        return inflater.inflate(R.layout.jobs, container, false);
 
 
-    }
+    
+
+
 
 }

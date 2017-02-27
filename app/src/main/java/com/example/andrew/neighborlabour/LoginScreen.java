@@ -15,6 +15,7 @@ import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Utils.Callback;
 import com.example.andrew.neighborlabour.user.AuthManager;
 import com.example.andrew.neighborlabour.user.User;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -43,6 +44,11 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if(currentUser != null) {
+            toMainScreen();
+        }
+
         email = (TextView) findViewById(R.id.Email);
 
         phone = (TextView) findViewById(R.id.phone);
@@ -58,10 +64,17 @@ public class LoginScreen extends AppCompatActivity {
     }
 
     public void logIn(View view){
-        Intent intent = new Intent(this, MainActivity.class);
-
-
-        startActivity(intent);
+       AuthManager.signIn(userName.getText().toString(), password.getText().toString(),
+               new Callback() {
+                   @Override
+                   public void done(String error, ParseObject response) {
+                       if(response != null){
+                           toMainScreen();
+                       }else{
+                           Log.d("Login", error);
+                       }
+                   }
+               });
 
     }
 
