@@ -11,7 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
-        android:id="@+id/UserName"/>
+        android:id="@+id/Email"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"/>
+
+
+
 
     <EditText
         android:layout_width="match_parent"
@@ -23,14 +31,26 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:id="@+id/Email"
+        android:inputType="textPassword"
+        android:hint="Confirm_Password"
+        android:id="@+id/Confirm_Password"
         android:visibility="invisible"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="phone"
         android:id="@+id/phone"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:minLines="6"
+        android:hint="Bio (Optional)"
+        android:id="@+id/Bio"
         android:visibility="invisible"/>
 
     <Button

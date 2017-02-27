@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Utils.SuccessCB;
@@ -27,12 +28,13 @@ public class LoginScreen extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "LOGIN_SCREEN";
 
-    TextView userName;
+    TextView bio;
 
     TextView password;
 
     TextView email;
     TextView phone;
+    TextView confirm_password;
 
     Button createAccount2;
     Button register;
@@ -53,7 +55,9 @@ public class LoginScreen extends AppCompatActivity {
 
         phone = (TextView) findViewById(R.id.phone);
 
-        userName = (TextView)findViewById(R.id.UserName);
+        confirm_password = (TextView) findViewById(R.id.Confirm_Password);
+
+        bio = (TextView) findViewById(R.id.Bio);
 
         password = (TextView)findViewById(R.id.Password);
 
@@ -64,7 +68,7 @@ public class LoginScreen extends AppCompatActivity {
     }
 
     public void logIn(View view){
-       AuthManager.signIn(userName.getText().toString(), password.getText().toString(),
+       AuthManager.signIn(email.getText().toString(), password.getText().toString(),
                new SuccessCB() {
                    @Override
                    public void done(String error, boolean success) {
@@ -81,18 +85,27 @@ public class LoginScreen extends AppCompatActivity {
     public void signUp(View veiw){
 
 
+        confirm_password.setVisibility(View.VISIBLE);
         email.setVisibility(View.VISIBLE);
         phone.setVisibility(View.VISIBLE);
         createAccount2.setVisibility(View.VISIBLE);
+        bio.setVisibility(View.VISIBLE);
+
 
     }
 
     public void createAccount(View view){
+
+        if(password.getText().toString() != confirm_password.getText().toString()){
+            CharSequence message = "Password do not match";
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            return;
+        }
         User user = new User();
         user.bio = "";
         user.email = email.getText().toString();
 
-        user.name = userName.getText().toString();
+        user.name = email.getText().toString();
         user.password = password.getText().toString();
 
         user.phone = phone.getText().toString();
