@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.andrew.neighborlabour.R;
-import com.example.andrew.neighborlabour.Utils.Callback;
+import com.example.andrew.neighborlabour.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.user.AuthManager;
 import com.example.andrew.neighborlabour.user.User;
 import com.parse.LogInCallback;
@@ -65,10 +65,10 @@ public class LoginScreen extends AppCompatActivity {
 
     public void logIn(View view){
        AuthManager.signIn(userName.getText().toString(), password.getText().toString(),
-               new Callback() {
+               new SuccessCB() {
                    @Override
-                   public void done(String error, ParseObject response) {
-                       if(response != null){
+                   public void done(String error, boolean success) {
+                       if(success == true){
                            toMainScreen();
                        }else{
                            Log.d("Login", error);
@@ -97,9 +97,9 @@ public class LoginScreen extends AppCompatActivity {
 
         user.phone = phone.getText().toString();
 
-        AuthManager.createUser(user,new Callback() {
+        AuthManager.createUser(user,new SuccessCB() {
             @Override
-            public void done(String error, ParseObject response) {
+            public void done(String error, boolean success) {
                 if(error == null){
                     toMainScreen();
                 }else{

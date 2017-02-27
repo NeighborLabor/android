@@ -1,6 +1,6 @@
 package com.example.andrew.neighborlabour.user;
 
-import com.example.andrew.neighborlabour.Utils.Callback;
+import com.example.andrew.neighborlabour.Utils.SuccessCB;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -15,7 +15,7 @@ import com.parse.SignUpCallback;
 public class AuthManager {
     private static String TAG = "AuthManager";
 
-    public static void createUser(User user, final Callback cb){
+    public static void createUser(User user, final SuccessCB cb){
         //TODO: better content checking
         final ParseUser newUser = new ParseUser();
 
@@ -23,7 +23,7 @@ public class AuthManager {
             newUser.setUsername(user.email);
             newUser.setEmail(user.email);
         }else{
-            cb.done("ERROR: Email doesn't meet requirments", null);
+            cb.done("ERROR: Email doesn't meet requirments", false);
         }
 
         if(user.password != null & user.password.length() >= 6){
@@ -35,13 +35,13 @@ public class AuthManager {
         if(user.phone != null & user.phone.length() >= 7){
             newUser.put("phone", user.phone);
         }else{
-            cb.done("ERROR: PHhone doesn't meet requirments", null);
+            cb.done("ERROR: PHhone doesn't meet requirments", false);
         }
 
         if(user.name != null){
             newUser.put("name", user.name);
         }else{
-            cb.done( "ERROR: Name doesn't meet requirments", null);
+            cb.done( "ERROR: Name doesn't meet requirments", false);
         }
 
         if(user.bio != null){
@@ -56,34 +56,34 @@ public class AuthManager {
             @Override
             public void done(ParseException e){
                 if(e == null){
-                    cb.done(null, newUser);
+                    cb.done(null, true);
                 }else{
-                    cb.done(e + "", null);
+                    cb.done(e + "", false);
                 }
             }
         });
 
     }
 
-    public static void signIn(String username, String password, final Callback cb){
+    public static void signIn(String username, String password, final SuccessCB cb){
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
-                    cb.done(e+ "", null);
+                    cb.done(e+ "", false);
                 } else {
-                    cb.done(null, user);
+                    cb.done(null, true);
                 }
             }
         });
     }
 
-    public static void resetPassword(String username, final Callback cb){
+    public static void resetPassword(String username, final SuccessCB cb){
         ParseUser.requestPasswordResetInBackground(username, new RequestPasswordResetCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    cb.done(null, null);
+                    cb.done(null, true);
                 } else {
-                    cb.done(e + "", null);
+                    cb.done(e + "", false);
                 }
             }
         });

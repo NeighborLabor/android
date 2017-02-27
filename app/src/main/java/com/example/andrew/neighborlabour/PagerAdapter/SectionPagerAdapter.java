@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.andrew.neighborlabour.ListingsActivity;
+
 /**
  * Created by andrew on 2/24/17.
  */
@@ -19,15 +21,13 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
         switch(position){
             case 0:
             default:
-                return new Jobs();
+                return new ListingsActivity();
             case 1:
                 return new Active_Jobs();
             case 2:
                 return new Messages();
 
         }
-
-
 
     }
 

@@ -18,6 +18,5 @@ public class Jobs extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstance){
         return inflater.inflate(R.layout.jobs, container, false);
 
-
     }
 }

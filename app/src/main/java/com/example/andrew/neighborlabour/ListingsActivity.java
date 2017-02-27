@@ -1,10 +1,13 @@
 package com.example.andrew.neighborlabour;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -17,7 +20,7 @@ import com.parse.ParseObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListingsActivity extends AppCompatActivity {
+public class ListingsActivity extends Fragment {
 
     private static final String TAG = "ListingsActivity";
 
@@ -26,19 +29,31 @@ public class ListingsActivity extends AppCompatActivity {
     ArrayList<ParseObject> mlistings;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listings_activity);
+        //setContentView(R.layout.listings_activity);
         Log.i(TAG, "Main Activity Created");
+        //setupListings();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstance){
+        return inflater.inflate(R.layout.listings_activity, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         setupListings();
     }
 
     void setupListings(){
-        lvListings = (ListView) findViewById(R.id.lvListings);
+        lvListings = (ListView) getView().findViewById(R.id.lvListings);
         mlistings = new ArrayList<>();
 
         lvListings.setTranscriptMode(1);
-        listingAdapter = new ListingArrayAdapter(ListingsActivity.this, mlistings);
+        listingAdapter = new ListingArrayAdapter(ParseProject.getContext(), mlistings);
+        //listingAdapter = new ListingArrayAdapter(ListingsActivity.this, mlistings);
         lvListings.setAdapter(listingAdapter);
 
         Log.i(TAG, "Listing Adapter Setup");
