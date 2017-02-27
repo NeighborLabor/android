@@ -2,8 +2,10 @@ package com.example.andrew.neighborlabour.listings;
 
 import android.util.Log;
 
-import com.example.andrew.neighborlabour.Utils.Callback;
-import com.example.andrew.neighborlabour.Utils.ListCallback;
+import com.example.andrew.neighborlabour.Utils.ListCB;
+import com.example.andrew.neighborlabour.Utils.ListingCB;
+import com.example.andrew.neighborlabour.Utils.ParseObjectCB;
+import com.example.andrew.neighborlabour.Utils.SuccessCB;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -13,6 +15,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,101 +25,102 @@ import java.util.List;
 public class ListingManager {
     public static final String TAG = "ListingManager";
 
-    public static void createListing(Listing listing, final Callback cb){
+    public static void createListing(Listing listing, final SuccessCB cb){
         //TODO: Better content checking on inputs
-        final ParseObject newListing = ParseObject.create("listing");
+        final ParseObject newListing = ParseObject.create("Listing");
 
         if(listing.compensation != null){
             newListing.put("compensation", listing.compensation);
         }else{
-            cb.done("Error: compensation doesn't meet requirements", newListing);
+            cb.done("Error: compensation doesn't meet requirements", false);
             return;
         }
 
-        if(listing.length >= 5){
-            newListing.put("length", listing.length);
+        if(listing.duration >= 5){
+            newListing.put("duration", listing.duration);
         }else{
-            cb.done("Error: length doesn't meet requirements", newListing);
+            cb.done("Error: duration doesn't meet requirements", false);
             return;
         }
 
         if(listing.title != null && listing.title.length() >= 6){
             newListing.put("title", listing.title);
         }else{
-            cb.done("Error: Title doesn't meet requirements", newListing);
+            cb.done("Error: Title doesn't meet requirements", false);
+            return;
+        }
+
+        if(listing.startTime != null){
+            newListing.put("startTime", listing.startTime);
+        }else{
+            cb.done("Error: StartTime doesn't meet requirements", false);
             return;
         }
 
         if(listing.description != null && listing.description.length() >= 6){
             newListing.put("descr", listing.description);
         }else{
-            cb.done("Error: Description doesn't meet requirements", newListing);
+            cb.done("Error: Description doesn't meet requirements", false);
             return;
         }
 
         if(listing.address != null && listing.address.length() >= 6){
             newListing.put("address", listing.address);
         }else{
-            cb.done("Error: Address doesn't meet requirements", newListing);
+            cb.done("Error: Address doesn't meet requirements", false);
             return;
         }
+
+        ParseObject currentUser = ParseUser.getCurrentUser();
+        String userId = currentUser.getObjectId();
+        newListing.put("createdBy", ParseObject.createWithoutData("_User", userId));
 
         newListing.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null){
-                    ParseObject currentUser = ParseUser.getCurrentUser();
-                    currentUser.add("listings", newListing);
-                    currentUser.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null){
-                                cb.done( null, newListing);
-                            }else{
-                                cb.done( e + "", newListing);
-                            }
-                        }
-                    });
-                    cb.done( null, newListing);
+                    cb.done( null, true);
                 }else{
-                    cb.done( e + "", newListing);
+                    cb.done( e + "", false);
                 }
             }
         });
     }
 
-    public static void markInterest(String listingId, final Callback cb){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("listing");
+    public static void markInterest(String listingId, final SuccessCB cb){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Listing");
         query.whereEqualTo("objectId", listingId);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e != null) {
-                    cb.done(e+ "", null);
+                    cb.done(e+ "", false);
                 } else {
-                    final ParseObject listing = objects.get(0);
-                    Log.i(TAG, "Got listing for " + listing.getString("title"));
-                    String currentUserId = ParseUser.getCurrentUser().getObjectId();
-                    Log.i(TAG, "current UserOld: " + currentUserId);
-                    listing.add("applicants", currentUserId);
-                    listing.saveInBackground(new SaveCallback(){
-                        @Override
-                        public void done(ParseException e) {
-                            if( e == null){
-                                Log.i(TAG, "Marked interest for " + listing.getString("title"));
-                                cb.done(null, listing);
-                            }else{
-                                cb.done(e + "", listing);
+                    if(objects.size() != 0){
+                        final ParseObject listing = objects.get(0);
+                        String currentUserId = ParseUser.getCurrentUser().getObjectId();
+                        listing.add("applicants", currentUserId);
+                        listing.saveInBackground(new SaveCallback(){
+                            @Override
+                            public void done(ParseException e) {
+                                if( e == null){
+                                    Log.i(TAG, "Marked interest for " + listing.getString("title"));
+                                    cb.done(null, true);
+                                }else{
+                                    cb.done(e + "", false);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }else{
+                        cb.done("No listing found with that ID", false);
+                    }
                 }
             }
         });
     }
 
-    public static void selectWorker(String listingId, final String workerId, final Callback cb){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("listing");
+    public static void selectWorker(String listingId, final String workerId, final ParseObjectCB cb){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Listing");
         query.whereEqualTo("objectId", listingId);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -143,21 +147,72 @@ public class ListingManager {
         });
     }
 
-    public static void getListing(String listingId, final Callback cb){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("listing");
+    //get a listing as well as relations(applicants,employer)
+    public static void getListing(String listingId, final ListingCB cb){
+        //get listing
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Listing");
         query.getInBackground(listingId, new GetCallback<ParseObject>() {
-            public void done(ParseObject listing, ParseException e) {
+            public void done(final ParseObject parseListing, ParseException e) {
                 if (e == null) {
-                    cb.done(null, listing);
+                    final Listing listing = new Listing(parseListing);
+                    //get applicants
+                    ParseQuery<ParseUser> applicantsQuery = ParseUser.getQuery();
+                    List<String> userIds = parseListing.getList("applicants");
+                    if(userIds == null) userIds = new ArrayList<String>();//above call returns null instead of empty list
+                    applicantsQuery.whereContainedIn("objectId", userIds);
+                    applicantsQuery.findInBackground(new FindCallback<ParseUser>() {
+                        @Override
+                        public void done(final List<ParseUser> applicants, ParseException e) {
+                            if(e == null){
+                                listing.applicants = applicants;
+                                //get Employer
+                                ParseQuery<ParseUser> employerQuery = ParseUser.getQuery();
+                                String employerId = parseListing.getString("createdBy");
+                                employerQuery.whereEqualTo("objectId", employerId);
+                                employerQuery.findInBackground(new FindCallback<ParseUser>() {
+                                     @Override
+                                     public void done(List<ParseUser> employers, ParseException e) {
+                                         if(e == null){
+                                             if(employers.size() != 0){
+                                                 listing.employer = employers.get(0);
+                                             }
+                                             //get Worker
+                                             ParseQuery<ParseUser> workerQuery = ParseUser.getQuery();
+                                             String employerId = parseListing.getString("worker");
+                                             workerQuery.whereEqualTo("objectId", employerId);
+                                             workerQuery.findInBackground(new FindCallback<ParseUser>() {
+                                                 @Override
+                                                 public void done(List<ParseUser> workers, ParseException e) {
+                                                     if(e == null){
+                                                         if(workers.size() != 0){
+                                                             listing.worker = workers.get(0);
+                                                         }
+                                                         cb.done(null, listing);
+                                                     }else{
+                                                         cb.done(e + "", null);
+                                                     }
+                                                 }
+                                             });
+                                             Listing listing = new Listing(parseListing);
+                                         }else{
+                                             cb.done(e + "", null);
+                                         }
+                                     }
+                                 });
+                            }else{
+                                cb.done(e + "", null);
+                            }
+                        }
+                    });
                 } else {
-                    cb.done(e + "", listing);
+                    cb.done(e + "", null);
                 }
             }
         });
     }
 
-    public static void getListings(Filter filter, final ListCallback cb){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("listing");
+    public static void getListings(Filter filter, final ListCB cb){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Listing");
 
         if(filter.maxCompensation != 0){
             query.whereLessThan("compensation", filter.maxCompensation);
