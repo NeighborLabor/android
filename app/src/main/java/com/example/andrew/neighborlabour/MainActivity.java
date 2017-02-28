@@ -14,9 +14,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.andrew.neighborlabour.UI.PagerAdapter.SectionPagerAdapter;
+import com.parse.Parse;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,18 +46,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(ParseUser.getCurrentUser() == null){
             toLogInScreen();
+        }else{
+            setmenuHeaderText();
         }
 
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        setUpMenuAndToolbar();
+    }
 
+    void setmenuHeaderText(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView tvName = (TextView) header.findViewById(R.id.tvName);
+        tvName.setText(ParseUser.getCurrentUser().getString("name"));
+        TextView tvEmail = (TextView) header.findViewById(R.id.tvEmail);
+        tvEmail.setText(ParseUser.getCurrentUser().getUsername());
+    }
+
+    void setUpMenuAndToolbar(){
+        viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
