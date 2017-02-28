@@ -19,7 +19,7 @@ public class LoginScreen extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "LOGIN_SCREEN";
 
     TextView bio;
-
+    TextView name;
     TextView password;
 
     TextView email;
@@ -41,6 +41,7 @@ public class LoginScreen extends AppCompatActivity {
             toMainScreen();
         }
 
+        name = (TextView) findViewById(R.id.name);
         email = (TextView) findViewById(R.id.Email);
         phone = (TextView) findViewById(R.id.phone);
         confirm_password = (TextView) findViewById(R.id.Confirm_Password);
@@ -67,15 +68,19 @@ public class LoginScreen extends AppCompatActivity {
 
     public void signUp(View veiw){
         confirm_password.setVisibility(View.VISIBLE);
+        name.setVisibility(View.VISIBLE);
         email.setVisibility(View.VISIBLE);
         phone.setVisibility(View.VISIBLE);
+        //login.setVisibility(View.INVISIBLE);
         createAccount2.setVisibility(View.VISIBLE);
         bio.setVisibility(View.VISIBLE);
     }
 
     public void createAccount(View view){
-
-        if(password.getText().toString() != confirm_password.getText().toString()){
+        //compare passwords
+        String pass1 = password.getText().toString();
+        String pass2 = confirm_password.getText().toString();
+        if(!pass1.equals(pass2)){
             CharSequence message = "Password do not match";
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             return;
@@ -83,9 +88,8 @@ public class LoginScreen extends AppCompatActivity {
         User user = new User();
         user.bio = "";
         user.email = email.getText().toString();
-
-        user.name = email.getText().toString();
-        user.password = password.getText().toString();
+        user.name = name.getText().toString();
+        user.password = pass1;
 
         user.phone = phone.getText().toString();
 

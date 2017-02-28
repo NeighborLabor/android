@@ -16,11 +16,6 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:hint="Password"
         android:id="@+id/Password"/>
@@ -32,6 +27,13 @@
         android:hint="Confirm_Password"
         android:id="@+id/Confirm_Password"
         android:visibility="invisible"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:visibility="invisible"
+        android:hint="Name"/>
 
     <EditText
         android:layout_width="match_parent"
