@@ -1,14 +1,14 @@
-package com.example.andrew.neighborlabour.listings;
+package com.example.andrew.neighborlabour.Services.listings;
 
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
 
 import com.example.andrew.neighborlabour.ParseProject;
-import com.example.andrew.neighborlabour.Utils.ListCB;
-import com.example.andrew.neighborlabour.Utils.ListingCB;
-import com.example.andrew.neighborlabour.Utils.ParseObjectCB;
-import com.example.andrew.neighborlabour.Utils.SuccessCB;
+import com.example.andrew.neighborlabour.Services.Utils.ListCB;
+import com.example.andrew.neighborlabour.Services.Utils.ListingCB;
+import com.example.andrew.neighborlabour.Services.Utils.ParseObjectCB;
+import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -128,7 +128,7 @@ public class ListingManager {
                     if(objects.size() != 0){
                         final ParseObject listing = objects.get(0);
                         String currentUserId = ParseUser.getCurrentUser().getObjectId();
-                        listing.add("applicants", currentUserId);
+                        listing.addUnique("applicants", currentUserId);
                         listing.saveInBackground(new SaveCallback(){
                             @Override
                             public void done(ParseException e) {

@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".jobListings.ListingActivity"
+            android:name=".UI.jobListings.ListingDetailActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.listingActivity" />

@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour.jobListings;
+package com.example.andrew.neighborlabour.UI.jobListings;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -9,18 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
-import com.example.andrew.neighborlabour.Utils.ListCB;
-import com.example.andrew.neighborlabour.listings.Filter;
-import com.example.andrew.neighborlabour.listings.ListingManager;
+import com.example.andrew.neighborlabour.Services.Utils.ListCB;
+import com.example.andrew.neighborlabour.Services.listings.Filter;
+import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListingsActivity extends Fragment {
+public class ListingsFragment extends Fragment {
 
     private static final String TAG = "ListingsActivity";
 
@@ -62,7 +63,7 @@ public class ListingsActivity extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
                 Log.i(TAG, "listing clicked "+  i + mlistings.get(i).getString("title"));
-                Intent intent = new Intent(ParseProject.getContext(), ListingActivity.class);
+                Intent intent = new Intent(ParseProject.getContext(), ListingDetailActivity.class);
                 intent.putExtra("ObjectId", mlistings.get(i).getObjectId());
                 startActivity(intent);
             }
@@ -81,6 +82,7 @@ public class ListingsActivity extends Fragment {
                     listingAdapter.notifyDataSetChanged();
                     Log.i(TAG, "Listing Adapter Data Set. Items found: " + listings.size());
                 }else{
+                    Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
                     Log.e("message", "Error Loading Listings: " + error);
                 }
             }

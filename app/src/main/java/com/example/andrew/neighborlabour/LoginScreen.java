@@ -2,27 +2,17 @@ package com.example.andrew.neighborlabour;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.andrew.neighborlabour.R;
-import com.example.andrew.neighborlabour.Utils.SuccessCB;
-import com.example.andrew.neighborlabour.user.AuthManager;
-import com.example.andrew.neighborlabour.user.User;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
+import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
+import com.example.andrew.neighborlabour.Services.user.AuthManager;
+import com.example.andrew.neighborlabour.Services.user.User;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
-
-import java.util.ArrayList;
 
 public class LoginScreen extends AppCompatActivity {
 

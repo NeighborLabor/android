@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour.Utils;
+package com.example.andrew.neighborlabour.Services.Utils;
 
 /**
  * Created by chevalierc on 2/25/2017.

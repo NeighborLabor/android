@@ -4,30 +4,16 @@ package com.example.andrew.neighborlabour;
  * Created by andrew on 2/17/17.
  */
 
-import android.Manifest;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
-import com.example.andrew.neighborlabour.listings.Filter;
-import com.example.andrew.neighborlabour.listings.Listing;
-import com.example.andrew.neighborlabour.listings.ListingManager;
-import com.example.andrew.neighborlabour.user.UserManager;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
-
-import java.util.Date;
-import java.util.List;
 
 
 public class ParseProject extends Application {

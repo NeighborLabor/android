@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour.user;
+package com.example.andrew.neighborlabour.Services.user;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

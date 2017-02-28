@@ -1,11 +1,10 @@
-package com.example.andrew.neighborlabour.user;
+package com.example.andrew.neighborlabour.Services.user;
 
-import com.example.andrew.neighborlabour.Utils.SuccessCB;
+import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 /**

@@ -1,10 +1,11 @@
-package com.example.andrew.neighborlabour.PagerAdapter;
+package com.example.andrew.neighborlabour.UI.PagerAdapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.andrew.neighborlabour.jobListings.ListingsActivity;
+import com.example.andrew.neighborlabour.UI.activeJobs.ActiveJobsFragment;
+import com.example.andrew.neighborlabour.UI.jobListings.ListingsFragment;
 
 /**
  * Created by andrew on 2/24/17.
@@ -21,9 +22,9 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
         switch(position){
             case 0:
             default:
-                return new ListingsActivity();
+                return new ListingsFragment();
             case 1:
-                return new Active_Jobs();
+                return new ActiveJobsFragment();
             case 2:
                 return new Messages();
 
@@ -37,7 +38,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
         switch(position){
             case 0:
             default:
-                return "Jobs";
+                return "Job Listings";
             case 1:
                 return "Active Jobs";
             case 2:

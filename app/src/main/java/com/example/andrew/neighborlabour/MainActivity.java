@@ -10,11 +10,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.andrew.neighborlabour.PagerAdapter.SectionPagerAdapter;
+import com.example.andrew.neighborlabour.UI.PagerAdapter.SectionPagerAdapter;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
@@ -62,16 +60,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logOut(){
-
         ParseUser.logOut();
-
         toLogInScreen();
-
     }
 
     private void toLogInScreen(){
         Intent intent = new Intent(this, LoginScreen.class);
-
         startActivity(intent);
     }
 

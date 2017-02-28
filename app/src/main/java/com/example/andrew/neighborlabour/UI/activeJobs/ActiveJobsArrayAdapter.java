@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour.jobListings;
+package com.example.andrew.neighborlabour.UI.activeJobs;
 
 import android.content.Context;
 import android.location.Location;
@@ -19,10 +19,10 @@ import java.util.ArrayList;
  * Created by chevalierc on 2/26/2017.
  */
 
-public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
+public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
     final String TAG = "ListingArrayAdapter";
 
-    public ListingArrayAdapter(Context context, ArrayList<ParseObject> listings){
+    public ActiveJobsArrayAdapter(Context context, ArrayList<ParseObject> listings){
         super(context,0,listings);
     }
 

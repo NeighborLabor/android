@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour.listings;
+package com.example.andrew.neighborlabour.Services.listings;
 
 import java.util.Date;
 

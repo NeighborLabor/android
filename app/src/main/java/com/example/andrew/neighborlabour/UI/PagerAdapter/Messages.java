@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour.PagerAdapter;
+package com.example.andrew.neighborlabour.UI.PagerAdapter;
 
 import android.support.v4.app.Fragment;
 

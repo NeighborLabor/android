@@ -1,9 +1,8 @@
-package com.example.andrew.neighborlabour.jobListings;
+package com.example.andrew.neighborlabour.UI.jobListings;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,22 +10,16 @@ import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
-import com.example.andrew.neighborlabour.Utils.ListingCB;
-import com.example.andrew.neighborlabour.Utils.ParseObjectCB;
-import com.example.andrew.neighborlabour.Utils.SuccessCB;
-import com.example.andrew.neighborlabour.listings.Listing;
-import com.example.andrew.neighborlabour.listings.ListingManager;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-
-import org.w3c.dom.Text;
+import com.example.andrew.neighborlabour.Services.Utils.ListingCB;
+import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
+import com.example.andrew.neighborlabour.Services.listings.Listing;
+import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 
 /**
  * Created by chevalierc on 2/26/2017.
  */
 
-public class ListingActivity extends AppCompatActivity {
+public class ListingDetailActivity extends AppCompatActivity {
     final String TAG = "ListingActivity";
     TextView title;
     TextView tvCompensationDuration;

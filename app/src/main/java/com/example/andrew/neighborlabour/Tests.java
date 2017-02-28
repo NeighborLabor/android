@@ -2,14 +2,13 @@ package com.example.andrew.neighborlabour;
 
 import android.util.Log;
 
-import com.example.andrew.neighborlabour.Utils.ListCB;
-import com.example.andrew.neighborlabour.Utils.ListingCB;
-import com.example.andrew.neighborlabour.Utils.ParseObjectCB;
-import com.example.andrew.neighborlabour.Utils.SuccessCB;
-import com.example.andrew.neighborlabour.listings.Filter;
-import com.example.andrew.neighborlabour.listings.Listing;
-import com.example.andrew.neighborlabour.listings.ListingManager;
-import com.example.andrew.neighborlabour.user.UserManager;
+import com.example.andrew.neighborlabour.Services.Utils.ListCB;
+import com.example.andrew.neighborlabour.Services.Utils.ListingCB;
+import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
+import com.example.andrew.neighborlabour.Services.listings.Filter;
+import com.example.andrew.neighborlabour.Services.listings.Listing;
+import com.example.andrew.neighborlabour.Services.listings.ListingManager;
+import com.example.andrew.neighborlabour.Services.user.UserManager;
 import com.parse.ParseObject;
 
 import java.util.Date;

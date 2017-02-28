@@ -1,6 +1,6 @@
-package com.example.andrew.neighborlabour.Utils;
+package com.example.andrew.neighborlabour.Services.Utils;
 
-import com.example.andrew.neighborlabour.listings.Listing;
+import com.example.andrew.neighborlabour.Services.listings.Listing;
 
 /**
  * Created by chevalierc on 2/25/2017.
