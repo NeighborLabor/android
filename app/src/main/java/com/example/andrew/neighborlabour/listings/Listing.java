@@ -29,8 +29,8 @@ public class Listing {
         if(listing.getString("title") != null){
             this.title = listing.getString("title");
         }
-        if(listing.getString("desc") != null){
-            this.description = listing.getString("desc");
+        if(listing.getString("descr") != null){
+            this.description = listing.getString("descr");
         }
         if(listing.getString("address") != null){
             this.address = listing.getString("address");

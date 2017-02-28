@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour.listings;
+package com.example.andrew.neighborlabour.jobListings;
 
 import android.content.Context;
 import android.location.Location;
