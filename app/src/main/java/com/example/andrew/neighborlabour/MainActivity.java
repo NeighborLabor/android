@@ -54,9 +54,17 @@ public class MainActivity extends AppCompatActivity {
             case R.id.log_out:
                 logOut();
                 return true;
+            case R.id.add_job:
+                createCreateJobActivity();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    void createCreateJobActivity(){
+        Intent intent = new Intent(ParseProject.getContext(), CreateJobActivity.class);
+        startActivity(intent);
     }
 
     private void logOut(){

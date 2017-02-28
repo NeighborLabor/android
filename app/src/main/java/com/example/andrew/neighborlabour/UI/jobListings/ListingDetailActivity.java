@@ -27,6 +27,7 @@ public class ListingDetailActivity extends AppCompatActivity {
     TextView tvDescription;
     TextView tvAddress;
     Button btApply;
+    Button btBack;
 
     public String getCompensationDuration(Listing listing){
         String compensationDuration = "$" + listing.compensation + " / ";
@@ -58,6 +59,7 @@ public class ListingDetailActivity extends AppCompatActivity {
         tvDescription = (TextView)findViewById(R.id.tvDescription);
         tvAddress = (TextView)findViewById(R.id.tvAddress);
         btApply = (Button)findViewById(R.id.btApply);
+        btBack = (Button)findViewById(R.id.btBack);
 
         //get info
         ListingManager.getListing(listingId, new ListingCB() {
@@ -68,6 +70,13 @@ public class ListingDetailActivity extends AppCompatActivity {
                 tvDescription.setText(listing.description);
                 tvCompensationDuration.setText(getCompensationDuration(listing));
                 tvAddress.setText(listing.address);
+            }
+        });
+
+        btBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Toast toast = Toast.makeText(ParseProject.getContext(), "merow", Toast.LENGTH_SHORT);
+                finish();
             }
         });
 

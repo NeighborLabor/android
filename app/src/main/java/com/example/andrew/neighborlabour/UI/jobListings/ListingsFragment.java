@@ -62,7 +62,6 @@ public class ListingsFragment extends Fragment {
         lvListings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
-                Log.i(TAG, "listing clicked "+  i + mlistings.get(i).getString("title"));
                 Intent intent = new Intent(ParseProject.getContext(), ListingDetailActivity.class);
                 intent.putExtra("ObjectId", mlistings.get(i).getObjectId());
                 startActivity(intent);

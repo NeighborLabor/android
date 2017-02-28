@@ -13,7 +13,10 @@ import com.example.andrew.neighborlabour.R;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by chevalierc on 2/26/2017.
@@ -37,6 +40,7 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
             holder.title = (TextView) convertView.findViewById(R.id.tvTitle);
             holder.compensationDuration = (TextView) convertView.findViewById(R.id.tvCompensationDuration);
             holder.address = (TextView) convertView.findViewById(R.id.tvAddress);
+            holder.date = (TextView) convertView.findViewById(R.id.tvDate);
             convertView.setTag(holder);
         }
 
@@ -48,9 +52,16 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         holder.body.setText(listing.getString("descr"));
         holder.title.setText(listing.getString("title"));
         holder.compensationDuration.setText(getCompensationDuration(listing));
-        holder.address.setText( listing.getString("address") + " (" + getDistanceFromUser(listing) + ")");
+        holder.address.setText( listing.getString("address") + " (1 mile)"); //getDistanceFromUser(listing)
+        holder.date.setText( formatDateAsString(listing));
 
         return convertView;
+    }
+
+    private String formatDateAsString(ParseObject listing) {
+        Date date = listing.getDate("startTime");
+        DateFormat df = new SimpleDateFormat("M/dd/ K:mm a");
+        return df.format(date);
     }
 
     public String getCompensationDuration(ParseObject listing){
@@ -87,6 +98,7 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         public TextView body;
         public TextView compensationDuration;
         public TextView address;
+        public TextView date;
     }
 
 }

@@ -48,7 +48,7 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         holder.body.setText(listing.getString("descr"));
         holder.title.setText(listing.getString("title"));
         holder.compensationDuration.setText(getCompensationDuration(listing));
-        holder.address.setText( listing.getString("address") + " (" + getDistanceFromUser(listing) + ")");
+        holder.address.setText( listing.getString("address") + " ( 1mile");
 
         return convertView;
     }

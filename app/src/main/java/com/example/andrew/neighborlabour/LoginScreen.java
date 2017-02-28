@@ -42,18 +42,11 @@ public class LoginScreen extends AppCompatActivity {
         }
 
         email = (TextView) findViewById(R.id.Email);
-
         phone = (TextView) findViewById(R.id.phone);
-
         confirm_password = (TextView) findViewById(R.id.Confirm_Password);
-
         bio = (TextView) findViewById(R.id.Bio);
-
         password = (TextView)findViewById(R.id.Password);
-
         createAccount2 = (Button)findViewById(R.id.Create_Account);
-
-
 
     }
 
@@ -65,23 +58,19 @@ public class LoginScreen extends AppCompatActivity {
                        if(success == true){
                            toMainScreen();
                        }else{
+                           Toast toast = Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT);
                            Log.d("Login", error);
                        }
                    }
                });
-
     }
 
     public void signUp(View veiw){
-
-
         confirm_password.setVisibility(View.VISIBLE);
         email.setVisibility(View.VISIBLE);
         phone.setVisibility(View.VISIBLE);
         createAccount2.setVisibility(View.VISIBLE);
         bio.setVisibility(View.VISIBLE);
-
-
     }
 
     public void createAccount(View view){
@@ -106,6 +95,7 @@ public class LoginScreen extends AppCompatActivity {
                 if(error == null){
                     toMainScreen();
                 }else{
+                    Toast toast = Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT);
                     Log.d("Login", error);
                 }
             }
@@ -115,10 +105,7 @@ public class LoginScreen extends AppCompatActivity {
 
     public void toMainScreen() {
         Intent intent = new Intent(this, MainActivity.class);
-
-
         startActivity(intent);
-
     }
 
 
