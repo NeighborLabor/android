@@ -37,6 +37,7 @@ public class ListingManager {
         try {
             address = coder.getFromLocationName(strAddress,5);
             if (address==null) return null;
+            if(address.size() == 0) return null;
 
             Address location=address.get(0);
             Log.i(TAG, "Created Location " + (double) (location.getLatitude()) + "," + (double) (location.getLongitude()));
