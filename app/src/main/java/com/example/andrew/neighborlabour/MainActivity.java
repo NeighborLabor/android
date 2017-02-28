@@ -3,6 +3,7 @@ package com.example.andrew.neighborlabour;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String[] choices;
     private DrawerLayout DrawerLayout;
     private ListView DrawerList;
+    ViewPager viewPager;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toLogInScreen();
         }
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
         viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
 
@@ -90,15 +92,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.profile) {
-            // Handle the camera action
+
         } else if (id == R.id.listings) {
-
+            viewPager.setCurrentItem(0);
         } else if (id == R.id.active_jobs) {
-
+            viewPager.setCurrentItem(1);
         } else if (id == R.id.messages) {
-
+            viewPager.setCurrentItem(2);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
