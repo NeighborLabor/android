@@ -107,8 +107,9 @@ public class LoginScreen extends AppCompatActivity {
 
     }
 
+
     public void toMainScreen() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, DrawerWindow.class);
         startActivity(intent);
     }
 
