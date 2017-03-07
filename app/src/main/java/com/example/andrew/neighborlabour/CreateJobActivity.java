@@ -47,7 +47,6 @@ public class CreateJobActivity extends AppCompatActivity {
         etAddress = (TextView) findViewById(R.id.etAddress);
         etCompensation = (TextView) findViewById(R.id.etCompensation);
         etDuration = (TextView) findViewById(R.id.etDuration);
-//        etStartTime = (TextView) findViewById(R.id.etStartTime);
 
         Button btCreate = (Button)findViewById(R.id.btCreate);
         Button btBack = (Button)findViewById(R.id.btBack);

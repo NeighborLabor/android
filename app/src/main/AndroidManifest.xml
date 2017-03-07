@@ -11,41 +11,30 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.auth.LoginActivity">
-        </activity>
 
         <activity
-            android:name=".MainActivity"
-            android:label="MainActivity"
-            android:theme="@style/AppTheme">
+            android:name=".UI.auth.LoginActivity"
+            android:label="login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".UI.jobListings.ListingDetailActivity"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.listingActivity" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".MainActivity">
         </activity>
         <activity
-            android:name=".CreateJobActivity"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.listingActivity" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".UI.jobListings.ListingDetailActivity">
         </activity>
         <activity
-            android:name=".UI.auth.RegisterActivity"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.listingActivity" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".CreateJobActivity">
+        </activity>
+        <activity
+            android:name=".UI.auth.RegisterActivity">
+        </activity>
+        <activity
+            android:name=".UI.auth.ProfileActivity">
         </activity>
 
     </application>

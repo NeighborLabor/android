@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.andrew.neighborlabour.UI.PagerAdapter.SectionPagerAdapter;
 import com.example.andrew.neighborlabour.UI.auth.LoginActivity;
+import com.example.andrew.neighborlabour.UI.auth.ProfileActivity;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.profile) {
-
+            openProfile();
         } else if (id == R.id.listings) {
             viewPager.setCurrentItem(0);
         } else if (id == R.id.active_jobs) {
@@ -123,6 +124,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     //actions
+    void openProfile(){
+        Intent intent = new Intent(ParseProject.getContext(), ProfileActivity.class);
+        startActivity(intent);
+    }
+
     void createCreateJobActivity(){
         Intent intent = new Intent(ParseProject.getContext(), CreateJobActivity.class);
         startActivity(intent);
