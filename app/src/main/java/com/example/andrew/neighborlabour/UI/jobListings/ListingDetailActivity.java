@@ -75,7 +75,6 @@ public class ListingDetailActivity extends AppCompatActivity {
 
         btBack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast toast = Toast.makeText(ParseProject.getContext(), "merow", Toast.LENGTH_SHORT);
                 finish();
             }
         });

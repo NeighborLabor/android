@@ -34,6 +34,7 @@ public class CreateJobActivity extends AppCompatActivity {
     TextView etStartTime;
 
     Button Btcreate;
+    Button btBack;
 
 
     @Override
@@ -49,6 +50,15 @@ public class CreateJobActivity extends AppCompatActivity {
 //        etStartTime = (TextView) findViewById(R.id.etStartTime);
 
         Button btCreate = (Button)findViewById(R.id.btCreate);
+        Button btBack = (Button)findViewById(R.id.btBack);
+
+        btBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+
+        });
 
         btCreate.setOnClickListener(new View.OnClickListener() {
             @Override

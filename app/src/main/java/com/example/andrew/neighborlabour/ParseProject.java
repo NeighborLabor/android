@@ -65,21 +65,6 @@ public class ParseProject extends Application {
 
         Log.e(TAG, "successfully connected to Parse");
 
-        ParseAnonymousUtils.logIn(new LogInCallback(){
-            @Override
-            public void done(ParseUser user, ParseException e){
-                if(e != null){
-                    Log.e(TAG, "annon login failed", e);
-                }else{
-
-                    //Tests.createListing();
-                    //Tests.markInterest();
-                    //Tests.getListing();
-
-                }
-            }
-        });
-
     }
 
 }

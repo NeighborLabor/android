@@ -3,7 +3,6 @@ package com.example.andrew.neighborlabour;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,7 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.andrew.neighborlabour.UI.PagerAdapter.SectionPagerAdapter;
-import com.parse.Parse;
+import com.example.andrew.neighborlabour.UI.auth.LoginActivity;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,13 +31,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ViewPager viewPager;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
-        return true;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -47,13 +39,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(ParseUser.getCurrentUser() == null){
             toLogInScreen();
         }else{
-            setmenuHeaderText();
+            setMenuHeaderText();
+            setUpMenuAndToolbar();
         }
-
-        setUpMenuAndToolbar();
     }
 
-    void setmenuHeaderText(){
+    void setMenuHeaderText(){
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         TextView tvName = (TextView) header.findViewById(R.id.tvName);
@@ -78,6 +69,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu,menu);
+        return true;
+    }
 
     @Override
     public void onBackPressed() {
@@ -90,12 +87,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    //buttons in toolbar
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
-            case R.id.log_out:
-                logOut();
-                return true;
-            case R.id.add_job:
+            case R.id.addJob:
                 createCreateJobActivity();
                 return true;
             default:
@@ -105,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+    //menu items in slide menu
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -116,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             viewPager.setCurrentItem(1);
         } else if (id == R.id.messages) {
             viewPager.setCurrentItem(2);
+        } else if (id == R.id.logout) {
+            logOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -123,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
+    //actions
     void createCreateJobActivity(){
         Intent intent = new Intent(ParseProject.getContext(), CreateJobActivity.class);
         startActivity(intent);
@@ -134,13 +134,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void toLogInScreen(){
-        Intent intent = new Intent(this, LoginScreen.class);
+        Intent intent = new Intent(ParseProject.getContext(), LoginActivity.class);
         startActivity(intent);
+        finish();
     }
-
-
-
-
-
 
 }

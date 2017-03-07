@@ -14,15 +14,26 @@
         android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Back"
+            android:layout_margin="5dp"/>
 
-    <TextView
-        android:text="Neighbor-Labor"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:id="@+id/title"
-        android:gravity="center_vertical|center_horizontal"
-        android:textSize="32sp" />
+        <TextView
+            android:id="@+id/tvTitle"
+            android:text="Register"
+            android:textAppearance="@color/colorPrimaryDark"
+            android:textSize="24dp"
+            android:padding="20dp"
+            android:lines="2"
+            android:layout_gravity="left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+    </LinearLayout>
 
     <EditText
         android:layout_width="match_parent"
@@ -37,13 +48,31 @@
         android:hint="Password"
         android:id="@+id/password"/>
 
-    <Button
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log in"
-        android:textAlignment="center"
-        android:id="@+id/login"
-        android:onClick="login"/>
+        android:inputType="textPassword"
+        android:hint="Password (repeat)"
+        android:id="@+id/password2"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="name"
+        android:id="@+id/name"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number"
+        android:id="@+id/phone"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Quick Bio"
+        android:lines="3"
+        android:id="@+id/bio"/>
 
     <Button
         android:layout_width="match_parent"
