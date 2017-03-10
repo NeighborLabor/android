@@ -12,6 +12,7 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/EtSearch"
             android:layout_marginLeft="15dp"
             android:text="search"
             android:layout_weight="1"
@@ -19,7 +20,7 @@
             android:layout_width="fill_parent" />
 
         <ImageView
-            android:id="@+id/search"
+            android:id="@+id/BtSearch"
             android:layout_marginRight="15dp"
             android:background="@drawable/ic_menu_send"
             android:layout_weight="0"

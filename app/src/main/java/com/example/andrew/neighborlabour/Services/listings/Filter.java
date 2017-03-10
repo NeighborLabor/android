@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class Filter {
+    public String searchTerm = null;
     public double minCompensation = 0;
     public double maxCompensation = 0;
     public Date startDate = null;

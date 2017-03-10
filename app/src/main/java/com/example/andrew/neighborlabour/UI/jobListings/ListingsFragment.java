@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -40,6 +41,8 @@ public class ListingsFragment extends Fragment {
     static Filter filter = new Filter();
 
     ImageView BtFilters;
+    ImageView BtSearch;
+    EditText EtSearch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,20 +58,30 @@ public class ListingsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         setupListings();
-        setUpFilter();
+        setUpButtons();
     }
 
-    void setUpFilter(){
+    void setUpButtons(){
         BtFilters = (ImageView) getView().findViewById(R.id.BtFilters);
         BtFilters.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {;
                 filtersDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
             }
         });
+        BtSearch = (ImageView) getView().findViewById(R.id.BtSearch);
+        EtSearch = (EditText) getView().findViewById(R.id.EtSearch);
+        BtSearch.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ListingsFragment.filter.searchTerm = EtSearch.getText().toString();
+                refreshListings();
+            }
+        });
     }
 
     static void setFilter(Filter filter){
+        String searchTerm = filter.searchTerm;
         ListingsFragment.filter = filter;
+        filter.searchTerm = searchTerm;
         refreshListings();
     }
 
