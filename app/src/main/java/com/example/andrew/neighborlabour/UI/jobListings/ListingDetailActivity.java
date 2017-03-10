@@ -48,7 +48,7 @@ public class ListingDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        setContentView(R.layout.listing_activity);
+        setContentView(R.layout.activity_listing);
 
         final String listingId = intent.getStringExtra("ObjectId");
 

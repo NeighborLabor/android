@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_marginLeft="15dp"
+            android:text="search"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent" />
+
+        <ImageView
+            android:id="@+id/search"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_menu_send"
+            android:layout_weight="0"
+            android:layout_gravity="center"
+            android:layout_height="24dp"
+            android:layout_width="24dp" />
+
+        <ImageView
+            android:id="@+id/BtFilters"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_menu_gallery"
+            android:layout_weight="0"
+            android:layout_gravity="center"
+            android:layout_height="24dp"
+            android:layout_width="24dp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lvListings"
+        android:transcriptMode="alwaysScroll"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+</LinearLayout>

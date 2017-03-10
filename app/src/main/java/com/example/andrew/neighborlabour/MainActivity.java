@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     void setUpMenuAndToolbar(){
         viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new SectionPagerAdapter( getSupportFragmentManager() ));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);

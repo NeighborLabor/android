@@ -31,7 +31,8 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
-        //create view if it doesnt exist
+
+        //create listing array view if it doesnt exist
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext())
                     .inflate(R.layout.listing_item, parent, false);

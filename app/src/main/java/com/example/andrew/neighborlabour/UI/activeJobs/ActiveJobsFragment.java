@@ -59,8 +59,8 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
         listingAdapter = new ListingArrayAdapter(ParseProject.getContext(), mlistings);
         lvListings.setAdapter(listingAdapter);
 
-        final Button btJobsAppliedFor = (Button)getView().findViewById(R.id.btJobsAppliedFor);
-        final Button btJobsPosted = (Button)getView().findViewById(R.id.btJobsPosted);
+        final Button btJobsAppliedFor = (Button) getView().findViewById(R.id.btJobsAppliedFor);
+        final Button btJobsPosted = (Button) getView().findViewById(R.id.btJobsPosted);
 
         btJobsAppliedFor.setOnClickListener(new View.OnClickListener() {
             @Override

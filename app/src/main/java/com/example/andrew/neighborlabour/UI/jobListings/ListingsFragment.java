@@ -1,19 +1,27 @@
 package com.example.andrew.neighborlabour.UI.jobListings;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.andrew.neighborlabour.MainActivity;
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
+import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.listings.Filter;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 import com.parse.ParseObject;
@@ -26,26 +34,46 @@ public class ListingsFragment extends Fragment {
     private static final String TAG = "ListingsActivity";
 
     ListView lvListings;
-    ListingArrayAdapter listingAdapter;
-    ArrayList<ParseObject> mlistings;
+    static ListingArrayAdapter listingAdapter;
+    static ArrayList<ParseObject> mlistings;
+    FiltersDialogFragment filtersDialog = new FiltersDialogFragment();
+    static Filter filter = new Filter();
+
+    ImageView BtFilters;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.listings_activity);
-        Log.i(TAG, "Main Activity Created");
-        //setupListings();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstance){
-        return inflater.inflate(R.layout.listings_activity, container, false);
+        return inflater.inflate(R.layout.activity_job_listings, container, false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         setupListings();
+        setUpFilter();
+    }
+
+    void setUpFilter(){
+        BtFilters = (ImageView) getView().findViewById(R.id.BtFilters);
+        BtFilters.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {;
+                filtersDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
+            }
+        });
+    }
+
+    static void setFilter(Filter filter){
+        ListingsFragment.filter = filter;
+        refreshListings();
+    }
+
+    static Filter getFilter(){
+        return ListingsFragment.filter;
     }
 
     void setupListings(){
@@ -54,7 +82,6 @@ public class ListingsFragment extends Fragment {
 
         lvListings.setTranscriptMode(1);
         listingAdapter = new ListingArrayAdapter(ParseProject.getContext(), mlistings);
-        //listingAdapter = new ListingArrayAdapter(ListingsActivity.this, mlistings);
         lvListings.setAdapter(listingAdapter);
 
         Log.i(TAG, "Listing Adapter Setup");
@@ -71,8 +98,8 @@ public class ListingsFragment extends Fragment {
         refreshListings();
     }
 
-    void refreshListings(){
-        ListingManager.getListings(new Filter(), new ListCB() {
+    static void refreshListings(){
+        ListingManager.getListings(ListingsFragment.filter, new ListCB() {
             @Override
             public void done(String error, List<ParseObject> listings) {
                 if(error == null){
