@@ -1,5 +1,6 @@
 package com.example.andrew.neighborlabour.UI.jobListings;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,7 @@ import com.example.andrew.neighborlabour.Services.listings.ListingManager;
  * Created by chevalierc on 2/26/2017.
  */
 
-public class ListingDetailActivity extends AppCompatActivity {
+public class ListingDetailActivity extends Activity {
     final String TAG = "ListingActivity";
     TextView title;
     TextView tvCompensationDuration;

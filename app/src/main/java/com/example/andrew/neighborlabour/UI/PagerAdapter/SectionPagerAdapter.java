@@ -34,6 +34,8 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
 
 
 
+
+
     //set the title of the Tabs
     @Override
     public CharSequence getPageTitle(int position){
@@ -53,6 +55,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 3;
     }
+
 
 
 }
