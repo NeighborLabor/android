@@ -72,7 +72,7 @@ public class ListingsFragment extends Fragment {
 
                     Log.d("ALL_JOBS",geoPoint.toString());
                     if(geoPoint != null) {
-                        jobs.add(new JobHolder(geoPoint.toString()));
+                        jobs.add(new JobHolder(geoPoint.getLatitude(),geoPoint.getLongitude()));
                     }
                 }
                 Bundle args = new Bundle();

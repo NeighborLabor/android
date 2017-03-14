@@ -9,14 +9,20 @@ import android.os.Parcelable;
 
 public class JobHolder implements Parcelable {
     String address;
+    Double longitude;
+    Double latitude;
 
-    public JobHolder(String address){
-        this.address = address;
+    public JobHolder(Double longitude, Double latitude){
+
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
 
     public JobHolder(Parcel in) {
-        this.address = in.readString();
+
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
     }
 
     public static final Creator<JobHolder> CREATOR = new Creator<JobHolder>() {

@@ -17,6 +17,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
 
     private Filter filter;
 
+    ArrayList<JobHolder> jobs;
+
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     @Override
@@ -45,9 +49,9 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
 
         Bundle args = getArguments();
 
-        ArrayList<JobHolder> jobs = args.getParcelableArrayList("ALL_LISTINGS");
+        jobs = args.getParcelableArrayList("ALL_LISTINGS");
 
-        Log.d("LISTINGS_SIZE", String.valueOf(jobs.size()));
+
 
 
         super.onCreate(savedInstanceState);
@@ -73,6 +77,10 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        for(int i = 0; i < jobs.size(); i++){
+            JobHolder aJob = jobs.get(i);
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(aJob.latitude, aJob.longitude)));
+        }
     }
 
     @Override
