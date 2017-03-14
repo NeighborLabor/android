@@ -72,7 +72,6 @@ public class ListingsFragment extends Fragment {
         BtFilters.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {;BtMap = (Button) getView().findViewById(R.id.BtMap);
                 filtersDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
-
             }
         });
         BtSearch = (ImageView) getView().findViewById(R.id.BtSearch);

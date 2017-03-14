@@ -265,11 +265,9 @@ public class ListingManager {
             query.whereEqualTo("category", filter.category);
         }
         if(filter.startDate != null){
-            query.whereGreaterThan("startDate", filter.startDate);
+            query.whereGreaterThan("startTime", filter.startDate);
         }
-        if(filter.endDate != null){
-            query.whereLessThan("endDate", filter.endDate);
-        }
+
         if(filter.maxDistance != 0 && filter.longitude != 0 && filter.latitude != 0){
             ParseGeoPoint userLocation = new ParseGeoPoint(filter.longitude, filter.latitude);
             query.whereWithinMiles("geopoint", userLocation, filter.maxDistance.doubleValue());

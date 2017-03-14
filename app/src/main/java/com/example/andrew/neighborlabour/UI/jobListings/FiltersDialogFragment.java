@@ -1,22 +1,28 @@
 package com.example.andrew.neighborlabour.UI.jobListings;
 
-import android.app.Activity;
-import android.app.Dialog;
+import android.app.DatePickerDialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.andrew.neighborlabour.MainActivity;
+import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.listings.Filter;
+import com.parse.Parse;
+
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by chevalierc on 3/10/2017.
@@ -24,45 +30,100 @@ import com.example.andrew.neighborlabour.Services.listings.Filter;
 
 public class FiltersDialogFragment extends DialogFragment {
 
-    void setFields(View v){
-        Filter oldFilter = ListingsFragment.getFilter();
+    DatePickerDialog startDatePicker;
+    int sYear = 0, sMonth = 0, sDay = 0;
+    int eYear = 0, eMonth = 0, eDay = 0;
 
-        EditText minCompensation = (EditText) v.findViewById(R.id.minCompensation);
-        minCompensation.setText("" + oldFilter.minCompensation);
+    EditText minCompensation;
+    EditText maxCompensation;
+    TextView startDate;
 
-        EditText maxCompensation = (EditText) v.findViewById(R.id.maxCompensation);
-        minCompensation.setText("" + oldFilter.maxCompensation);
-    }
-
-
-    void getFields(){
-        Filter newFilter = new Filter();
-
-        EditText minCompensation = (EditText) getDialog().findViewById(R.id.minCompensation);
-        newFilter.minCompensation = Double.parseDouble( minCompensation.getText().toString() );
-
-        EditText maxCompensation = (EditText) getDialog().findViewById(R.id.maxCompensation);
-        newFilter.maxCompensation = Double.parseDouble( maxCompensation.getText().toString() );
-
-        ListingsFragment.setFilter(newFilter);
-    }
+    Button setFilter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.dialog_filters, null);
 
-        View v = inflater.inflate(R.layout.dialog_filters, null);
+        setUpGUI(view);
 
-        Button button = (Button)v.findViewById(R.id.setFilter);
-        button.setOnClickListener(new View.OnClickListener() {
+        setFilter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 getFields();
                 getDialog().dismiss();
             }
         });
 
-        setFields(v);
+        startDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showStartDatePicker();
+            }
+        });
 
-        return v;
+        setFields(view);
+
+        return view;
     }
 
+    void setUpGUI(View view){
+        minCompensation = (EditText) view.findViewById(R.id.minCompensation);
+        maxCompensation = (EditText) view.findViewById(R.id.maxCompensation);
+        setFilter = (Button ) view.findViewById(R.id.setFilter);
+        startDate = (TextView) view.findViewById(R.id.startDate);
+    }
+
+    void showStartDatePicker(){
+        startDatePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                sYear = year; sMonth = month; sDay = day;
+                startDate.setText( sMonth+1 + "/" + sDay + "/" + sYear);
+            }
+
+        }, sYear, sMonth, sDay);
+        startDatePicker.show();
+    }
+
+    void setFields(View v){
+        Filter oldFilter = ListingsFragment.getFilter();
+
+        if(oldFilter.minCompensation != 0){
+            minCompensation.setText("" + oldFilter.minCompensation);
+        }
+
+        if(oldFilter.maxCompensation != 0){
+            maxCompensation.setText("" + oldFilter.maxCompensation);
+        }
+
+        if( oldFilter.startDate != null){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(oldFilter.startDate);
+            sYear = calendar.get(Calendar.YEAR);
+            sMonth = calendar.get(Calendar.MONTH);
+            sDay = calendar.get(Calendar.DAY_OF_MONTH);;
+            startDate.setText( sMonth+1 + "/" + sDay + "/" + (sYear) );
+        }
+    }
+
+    void getFields(){
+        Filter newFilter = new Filter();
+
+        String minCompensationText = minCompensation.getText().toString();
+        if(minCompensationText.length() != 0){
+            newFilter.minCompensation = Double.parseDouble( minCompensationText );
+        }else{
+            newFilter.minCompensation = 0;
+        }
+
+        String maxCompensationText = maxCompensation.getText().toString();
+        if(maxCompensationText.length() != 0){
+            newFilter.maxCompensation = Double.parseDouble( maxCompensationText );
+        }else{
+            newFilter.maxCompensation = 1000;
+        }
+
+        newFilter.startDate = new GregorianCalendar(sYear, sMonth, sDay).getTime();
+
+        ListingsFragment.setFilter(newFilter);
+    }
 }
