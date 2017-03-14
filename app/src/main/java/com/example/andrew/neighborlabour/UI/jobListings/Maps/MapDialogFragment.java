@@ -43,6 +43,11 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
+        Bundle args = getArguments();
+
+        ArrayList<JobHolder> jobs = args.getParcelableArrayList("ALL_LISTINGS");
+
+        Log.d("LISTINGS_SIZE", String.valueOf(jobs.size()));
 
 
         super.onCreate(savedInstanceState);

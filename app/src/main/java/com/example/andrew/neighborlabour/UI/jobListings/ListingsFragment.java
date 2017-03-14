@@ -19,7 +19,9 @@ import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
 import com.example.andrew.neighborlabour.Services.listings.Filter;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
+import com.example.andrew.neighborlabour.UI.jobListings.Maps.JobHolder;
 import com.example.andrew.neighborlabour.UI.jobListings.Maps.MapDialogFragment;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -63,13 +65,25 @@ public class ListingsFragment extends Fragment {
         BtMap.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                /**String[] geoPoints = new String[mlistings.size()];
+                ArrayList<JobHolder> jobs = new ArrayList<>();
+
                 for(int i =0; i < mlistings.size(); i++){
-                    String geoPoint = mlistings.get(i).getParseGeoPoint().toString();
-                    geoPoints[i] = geoPoint;
-                }**/
+                    ParseGeoPoint geoPoint = mlistings.get(i).getParseGeoPoint("geopoint");
+
+                    Log.d("ALL_JOBS",geoPoint.toString());
+                    if(geoPoint != null) {
+                        jobs.add(new JobHolder(geoPoint.toString()));
+                    }
+                }
+                Bundle args = new Bundle();
+
+                args.putParcelableArrayList("ALL_LISTINGS",jobs);
+
+
 
                 MapDialogFragment mapDialogFragment = new MapDialogFragment();
+
+                mapDialogFragment.setArguments(args);
 
                 mapDialogFragment.show(getActivity().getFragmentManager(), "MapDialog");
             }
