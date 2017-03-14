@@ -5,6 +5,8 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.util.ArrayMap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,10 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.parse.ParseObject;
+
+import java.util.ArrayList;
+import java.util.logging.Filter;
 
 /**
  * Created by andrew on 3/12/17.
@@ -23,6 +29,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 public class MapDialogFragment  extends DialogFragment implements OnMapReadyCallback{
 
     private MapView mMapView;
+
+    private Filter filter;
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
@@ -34,6 +42,9 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
 
 

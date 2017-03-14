@@ -33,7 +33,7 @@ public class ListingsFragment extends Fragment {
     static ListingArrayAdapter listingAdapter;
     static ArrayList<ParseObject> mlistings;
     FiltersDialogFragment filtersDialog = new FiltersDialogFragment();
-    MapDialogFragment mapDialogFragment = new MapDialogFragment();
+
     static Filter filter = new Filter();
 
     ImageView BtFilters;
@@ -63,6 +63,14 @@ public class ListingsFragment extends Fragment {
         BtMap.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                /**String[] geoPoints = new String[mlistings.size()];
+                for(int i =0; i < mlistings.size(); i++){
+                    String geoPoint = mlistings.get(i).getParseGeoPoint().toString();
+                    geoPoints[i] = geoPoint;
+                }**/
+
+                MapDialogFragment mapDialogFragment = new MapDialogFragment();
+
                 mapDialogFragment.show(getActivity().getFragmentManager(), "MapDialog");
             }
 
