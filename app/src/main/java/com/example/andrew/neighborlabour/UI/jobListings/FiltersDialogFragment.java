@@ -37,6 +37,7 @@ public class FiltersDialogFragment extends DialogFragment {
     EditText minCompensation;
     EditText maxCompensation;
     TextView startDate;
+    EditText maxDistance;
 
     Button setFilter;
 
@@ -70,6 +71,7 @@ public class FiltersDialogFragment extends DialogFragment {
         maxCompensation = (EditText) view.findViewById(R.id.maxCompensation);
         setFilter = (Button ) view.findViewById(R.id.setFilter);
         startDate = (TextView) view.findViewById(R.id.startDate);
+        maxDistance = (EditText) view.findViewById(R.id.maxDistance);
     }
 
     void showStartDatePicker(){
@@ -121,6 +123,14 @@ public class FiltersDialogFragment extends DialogFragment {
         }else{
             newFilter.maxCompensation = 1000;
         }
+
+        String distance = maxDistance.getText().toString();
+        if(distance.length() != 0){
+            newFilter.maxDistance = Integer.valueOf(distance);
+        } else {
+            newFilter.maxDistance = 50;
+        }
+
 
         newFilter.startDate = new GregorianCalendar(sYear, sMonth, sDay).getTime();
 

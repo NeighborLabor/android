@@ -1,6 +1,7 @@
 package com.example.andrew.neighborlabour.UI.jobListings;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -43,6 +44,7 @@ import java.util.prefs.PreferenceChangeListener;
 
 public class ListingsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
+    private static boolean unableToGetLocal;
 
     private static double longitude;
     private  static double latitude;
@@ -102,31 +104,38 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
 
     void setUpButtons() {
         BtMap = (Button) getView().findViewById(R.id.BtMap);
+
         BtMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<JobHolder> jobs = new ArrayList<>();
+                if(!unableToGetLocal) {
+                    ArrayList<JobHolder> jobs = new ArrayList<>();
 
-                for (int i = 0; i < mlistings.size(); i++) {
-                    ParseGeoPoint geoPoint = mlistings.get(i).getParseGeoPoint("geopoint");
-                    String ObjectId = mlistings.get(i).getObjectId();
-                    String Name = mlistings.get(i).get("title").toString();
+                    for (int i = 0; i < mlistings.size(); i++) {
+                        ParseGeoPoint geoPoint = mlistings.get(i).getParseGeoPoint("geopoint");
+                        String ObjectId = mlistings.get(i).getObjectId();
+                        String Name = mlistings.get(i).get("title").toString();
 
-                    Log.d("ALL_JOBS", geoPoint.toString());
-                    if (geoPoint != null) {
-                        jobs.add(new JobHolder(ObjectId, Name, geoPoint.getLongitude(), geoPoint.getLatitude()));
+                        Log.d("ALL_JOBS", geoPoint.toString());
+                        if (geoPoint != null) {
+                            jobs.add(new JobHolder(ObjectId, Name, geoPoint.getLongitude(), geoPoint.getLatitude()));
+                        }
                     }
+                    Bundle args = new Bundle();
+
+                    args.putParcelableArrayList("ALL_LISTINGS", jobs);
+                    args.putDouble("CURRENT_LONG", longitude);
+                    args.putDouble("CURRENT_LAT", latitude);
+
+
+                    MapDialogFragment mapDialogFragment = new MapDialogFragment();
+
+                    mapDialogFragment.setArguments(args);
+
+                    mapDialogFragment.show(getActivity().getFragmentManager(), "MapDialog");
+                }else{
+                    Toast.makeText(getContext(),"Unable to get your current Location", Toast.LENGTH_SHORT).show();
                 }
-                Bundle args = new Bundle();
-
-                args.putParcelableArrayList("ALL_LISTINGS", jobs);
-
-
-                MapDialogFragment mapDialogFragment = new MapDialogFragment();
-
-                mapDialogFragment.setArguments(args);
-
-                mapDialogFragment.show(getActivity().getFragmentManager(), "MapDialog");
             }
 
 
@@ -165,25 +174,30 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
     }
 
     void setupListings() {
-        lvListings = (ListView) getView().findViewById(R.id.lvListings);
-        mlistings = new ArrayList<>();
+        //if the app is unable to get the deivces current location we will not allow the lis to refresh
+        if(!unableToGetLocal) {
+            lvListings = (ListView) getView().findViewById(R.id.lvListings);
+            mlistings = new ArrayList<>();
 
-        lvListings.setTranscriptMode(1);
-        listingAdapter = new ListingArrayAdapter(ParseProject.getContext(), mlistings);
-        lvListings.setAdapter(listingAdapter);
+            lvListings.setTranscriptMode(1);
+            listingAdapter = new ListingArrayAdapter(ParseProject.getContext(), mlistings);
+            lvListings.setAdapter(listingAdapter);
 
-        Log.i(TAG, "Listing Adapter Setup");
+            Log.i(TAG, "Listing Adapter Setup");
 
-        lvListings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
-                Intent intent = new Intent(ParseProject.getContext(), ListingDetailActivity.class);
-                intent.putExtra("ObjectId", mlistings.get(i).getObjectId());
-                startActivity(intent);
-            }
-        });
+            lvListings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+                    Intent intent = new Intent(ParseProject.getContext(), ListingDetailActivity.class);
+                    intent.putExtra("ObjectId", mlistings.get(i).getObjectId());
+                    startActivity(intent);
+                }
+            });
 
-        refreshListings();
+            refreshListings();
+        }else{
+            Toast.makeText(getActivity(),"Unable to get your current Location", Toast.LENGTH_SHORT).show();
+        }
     }
 
     static void refreshListings() {
@@ -214,18 +228,20 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-
+            unableToGetLocal = true;
             return;
         }
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleAPI);
 
         if(mLastLocation != null){
+            unableToGetLocal = false;
             longitude = mLastLocation.getLongitude();
             latitude = mLastLocation.getLatitude();
             Log.d("CURRENT_LOCATION",String.valueOf(longitude) + String.valueOf(latitude));
             setFilter(filter);
 
-
+        } else if(mLastLocation == null){
+            unableToGetLocal = true;
         }
 
 

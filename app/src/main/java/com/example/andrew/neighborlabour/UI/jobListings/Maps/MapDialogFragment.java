@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.andrew.neighborlabour.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
@@ -29,6 +30,8 @@ import java.util.logging.Filter;
  */
 
 public class MapDialogFragment  extends DialogFragment implements OnMapReadyCallback{
+    double currentLongitude;
+    double currentLatitude;
 
     private MapView mMapView;
 
@@ -50,6 +53,9 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
         Bundle args = getArguments();
 
         jobs = args.getParcelableArrayList("ALL_LISTINGS");
+
+        currentLatitude = args.getDouble("CURRENT_LAT");
+        currentLongitude = args.getDouble("CURRENT_LONG");
 
 
         Log.d("MAP_LISTING_SIZE", String.valueOf(jobs.size()));
@@ -81,6 +87,8 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
             JobHolder aJob = jobs.get(i);
             googleMap.addMarker(new MarkerOptions().position(new LatLng(aJob.latitude, aJob.longitude)).title(aJob.Name));
         }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude) ,10));
     }
 
     @Override
