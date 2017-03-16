@@ -8,12 +8,14 @@ import android.os.Parcelable;
  */
 
 public class JobHolder implements Parcelable {
-    String address;
+    String Name;
+    String ObjectId;
     Double longitude;
     Double latitude;
 
-    public JobHolder(Double longitude, Double latitude){
-
+    public JobHolder(String ObjectId, String name, Double longitude, Double latitude){
+        this.Name = name;
+        this.ObjectId = ObjectId;
         this.longitude = longitude;
         this.latitude = latitude;
     }
@@ -44,6 +46,6 @@ public class JobHolder implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(address);
+
     }
 }

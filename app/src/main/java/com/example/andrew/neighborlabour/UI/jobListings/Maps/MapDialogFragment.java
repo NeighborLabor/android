@@ -52,7 +52,7 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
         jobs = args.getParcelableArrayList("ALL_LISTINGS");
 
 
-
+        Log.d("MAP_LISTING_SIZE", String.valueOf(jobs.size()));
 
         super.onCreate(savedInstanceState);
 
@@ -79,7 +79,7 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
 
         for(int i = 0; i < jobs.size(); i++){
             JobHolder aJob = jobs.get(i);
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(aJob.latitude, aJob.longitude)));
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(aJob.latitude, aJob.longitude)).title(aJob.Name));
         }
     }
 
