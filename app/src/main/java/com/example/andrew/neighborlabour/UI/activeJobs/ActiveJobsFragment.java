@@ -30,9 +30,12 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
 
     private static final String TAG = "ListingsActivity";
 
+
+
     ListView lvListings;
-    ListingArrayAdapter listingAdapter;
+    ActiveJobsArrayAdapter listingAdapter;
     ArrayList<ParseObject> mlistings;
+    AppliedJobsArrayAdapter appliedListingAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,16 +58,23 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
         lvListings = (ListView) getView().findViewById(R.id.lvListings);
         mlistings = new ArrayList<>();
 
-        lvListings.setTranscriptMode(1);
-        listingAdapter = new ListingArrayAdapter(ParseProject.getContext(), mlistings);
-        lvListings.setAdapter(listingAdapter);
+
 
         final Button btJobsAppliedFor = (Button) getView().findViewById(R.id.btJobsAppliedFor);
         final Button btJobsPosted = (Button) getView().findViewById(R.id.btJobsPosted);
 
+        lvListings.setTranscriptMode(1);
+        appliedListingAdapter = new AppliedJobsArrayAdapter(ParseProject.getContext(), mlistings);
+        lvListings.setAdapter(appliedListingAdapter);
+
+
         btJobsAppliedFor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                appliedListingAdapter = new AppliedJobsArrayAdapter(ParseProject.getContext(), mlistings);
+                lvListings.setAdapter(appliedListingAdapter);
+
                 refreshJobsApplied();
                 btJobsAppliedFor.setBackgroundColor(getResources().getColor(android.R.color.white));
                 btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
@@ -74,16 +84,26 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
         btJobsPosted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                listingAdapter = new ActiveJobsArrayAdapter(ParseProject.getContext(), mlistings);
+                lvListings.setAdapter(listingAdapter);
+
                 refreshJobsPosted();
                 btJobsAppliedFor.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
                 btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.white));
             }
         });
 
+
+
+
+
         refreshJobsApplied();
         btJobsAppliedFor.setBackgroundColor(getResources().getColor(android.R.color.white));
         btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
     }
+
+
 
     void refreshJobsApplied(){
         UserManager.getListingsUserAppliedFor( new ListCB() {
@@ -92,7 +112,7 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
                 if(error == null){
                     mlistings.clear();
                     mlistings.addAll(listings);
-                    listingAdapter.notifyDataSetChanged();
+                    appliedListingAdapter.notifyDataSetChanged();
                     Log.i(TAG, "Listing Adapter Data Set. Items found: " + listings.size());
                 }else{
                     Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
@@ -118,5 +138,7 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
             }
         });
     }
+
+
 
 }
