@@ -2,6 +2,7 @@ package com.example.andrew.neighborlabour.UI.jobListings;
 
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,11 +47,16 @@ public class FiltersDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_filters, null);
 
         setUpGUI(view);
-
+        final Context context = getActivity();
         setFilter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                getFields();
-                getDialog().dismiss();
+                if(!(maxDistance.getText().length() == 0 || maxDistance.getText().equals(""))) {
+                    getFields();
+                    getDialog().dismiss();
+                }else {
+                    Toast.makeText(getActivity(), "Please input a value for Max Distance", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
