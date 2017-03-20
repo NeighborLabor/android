@@ -268,10 +268,11 @@ public class ListingManager {
             query.whereGreaterThan("startTime", filter.startDate);
         }
 
-        if(filter.maxDistance != 0 && filter.longitude != 0 && filter.latitude != 0){
-            ParseGeoPoint userLocation = new ParseGeoPoint(filter.longitude, filter.latitude);
-            query.whereWithinMiles("geopoint", userLocation, filter.maxDistance.doubleValue());
-        }
+
+
+        ParseGeoPoint userLocation = new ParseGeoPoint( filter.latitude, filter.longitude);
+        query.whereWithinMiles("geopoint", userLocation, filter.maxDistance.doubleValue());
+
         if(filter.searchTerm != null && filter.searchTerm.length() >  0){
             query.whereContains("title", filter.searchTerm);
         }

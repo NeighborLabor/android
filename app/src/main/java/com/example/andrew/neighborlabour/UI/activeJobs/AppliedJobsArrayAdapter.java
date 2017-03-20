@@ -2,7 +2,6 @@ package com.example.andrew.neighborlabour.UI.activeJobs;
 
 import android.content.Context;
 import android.location.Location;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +13,16 @@ import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
-import com.parse.Parse;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
 /**
- * Created by chevalierc on 2/26/2017.
+ * Created by andrew on 3/17/17.
  */
 
-public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
+public class AppliedJobsArrayAdapter extends ArrayAdapter<ParseObject>{
     final String TAG = "ListingArrayAdapter";
 
     ListView listView;
@@ -34,9 +31,13 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
 
 
 
-    public ActiveJobsArrayAdapter(Context context, ArrayList<ParseObject> listings){
+    public AppliedJobsArrayAdapter(Context context, ArrayList<ParseObject> listings){
 
         super(context,0,listings);
+
+
+
+
 
 
     }
@@ -51,7 +52,7 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext())
                     .inflate(R.layout.active_listing_item, parent, false);
-            final ViewHolder holder = new ViewHolder();
+            final AppliedJobsArrayAdapter.ViewHolder holder = new AppliedJobsArrayAdapter.ViewHolder();
             holder.body = (TextView) convertView.findViewById(R.id.active_tvBody);
             holder.title = (TextView) convertView.findViewById(R.id.active_tvTitle);
             holder.compensationDuration = (TextView) convertView.findViewById(R.id.active_tvCompensationDuration);
@@ -61,25 +62,19 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
 
         //set
         final ParseObject listing = getItem(position);
-        final ViewHolder holder = (ViewHolder)convertView.getTag();
+        final AppliedJobsArrayAdapter.ViewHolder holder = (AppliedJobsArrayAdapter.ViewHolder)convertView.getTag();
 
 
         holder.allApps = (Button) convertView.findViewById(R.id.active_seeApps);
         holder.messaging = (Button) convertView.findViewById(R.id.active_Message);
 
 
-        if(listing.get("worker") == null){
-            //if this is a job you posted that you haven't selected a worker
-            holder.allApps.setVisibility(View.VISIBLE);
-            holder.messaging.setVisibility(View.GONE);
 
-        } else if(listing.get("worker") != null) {
-            //jobs you posted posted and have selected a worker
-            holder.allApps.setVisibility(View.GONE);
-            holder.messaging.setVisibility(View.VISIBLE);
-        }
+        holder.allApps.setVisibility(View.GONE);
+        holder.messaging.setVisibility(View.VISIBLE);
 
 
+        //set text fields
         holder.body.setText(listing.getString("descr"));
         holder.title.setText(listing.getString("title"));
         holder.compensationDuration.setText(getCompensationDuration(listing));
@@ -150,5 +145,4 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         public Button allApps;
         public Button messaging;
     }
-
 }

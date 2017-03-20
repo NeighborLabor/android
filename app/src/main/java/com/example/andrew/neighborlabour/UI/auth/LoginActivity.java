@@ -1,7 +1,11 @@
 package com.example.andrew.neighborlabour.UI.auth;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +34,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+
+        //This will prompt the user to agree for us to use their location
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},0);
+
+        }
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if(currentUser != null) {
@@ -76,12 +86,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void toAccountScreen(View view){
+
+
         Intent intent = new Intent(ParseProject.getContext(), RegisterActivity.class);
         startActivity(intent);
         finish();
     }
 
     public void toMainScreen() {
+
+
+
         Intent intent = new Intent(ParseProject.getContext(), MainActivity.class);
         startActivity(intent);
         finish();

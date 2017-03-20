@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/active_tvTitle"
             android:textAppearance="@color/colorPrimaryDark"
             android:textSize="18dp"
             android:paddingTop="10dp"
@@ -35,7 +35,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvCompensationDuration"
+                android:id="@+id/active_tvCompensationDuration"
                 android:textAppearance="@color/colorPrimaryDark"
                 android:textSize="14dp"
                 android:paddingTop="5dp"
@@ -47,7 +47,7 @@
             </TextView>
 
             <TextView
-                android:id="@+id/tvDate"
+                android:id="@+id/active_tvDate"
                 android:text="11/12/63 10:00am"
                 android:textAppearance="@color/colorPrimaryDark"
                 android:textSize="14dp"
@@ -65,7 +65,7 @@
 
     <TextView
         android:gravity="top"
-        android:id="@+id/tvAddress"
+        android:id="@+id/active_tvAddress"
         android:textAppearance="@color/colorPrimaryDark"
         android:textSize="14dp"
         android:paddingTop="10dp"
@@ -78,7 +78,7 @@
 
     <TextView
         android:gravity="top"
-        android:id="@+id/tvBody"
+        android:id="@+id/active_tvBody"
         android:textAppearance="@color/colorPrimaryDark"
         android:textSize="14dp"
         android:paddingTop="10dp"
@@ -88,5 +88,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/active_seeApps"
+            android:text="See All Apllicants"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+           />
+        <Button
+            android:visibility="gone"
+            android:id="@+id/active_Message"
+            android:text ="Message"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+    </LinearLayout>
 
 </LinearLayout>

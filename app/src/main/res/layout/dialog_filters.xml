@@ -76,6 +76,28 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width = "300dp"
+                android:text="Max Distance: "
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <!-- I've set the text to 50 so that will be the default-->
+            <EditText
+                android:id="@+id/maxDistance"
+                android:text="50"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <Button

@@ -11,9 +11,12 @@ import java.util.List;
  */
 
 public class JobList implements Parcelable {
+
+
     private ArrayList<JobHolder> jobs;
 
-    public JobList (ArrayList<JobHolder> jobs){
+    public JobList (ArrayList<JobHolder> jobs, double currentLang, double currentLat){
+
         this.jobs = jobs;
     }
 

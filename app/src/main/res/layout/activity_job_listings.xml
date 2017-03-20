@@ -17,7 +17,8 @@
         <EditText
             android:id="@+id/EtSearch"
             android:layout_marginLeft="15dp"
-            android:text="search"
+            android:hint="search"
+            android:textColorHint="@color/colorBlack"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent" />

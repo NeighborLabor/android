@@ -2,6 +2,7 @@ package com.example.andrew.neighborlabour.UI.jobListings;
 
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class FiltersDialogFragment extends DialogFragment {
     EditText minCompensation;
     EditText maxCompensation;
     TextView startDate;
+    EditText maxDistance;
 
     Button setFilter;
 
@@ -45,11 +47,16 @@ public class FiltersDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_filters, null);
 
         setUpGUI(view);
-
+        final Context context = getActivity();
         setFilter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                getFields();
-                getDialog().dismiss();
+                if(!(maxDistance.getText().length() == 0 || maxDistance.getText().equals(""))) {
+                    getFields();
+                    getDialog().dismiss();
+                }else {
+                    Toast.makeText(getActivity(), "Please input a value for Max Distance", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -70,6 +77,7 @@ public class FiltersDialogFragment extends DialogFragment {
         maxCompensation = (EditText) view.findViewById(R.id.maxCompensation);
         setFilter = (Button ) view.findViewById(R.id.setFilter);
         startDate = (TextView) view.findViewById(R.id.startDate);
+        maxDistance = (EditText) view.findViewById(R.id.maxDistance);
     }
 
     void showStartDatePicker(){
@@ -121,6 +129,14 @@ public class FiltersDialogFragment extends DialogFragment {
         }else{
             newFilter.maxCompensation = 1000;
         }
+
+        String distance = maxDistance.getText().toString();
+        if(distance.length() != 0){
+            newFilter.maxDistance = Integer.valueOf(distance);
+        } else {
+            newFilter.maxDistance = 50;
+        }
+
 
         newFilter.startDate = new GregorianCalendar(sYear, sMonth, sDay).getTime();
 

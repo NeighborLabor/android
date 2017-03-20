@@ -16,7 +16,7 @@ public class Filter {
     public Date startDate = getToday();
     public Date endDate = null;
     public String category = null;
-    public Integer maxDistance = 0;
+    public Integer maxDistance = 1000;
     public double longitude = 0;
     public double latitude = 0;
 
