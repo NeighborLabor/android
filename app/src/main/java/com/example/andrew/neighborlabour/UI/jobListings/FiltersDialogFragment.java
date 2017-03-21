@@ -134,7 +134,7 @@ public class FiltersDialogFragment extends DialogFragment {
         if(distance.length() != 0){
             newFilter.maxDistance = Integer.valueOf(distance);
         } else {
-            newFilter.maxDistance = 50;
+            newFilter.maxDistance = 10;
         }
 
 

@@ -1,5 +1,9 @@
 package com.example.andrew.neighborlabour.Services.listings;
 
+import android.location.Location;
+
+import com.example.andrew.neighborlabour.MainActivity;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -19,6 +23,14 @@ public class Filter {
     public Integer maxDistance = 1000;
     public double longitude = 0;
     public double latitude = 0;
+
+    void Filter(){
+        Location userLocation = MainActivity.location;
+        if (userLocation != null){
+            longitude = userLocation.getLongitude();
+            latitude = userLocation.getLatitude();
+        }
+    }
 
     Date getToday(){
         final Calendar c = Calendar.getInstance();

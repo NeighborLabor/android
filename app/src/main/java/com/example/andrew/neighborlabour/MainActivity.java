@@ -1,7 +1,13 @@
 package com.example.andrew.neighborlabour;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.UI.PagerAdapter.SectionPagerAdapter;
 import com.example.andrew.neighborlabour.UI.auth.LoginActivity;
@@ -25,17 +32,55 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
+    private static final int LOCATION_REFRESH_TIME = 1;
+    private static final int LOCATION_REFRESH_DISTANCE = 1; //what units are these
 
     private String[] choices;
     private DrawerLayout DrawerLayout;
     private ListView DrawerList;
+    public static Location location;
     ViewPager viewPager;
+
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location newLocation) {
+            location = newLocation;
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+            Toast toast = Toast.makeText(ParseProject.getContext(), "I dont know what this means", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+            Toast toast = Toast.makeText(ParseProject.getContext(), "Location Service Enabled", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+            Toast toast = Toast.makeText(ParseProject.getContext(), "Location Service Disabled", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.e(TAG, "Main Activity Created");
+
+        LocationManager mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //todo: show dialog requesting location;
+            Toast toast = Toast.makeText(ParseProject.getContext(), "Location Service Not Enabled!", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME, LOCATION_REFRESH_DISTANCE, mLocationListener);
+        location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         if(ParseUser.getCurrentUser() == null){
             toLogInScreen();

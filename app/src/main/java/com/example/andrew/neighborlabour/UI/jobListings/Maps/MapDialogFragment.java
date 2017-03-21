@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.andrew.neighborlabour.MainActivity;
 import com.example.andrew.neighborlabour.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,8 +31,8 @@ import java.util.logging.Filter;
  */
 
 public class MapDialogFragment  extends DialogFragment implements OnMapReadyCallback{
-    double currentLongitude;
-    double currentLatitude;
+    double currentLongitude = 0;
+    double currentLatitude = 0;
 
     private MapView mMapView;
 
@@ -54,8 +55,10 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
 
         jobs = args.getParcelableArrayList("ALL_LISTINGS");
 
-        currentLatitude = args.getDouble("CURRENT_LAT");
-        currentLongitude = args.getDouble("CURRENT_LONG");
+        if(MainActivity.location != null){
+            currentLatitude = MainActivity.location.getLatitude();
+            currentLongitude = MainActivity.location.getLongitude();
+        }
 
 
         Log.d("MAP_LISTING_SIZE", String.valueOf(jobs.size()));
