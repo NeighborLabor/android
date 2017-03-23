@@ -135,6 +135,8 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
 
             intent.putExtra("ObjectID", object.getObjectId().toString());
 
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
             getContext().startActivity(intent);
 
         }

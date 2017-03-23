@@ -48,6 +48,12 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
         super.onStart();
     }
 
+    public void onResume(){
+
+        mMapView.onResume();
+        super.onResume();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -96,7 +102,7 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
 
     @Override
     public void onPause() {
-        mMapView.onPause();
+       mMapView.onPause();
         super.onPause();
     }
 
