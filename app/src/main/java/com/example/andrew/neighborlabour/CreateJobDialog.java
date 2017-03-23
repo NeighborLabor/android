@@ -1,17 +1,12 @@
 package com.example.andrew.neighborlabour;
 
 import android.app.DatePickerDialog;
-import android.os.Handler;
 import android.support.v4.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.InflateException;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,15 +23,18 @@ import com.example.andrew.neighborlabour.Services.listings.Listing;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class CreateJobDialog extends DialogFragment implements OnMapReadyCallback{
+public class CreateJobDialog extends DialogFragment{
 
     public final static String EXTRA_MESSAGE = "CreateJob";
     private final String TAG = "Create Job Dialog";
@@ -45,6 +43,7 @@ public class CreateJobDialog extends DialogFragment implements OnMapReadyCallbac
     final int MAX_COMPENSATION = 100;
 
     View view;
+    SupportMapFragment mapFragment;
 
     DatePickerDialog datePicker;
     TimePickerDialog timePicker;
@@ -74,16 +73,45 @@ public class CreateJobDialog extends DialogFragment implements OnMapReadyCallbac
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.dialog_create_job, null);
+        view = inflater.inflate(R.layout.dialog_create_job, container);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+//        mapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.createJobMap);
+//        mapFragment.getMapAsync(this);
+
+        MapView mMapView = (MapView) view.findViewById(R.id.createJobMap);
+        mMapView.onCreate(savedInstanceState);
+
+        mMapView.onResume(); // needed to get the map to display immediately
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap mMap) {
+                map = mMap;
+            }
+        });
 
         setUpGui(view);
         initTextValues();
         setButtonListeners();
 
         return view;
+    }
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        Log.i(TAG, "dialog dismissed");
+        super.onDismiss(dialog);
+        closeDialog();
+    }
+
+    void closeDialog(){
+
     }
 
     void setUpGui(View view){
@@ -244,7 +272,7 @@ public class CreateJobDialog extends DialogFragment implements OnMapReadyCallbac
             public void done(String error, boolean success) {
                 if(error == null){
                     Toast.makeText(ParseProject.getContext(), "Job Created!", Toast.LENGTH_SHORT).show();
-                    dismiss();
+                    closeDialog();
                 }else{
                     Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
                 }
@@ -252,9 +280,4 @@ public class CreateJobDialog extends DialogFragment implements OnMapReadyCallbac
         });
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-        Log.e("map", "ready");
-    }
 }
