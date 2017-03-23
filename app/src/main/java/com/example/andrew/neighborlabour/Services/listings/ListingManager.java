@@ -5,10 +5,12 @@ import android.location.Geocoder;
 import android.util.Log;
 
 import com.example.andrew.neighborlabour.ParseProject;
+import com.example.andrew.neighborlabour.Services.Utils.Conversions;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
 import com.example.andrew.neighborlabour.Services.Utils.ListingCB;
 import com.example.andrew.neighborlabour.Services.Utils.ParseObjectCB;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -28,26 +30,6 @@ import java.util.List;
 
 public class ListingManager {
     public static final String TAG = "ListingManager";
-
-    public static ParseGeoPoint getLocationFromAddress(String strAddress){
-        Log.i(TAG, "getting geo-location for " + strAddress);
-        Geocoder coder = new Geocoder(ParseProject.getContext());
-        List<Address> address;
-
-        try {
-            address = coder.getFromLocationName(strAddress,5);
-            if (address==null) return null;
-            if(address.size() == 0) return null;
-
-            Address location=address.get(0);
-            Log.i(TAG, "Created Location " + (double) (location.getLatitude()) + "," + (double) (location.getLongitude()));
-            ParseGeoPoint point = new ParseGeoPoint((double) (location.getLatitude()), (double) (location.getLongitude()));
-            return point;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 
     public static void createListing(Listing listing, final SuccessCB cb){
@@ -91,8 +73,11 @@ public class ListingManager {
 
         if(listing.address != null && listing.address.length() >= 6){
             newListing.put("address", listing.address);
-            ParseGeoPoint location = getLocationFromAddress(listing.address);
-            if(location != null) newListing.put("geopoint", location );
+            LatLng location = Conversions.getLocationFromAddress(listing.address);
+            if (location != null){
+                ParseGeoPoint pLocation = new ParseGeoPoint(location.latitude, location.longitude);
+                newListing.put("geopoint", pLocation );
+            }
         }else{
             cb.done("Error: Address doesn't meet requirements", false);
             return;

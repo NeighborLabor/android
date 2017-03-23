@@ -34,9 +34,6 @@
             android:theme="@android:style/Theme.Dialog">
         </activity>
         <activity
-            android:name=".CreateJobActivity">
-        </activity>
-        <activity
             android:name=".UI.auth.RegisterActivity">
         </activity>
         <activity

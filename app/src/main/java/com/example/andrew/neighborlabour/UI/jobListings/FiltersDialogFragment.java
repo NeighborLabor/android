@@ -44,7 +44,7 @@ public class FiltersDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_filters, null);
+        View view = inflater.inflate(R.layout.dialog_filters, container, true);
 
         setUpGUI(view);
         final Context context = getActivity();

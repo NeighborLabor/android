@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.andrew.neighborlabour.UI.PagerAdapter.SectionPagerAdapter;
 import com.example.andrew.neighborlabour.UI.auth.LoginActivity;
 import com.example.andrew.neighborlabour.UI.auth.ProfileActivity;
+import com.example.andrew.neighborlabour.UI.jobListings.FiltersDialogFragment;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.addJob:
-                createCreateJobActivity();
+                new CreateJobDialog().show(getSupportFragmentManager(), null);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -171,11 +172,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //actions
     void openProfile(){
         Intent intent = new Intent(ParseProject.getContext(), ProfileActivity.class);
-        startActivity(intent);
-    }
-
-    void createCreateJobActivity(){
-        Intent intent = new Intent(ParseProject.getContext(), CreateJobActivity.class);
         startActivity(intent);
     }
 

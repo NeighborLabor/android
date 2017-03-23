@@ -119,8 +119,6 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
         BtFilters = (ImageView) getView().findViewById(R.id.BtFilters);
         BtFilters.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ;
-                BtMap = (Button) getView().findViewById(R.id.BtMap);
                 filtersDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
             }
         });
