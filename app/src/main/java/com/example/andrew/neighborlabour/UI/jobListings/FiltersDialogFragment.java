@@ -1,28 +1,27 @@
 package com.example.andrew.neighborlabour.UI.jobListings;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.andrew.neighborlabour.MainActivity;
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.listings.Filter;
-import com.parse.Parse;
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -30,15 +29,21 @@ import java.util.GregorianCalendar;
  */
 
 public class FiltersDialogFragment extends DialogFragment {
+    final int MAX_DISTANCE = 50;
+    final int MAX_COMPENSATION = 500;
 
     DatePickerDialog startDatePicker;
     int sYear = 0, sMonth = 0, sDay = 0;
     int eYear = 0, eMonth = 0, eDay = 0;
 
-    EditText minCompensation;
-    EditText maxCompensation;
+    TextView tvMinCompensation;
+    TextView tvMaxCompensation;
     TextView startDate;
-    EditText maxDistance;
+    TextView tvMaxDistance;
+
+    int minCompensation;
+    int maxDistance;
+    int maxCompensation;
 
     Button setFilter;
 
@@ -47,37 +52,59 @@ public class FiltersDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_filters, container, true);
 
         setUpGUI(view);
-        final Context context = getActivity();
+        setListeners();
+        setFieldsFromFilter(view);
+
+        return view;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        // request a window without the title
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        return dialog;
+    }
+
+    void setListeners(){
         setFilter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(!(maxDistance.getText().length() == 0 || maxDistance.getText().equals(""))) {
-                    getFields();
-                    getDialog().dismiss();
-                }else {
-                    Toast.makeText(getActivity(), "Please input a value for Max Distance", Toast.LENGTH_SHORT).show();
-                }
-
+                createFilterFromFields();
+                getDialog().dismiss();
             }
         });
-
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showStartDatePicker();
             }
         });
-
-        setFields(view);
-
-        return view;
+        tvMaxDistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDistancePicker();
+            }
+        });
+        tvMaxCompensation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMaxCompensationPicker();
+            }
+        });
+        tvMinCompensation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMinCompensationPicker();
+            }
+        });
     }
 
     void setUpGUI(View view){
-        minCompensation = (EditText) view.findViewById(R.id.minCompensation);
-        maxCompensation = (EditText) view.findViewById(R.id.maxCompensation);
+        tvMinCompensation = (TextView) view.findViewById(R.id.tvMinCompensation);
+        tvMaxCompensation = (TextView) view.findViewById(R.id.tvMaxCompensation);
         setFilter = (Button ) view.findViewById(R.id.setFilter);
         startDate = (TextView) view.findViewById(R.id.startDate);
-        maxDistance = (EditText) view.findViewById(R.id.maxDistance);
+        tvMaxDistance = (TextView) view.findViewById(R.id.tvMaxDistance);
     }
 
     void showStartDatePicker(){
@@ -92,16 +119,93 @@ public class FiltersDialogFragment extends DialogFragment {
         startDatePicker.show();
     }
 
-    void setFields(View v){
+    void showMinCompensationPicker(){
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(ParseProject.getContext().LAYOUT_INFLATER_SERVICE);
+        View npView = inflater.inflate(R.layout.dialog_number_picker, null);
+        final NumberPicker np = (NumberPicker) npView.findViewById(R.id.numberPicker);
+        np.setMaxValue(MAX_COMPENSATION);
+        np.setMinValue(0);
+        String[] values = new String[MAX_COMPENSATION];
+        for(int i=0; i<values.length; i++){
+            values[i] = "$" + i;
+        }
+        np.setWrapSelectorWheel(false);
+        np.setDisplayedValues(values);
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Min Compensation:")
+                .setView(npView)
+                .setPositiveButton("Set",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                minCompensation = np.getValue();
+                                tvMinCompensation.setText("$" + minCompensation);
+                            }
+                        })
+                .show();
+    }
+
+    void showMaxCompensationPicker(){
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(ParseProject.getContext().LAYOUT_INFLATER_SERVICE);
+        View npView = inflater.inflate(R.layout.dialog_number_picker, null);
+        final NumberPicker np = (NumberPicker) npView.findViewById(R.id.numberPicker);
+        np.setMaxValue(MAX_COMPENSATION);
+        np.setMinValue(0);
+        String[] values = new String[MAX_COMPENSATION];
+        for(int i=0; i<values.length; i++){
+            values[i] = "$" + i;
+        }
+        np.setWrapSelectorWheel(false);
+        np.setDisplayedValues(values);
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Max Compensation:")
+                .setView(npView)
+                .setPositiveButton("Set",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                maxCompensation = np.getValue();
+                                tvMaxCompensation.setText("$" + maxCompensation);
+                            }
+                        })
+                .show();
+    }
+
+    void showDistancePicker(){
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(ParseProject.getContext().LAYOUT_INFLATER_SERVICE);
+        View npView = inflater.inflate(R.layout.dialog_number_picker, null);
+        final NumberPicker np = (NumberPicker) npView.findViewById(R.id.numberPicker);
+        np.setMaxValue(MAX_DISTANCE);
+        np.setMinValue(0);
+        String[] values = new String[MAX_DISTANCE];
+        for(int i=0; i<values.length; i++){
+            values[i] = i + " miles";
+        }
+        np.setWrapSelectorWheel(false);
+        np.setDisplayedValues(values);
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Max Distance:")
+                .setView(npView)
+                .setPositiveButton("Set",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Log.e("Value", np.getValue() + "");
+                                maxDistance = np.getValue();
+                                tvMaxDistance.setText(maxDistance + " miles");
+                            }
+                        })
+                .show();
+    }
+
+    void setFieldsFromFilter(View v){
         Filter oldFilter = ListingsFragment.getFilter();
 
-        if(oldFilter.minCompensation != 0){
-            minCompensation.setText("" + oldFilter.minCompensation);
-        }
+        tvMinCompensation.setText("$" + oldFilter.minCompensation);
+        minCompensation = (int) oldFilter.minCompensation;
 
-        if(oldFilter.maxCompensation != 0){
-            maxCompensation.setText("" + oldFilter.maxCompensation);
-        }
+        tvMaxCompensation.setText("$" + oldFilter.maxCompensation);
+        maxCompensation = (int) oldFilter.maxCompensation;
+
+        tvMaxDistance.setText(oldFilter.maxDistance + " miles");
+        maxDistance = oldFilter.maxDistance;
 
         if( oldFilter.startDate != null){
             Calendar calendar = Calendar.getInstance();
@@ -113,31 +217,13 @@ public class FiltersDialogFragment extends DialogFragment {
         }
     }
 
-    void getFields(){
+    void createFilterFromFields(){
         Filter newFilter = new Filter();
 
-        String minCompensationText = minCompensation.getText().toString();
-        if(minCompensationText.length() != 0){
-            newFilter.minCompensation = Double.parseDouble( minCompensationText );
-        }else{
-            newFilter.minCompensation = 0;
-        }
+        newFilter.minCompensation = (double) minCompensation;
+        newFilter.maxCompensation = (double) maxCompensation;
 
-        String maxCompensationText = maxCompensation.getText().toString();
-        if(maxCompensationText.length() != 0){
-            newFilter.maxCompensation = Double.parseDouble( maxCompensationText );
-        }else{
-            newFilter.maxCompensation = 1000;
-        }
-
-        String distance = maxDistance.getText().toString();
-        if(distance.length() != 0){
-            newFilter.maxDistance = Integer.valueOf(distance);
-        } else {
-            newFilter.maxDistance = 10;
-        }
-
-
+        newFilter.maxDistance = maxDistance;
         newFilter.startDate = new GregorianCalendar(sYear, sMonth, sDay).getTime();
 
         ListingsFragment.setFilter(newFilter);

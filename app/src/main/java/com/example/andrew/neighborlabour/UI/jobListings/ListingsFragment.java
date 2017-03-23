@@ -1,23 +1,15 @@
 package com.example.andrew.neighborlabour.UI.jobListings;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.PermissionChecker;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -38,10 +30,8 @@ import com.google.android.gms.location.LocationServices;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.PreferenceChangeListener;
 
 public class ListingsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
@@ -56,10 +46,10 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
 
     static Filter filter = new Filter();
 
-    ImageView BtFilters;
-    ImageView BtSearch;
-    EditText EtSearch;
-    Button BtMap;
+    ImageView btFilters;
+    ImageView btSearch;
+    ImageView btMap;
+    EditText etSearch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,28 +59,28 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
             mGoogleAPI = new GoogleApiClient.Builder(getActivity()).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
         }
 
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstance) {
-        return inflater.inflate(R.layout.activity_job_listings, container, false);
+        return inflater.inflate(R.layout.fragment_job_listings, container, false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         setupListings();
-        setUpButtons();
+        setUpButtonListeners();
+
+        refreshListings();
 
        mGoogleAPI.connect();
 
     }
 
-    void setUpButtons() {
-        BtMap = (Button) getView().findViewById(R.id.BtMap);
-
-        BtMap.setOnClickListener(new View.OnClickListener() {
+    void setUpButtonListeners() {
+        btMap = (ImageView) getView().findViewById(R.id.BtMap);
+        btMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<JobHolder> jobs = new ArrayList<>();
@@ -116,17 +106,17 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
 
 
         });
-        BtFilters = (ImageView) getView().findViewById(R.id.BtFilters);
-        BtFilters.setOnClickListener(new View.OnClickListener() {
+        btFilters = (ImageView) getView().findViewById(R.id.BtFilters);
+        btFilters.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 filtersDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
             }
         });
-        BtSearch = (ImageView) getView().findViewById(R.id.BtSearch);
-        EtSearch = (EditText) getView().findViewById(R.id.EtSearch);
-        BtSearch.setOnClickListener(new View.OnClickListener() {
+        btSearch = (ImageView) getView().findViewById(R.id.BtSearch);
+        etSearch = (EditText) getView().findViewById(R.id.EtSearch);
+        btSearch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ListingsFragment.filter.searchTerm = EtSearch.getText().toString();
+                ListingsFragment.filter.searchTerm = etSearch.getText().toString();
                 refreshListings();
             }
         });

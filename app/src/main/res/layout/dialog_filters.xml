@@ -8,19 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        android:textSize="24sp"
         android:padding="20dp"
         android:text="Filters: " />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="20dp">
 
             <TextView
                 android:layout_width = "300dp"
@@ -28,11 +29,12 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/minCompensation"
+            <TextView
+                android:id="@+id/tvMinCompensation"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -40,7 +42,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width = "300dp"
@@ -48,11 +53,12 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/maxCompensation"
+            <TextView
+                android:id="@+id/tvMaxCompensation"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -60,7 +66,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width = "300dp"
@@ -70,6 +79,8 @@
 
             <TextView
                 android:id="@+id/startDate"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -79,7 +90,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width = "300dp"
@@ -88,12 +102,12 @@
                 android:layout_height="wrap_content" />
 
             <!-- I've set the text to 50 so that will be the default-->
-            <EditText
-                android:id="@+id/maxDistance"
-                android:text="50"
+            <TextView
+                android:id="@+id/tvMaxDistance"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -104,6 +118,7 @@
         android:id="@+id/setFilter"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:padding="20dp"
         android:text="Set Filter"/>
 
 </LinearLayout>

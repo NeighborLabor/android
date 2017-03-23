@@ -1,6 +1,7 @@
 package com.example.andrew.neighborlabour;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.NumberPicker;
@@ -27,7 +29,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -75,9 +76,6 @@ public class CreateJobDialog extends DialogFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_create_job, container);
 
-//        mapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.createJobMap);
-//        mapFragment.getMapAsync(this);
-
         MapView mMapView = (MapView) view.findViewById(R.id.createJobMap);
         mMapView.onCreate(savedInstanceState);
 
@@ -104,14 +102,11 @@ public class CreateJobDialog extends DialogFragment{
     }
 
     @Override
-    public void onDismiss(final DialogInterface dialog) {
-        Log.i(TAG, "dialog dismissed");
-        super.onDismiss(dialog);
-        closeDialog();
-    }
-
-    void closeDialog(){
-
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        // request a window without the title
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        return dialog;
     }
 
     void setUpGui(View view){
@@ -272,7 +267,7 @@ public class CreateJobDialog extends DialogFragment{
             public void done(String error, boolean success) {
                 if(error == null){
                     Toast.makeText(ParseProject.getContext(), "Job Created!", Toast.LENGTH_SHORT).show();
-                    closeDialog();
+                    dismiss();
                 }else{
                     Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
                 }

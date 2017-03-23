@@ -2,6 +2,7 @@ package com.example.andrew.neighborlabour.UI.jobListings;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
+import com.example.andrew.neighborlabour.Services.Utils.Conversions;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
@@ -34,14 +36,12 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
 
         //create listing array view if it doesnt exist
         if(convertView == null) {
-            convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.listing_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.array_item_listing, parent, false);
             final ViewHolder holder = new ViewHolder();
             holder.body = (TextView) convertView.findViewById(R.id.tvBody);
             holder.title = (TextView) convertView.findViewById(R.id.tvTitle);
-            holder.compensationDuration = (TextView) convertView.findViewById(R.id.tvCompensationDuration);
-            holder.address = (TextView) convertView.findViewById(R.id.tvAddress);
-            holder.date = (TextView) convertView.findViewById(R.id.tvDate);
+            holder.compensation = (TextView) convertView.findViewById(R.id.tvCompensation);
+            holder.subTitle = (TextView) convertView.findViewById(R.id.tvSubtitle);
             convertView.setTag(holder);
         }
 
@@ -50,11 +50,13 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         final ViewHolder holder = (ViewHolder)convertView.getTag();
 
         //set text fields
-        holder.body.setText(listing.getString("descr"));
-        holder.title.setText(listing.getString("title"));
-        holder.compensationDuration.setText(getCompensationDuration(listing));
-        holder.address.setText( listing.getString("address") + " (1 mile)"); //getDistanceFromUser(listing)
-        holder.date.setText( formatDateAsString(listing));
+        holder.body.setText( listing.getString("descr") );
+        holder.title.setText( listing.getString("title") );
+        holder.compensation.setText( "$" + listing.getInt("compensation") );
+        String duration = Conversions.minutesToString(listing.getInt("duration"));
+        String distance = getDistanceFromUser(listing);
+        String date = formatDateAsString(listing);
+        holder.subTitle.setText( distance + " - " + duration + " - " + date );
 
         return convertView;
     }
@@ -65,30 +67,20 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         return df.format(date);
     }
 
-    public String getCompensationDuration(ParseObject listing){
-        String compensationDuration = "$" + listing.getDouble("compensation") + " / ";
-        int duration = listing.getInt("duration");
-        if(duration > 59){
-            int hours = ((duration+1) % 60);
-            int minutes = duration - (hours * 60);
-            compensationDuration +=  hours;
-            if(minutes != 0) compensationDuration = "."  + Math.round(minutes/60 * 10) / 10 ;
-            compensationDuration += hours == 1 ? " hr" : " hrs";
-        }else{
-            compensationDuration += duration + " mins";
-        }
-        return compensationDuration;
-    }
-
     public String getDistanceFromUser(ParseObject listing){
         Location userLocation = ParseProject.getUserLocation();
+        Log.i(TAG, userLocation + "");
         if(userLocation != null){
             ParseGeoPoint parseListingLocation = listing.getParseGeoPoint("geopoint");
             Location listingLocation = new Location("");
-            listingLocation.setLatitude(parseListingLocation.getLatitude());
-            listingLocation.setLongitude(parseListingLocation.getLongitude());
-            float distanceInMeters = userLocation.distanceTo(listingLocation);
-            return (Math.round(distanceInMeters * 1609.34 * 10) / 10) + " miles";
+            listingLocation.setLatitude( parseListingLocation.getLatitude() );
+            listingLocation.setLongitude( parseListingLocation.getLongitude() );
+
+            Log.i(TAG, parseListingLocation.getLatitude() +", " + parseListingLocation.getLongitude() );
+            Log.i(TAG, userLocation.getLatitude() + ", " + userLocation.getLongitude() );
+
+            float distanceInKM = userLocation.distanceTo(listingLocation)/1000;
+            return (Math.round(distanceInKM * 0.621371 * 10) / 10) + " miles";
         }
         return null;
     }
@@ -97,9 +89,8 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
     final class ViewHolder {
         public TextView title;
         public TextView body;
-        public TextView compensationDuration;
-        public TextView address;
-        public TextView date;
+        public TextView subTitle;
+        public TextView compensation;
     }
 
 }
