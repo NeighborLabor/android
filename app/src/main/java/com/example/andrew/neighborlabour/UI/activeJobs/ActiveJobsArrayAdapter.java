@@ -1,7 +1,9 @@
 package com.example.andrew.neighborlabour.UI.activeJobs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
+import com.example.andrew.neighborlabour.UI.activeJobs.applicats.SelectWorkerDialog;
 import com.parse.Parse;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -126,7 +129,13 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         public void onClick(View v) {
             final int position = listView.getPositionForView((View) v.getParent());
             ParseObject object = getItem(position);
-            Toast.makeText(getContext(), object.get("title").toString(), Toast.LENGTH_SHORT).show();
+
+
+            Intent intent = new Intent(getContext(), SelectWorkerDialog.class);
+
+            intent.putExtra("ObjectID", object.getObjectId().toString());
+
+            getContext().startActivity(intent);
 
         }
     };
