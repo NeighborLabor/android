@@ -30,6 +30,10 @@
             android:name=".MainActivity">
         </activity>
         <activity
+            android:name=".UI.activeJobs.applicats.SelectWorkerDialog"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
+        <activity
             android:name=".UI.jobListings.ListingDetailActivity"
             android:theme="@android:style/Theme.Dialog">
         </activity>
