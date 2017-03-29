@@ -76,23 +76,7 @@ public class CreateJobDialog extends DialogFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_create_job, container);
 
-        MapView mMapView = (MapView) view.findViewById(R.id.createJobMap);
-        mMapView.onCreate(savedInstanceState);
-
-        mMapView.onResume(); // needed to get the map to display immediately
-
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap mMap) {
-                map = mMap;
-            }
-        });
+        getMap(savedInstanceState);
 
         setUpGui(view);
         initTextValues();
@@ -107,6 +91,25 @@ public class CreateJobDialog extends DialogFragment{
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         return dialog;
+    }
+
+    public void getMap(Bundle savedInstanceState){
+        MapView mMapView = (MapView) view.findViewById(R.id.createJobMap);
+        mMapView.onCreate(savedInstanceState);
+        mMapView.onResume(); // needed to get the map to display immediately
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap mMap) {
+                map = mMap;
+            }
+        });
     }
 
     void setUpGui(View view){

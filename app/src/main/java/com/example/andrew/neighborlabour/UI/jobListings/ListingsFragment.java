@@ -146,9 +146,16 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
         lvListings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
-                Intent intent = new Intent(ParseProject.getContext(), ListingDetailActivity.class);
-                intent.putExtra("ObjectId", mlistings.get(i).getObjectId());
-                startActivity(intent);
+                ListingDetailDialog listingDetailDialog = new ListingDetailDialog();
+                String listingId = mlistings.get(i).getObjectId();
+                Bundle args = new Bundle();
+                args.putString("listingId", listingId);
+                listingDetailDialog.setArguments(args);
+                listingDetailDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
+
+//                Intent intent = new Intent(ParseProject.getContext(), ListingDetailActivity.class);
+//                intent.putExtra("ObjectId", mlistings.get(i).getObjectId());
+//                startActivity(intent);
             }
         });
     }

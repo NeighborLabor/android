@@ -44,6 +44,10 @@ public class Listing {
         if(listing.getString("startTime") != null){
             this.startTime = listing.getDate("startTime");
         }
+        if(listing.getParseGeoPoint("geopoint") != null){
+            this.longitude = listing.getParseGeoPoint("geopoint").getLongitude();
+            this.latitude = listing.getParseGeoPoint("geopoint").getLatitude();
+        }
     }
 
     public void setApplicant(List<ParseUser> applicants){
