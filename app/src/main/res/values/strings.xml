@@ -15,4 +15,13 @@
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="fa_search">&#xf002;</string>
+    <string name="fa_filter">&#xf0b0;</string>
+    <string name="fa_map">&#xf279;</string>
+    <string name="fa_add">&#xf055;</string>
+    <string name="fa_calender">&#xf073;</string>
+    <string name="fa_time">&#xf252;</string>
+    <string name="fa_road">&#xf018;</string>
+
 </resources>

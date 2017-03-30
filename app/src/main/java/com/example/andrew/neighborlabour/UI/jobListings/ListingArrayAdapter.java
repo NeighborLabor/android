@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.Conversions;
+import com.example.andrew.neighborlabour.Services.Utils.FontManager;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
@@ -53,7 +54,6 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         //set
         final ParseObject listing = getItem(position);
         final ViewHolder holder = (ViewHolder)convertView.getTag();
-
 
         //set text fields
         holder.body.setText( listing.getString("descr") );

@@ -233,7 +233,7 @@ public class CreateJobDialog extends DialogFragment{
         np.setMaxValue(MAX_COMPENSATION);
         np.setMinValue(0);
         String[] values = new String[MAX_COMPENSATION];
-        for(int i=0; i<values.length; i++)
+        for(int i=0; i < values.length; i++)
             values[i] = "$" + Integer.toString(i);
         values[0] = "Free";
         np.setWrapSelectorWheel(false);
