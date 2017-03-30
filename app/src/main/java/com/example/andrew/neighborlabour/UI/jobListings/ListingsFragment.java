@@ -1,6 +1,7 @@
 package com.example.andrew.neighborlabour.UI.jobListings;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,11 +14,13 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.MainActivity;
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
+import com.example.andrew.neighborlabour.Services.Utils.FontManager;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
 import com.example.andrew.neighborlabour.Services.listings.Filter;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
@@ -46,9 +49,9 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
 
     static Filter filter = new Filter();
 
-    ImageView btFilters;
-    ImageView btSearch;
-    ImageView btMap;
+    TextView btFilters;
+    TextView btSearch;
+    TextView btMap;
     EditText etSearch;
 
     @Override
@@ -70,16 +73,27 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
     public void onStart() {
         super.onStart();
         setupListings();
+        setUpDrawables();
         setUpButtonListeners();
-
         refreshListings();
 
        mGoogleAPI.connect();
 
     }
 
+    void setUpDrawables(){
+        Typeface icons = FontManager.getTypeface(ParseProject.getContext(), FontManager.FONTAWESOME);
+
+        etSearch = (EditText) getView().findViewById(R.id.EtSearch);
+        btMap = (TextView) getView().findViewById(R.id.BtMap);
+        btMap.setTypeface(icons);
+        btFilters = (TextView) getView().findViewById(R.id.BtFilters);
+        btFilters.setTypeface(icons);
+        btSearch = (TextView) getView().findViewById(R.id.BtSearch);
+        btSearch.setTypeface(icons);
+    }
+
     void setUpButtonListeners() {
-        btMap = (ImageView) getView().findViewById(R.id.BtMap);
         btMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,14 +120,11 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
 
 
         });
-        btFilters = (ImageView) getView().findViewById(R.id.BtFilters);
         btFilters.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 filtersDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
             }
         });
-        btSearch = (ImageView) getView().findViewById(R.id.BtSearch);
-        etSearch = (EditText) getView().findViewById(R.id.EtSearch);
         btSearch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ListingsFragment.filter.searchTerm = etSearch.getText().toString();

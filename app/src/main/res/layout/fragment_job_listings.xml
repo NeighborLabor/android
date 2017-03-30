@@ -24,30 +24,33 @@
             android:layout_width="fill_parent" />
 
 
-        <ImageView
+        <TextView
             android:id="@+id/BtSearch"
+            android:text="@string/fa_search"
+            android:textSize="20dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/ic_menu_send"
             android:layout_weight="0"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_height="24dp"
             android:layout_width="24dp" />
 
-        <ImageView
+        <TextView
             android:id="@+id/BtFilters"
             android:layout_marginRight="15dp"
-            android:background="@drawable/ic_menu_gallery"
+            android:textSize="20dp"
+            android:text="@string/fa_filter"
             android:layout_weight="0"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_height="24dp"
             android:layout_width="24dp" />
 
-        <ImageView
+        <TextView
             android:id="@+id/BtMap"
             android:layout_marginRight="15dp"
-            android:background="@drawable/ic_menu_gallery"
+            android:textSize="20dp"
+            android:text="@string/fa_map"
             android:layout_weight="0"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_height="24dp"
             android:layout_width="24dp" />
 
