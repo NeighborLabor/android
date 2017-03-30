@@ -53,21 +53,20 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:orientation="vertical"
                 android:paddingTop="10dp">
 
-                <TextView
-                    android:id="@+id/icDate"
-                    android:textAppearance="@color/colorPrimaryDark"
-                    android:text="@string/fa_calender"
-                    android:textSize="24sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center">
-                </TextView>
+
+                <ImageView
+                    android:background="@drawable/ic_date"
+                    android:layout_weight="0"
+                    android:layout_gravity="center"
+                    android:layout_height="24dp"
+                    android:layout_width="24dp" />
 
                 <TextView
                     android:textAppearance="@color/colorPrimaryDark"
@@ -81,25 +80,24 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_width="60dp"
+
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="vertical"
                 android:paddingTop="10dp">
 
-                <TextView
-                    android:id="@+id/icDuration"
-                    android:textAppearance="@color/colorPrimaryDark"
-                    android:text="@string/fa_time"
-                    android:textSize="24sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center">
-                </TextView>
+                    <ImageView
+                    android:background="@drawable/ic_map"
+                    android:layout_weight="0"
+                    android:layout_gravity="center"
+                    android:layout_height="24dp"
+                    android:layout_width="24dp" />
 
                 <TextView
                     android:textAppearance="@color/colorPrimaryDark"
-                    android:id="@+id/tvDuration"
+                    android:id="@+id/tvDistance"
                     android:textSize="14sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -109,25 +107,23 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_width="40dp"
                 android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingTop="10dp">
 
-                <TextView
-                    android:id="@+id/icDistance"
-                    android:textAppearance="@color/colorPrimaryDark"
-                    android:text="@string/fa_road"
-                    android:textSize="24sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center">
-                </TextView>
+                <ImageView
+                    android:background="@drawable/ic_time"
+                    android:layout_weight="0"
+                    android:layout_gravity="center"
+                    android:layout_height="24dp"
+                    android:layout_width="24dp" />
 
                 <TextView
                     android:textAppearance="@color/colorPrimaryDark"
-                    android:id="@+id/tvDistance"
+                    android:id="@+id/tvDuration"
                     android:textSize="14sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

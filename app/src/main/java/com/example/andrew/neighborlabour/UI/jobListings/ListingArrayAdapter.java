@@ -47,9 +47,6 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
             holder.duration = (TextView) convertView.findViewById(R.id.tvDuration);
             holder.distance = (TextView) convertView.findViewById(R.id.tvDistance);
             holder.date = (TextView) convertView.findViewById(R.id.tvDate);
-            holder.icDate = (TextView) convertView.findViewById(R.id.icDate);
-            holder.icDistance = (TextView) convertView.findViewById(R.id.icDistance);
-            holder.icDuration = (TextView) convertView.findViewById(R.id.icDuration);
 
             convertView.setTag(holder);
         }
@@ -58,17 +55,12 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         final ParseObject listing = getItem(position);
         final ViewHolder holder = (ViewHolder)convertView.getTag();
 
-        Typeface icons = FontManager.getTypeface(ParseProject.getContext(), FontManager.FONTAWESOME);
-
         //set text fields
         holder.body.setText( listing.getString("descr") );
         holder.title.setText( listing.getString("title") );
         holder.compensation.setText( "$" + listing.getInt("compensation") );
-        holder.icDuration.setTypeface(icons);
         holder.duration.setText(Conversions.minutesToString(listing.getInt("duration") ));
-        holder.icDistance.setTypeface(icons);
         holder.distance.setText(getDistanceFromUser(listing));
-        holder.icDate.setTypeface(icons);
         holder.date.setText(formatDateAsString(listing));
 
         return convertView;
@@ -106,9 +98,6 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         public TextView distance;
         public TextView date;
         public TextView compensation;
-        public TextView icDistance;
-        public TextView icDate;
-        public TextView icDuration;
     }
 
 }

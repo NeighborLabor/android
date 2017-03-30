@@ -4,23 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/profile"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_profile"
             android:title="Profile" />
         <item
             android:id="@+id/listings"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_listing"
             android:title="Listings" />
         <item
             android:id="@+id/active_jobs"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_active"
             android:title="Active Jobs" />
         <item
             android:id="@+id/messages"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_message"
             android:title="Messages" />
         <item
             android:id="@+id/logout"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_logout"
             android:title="Logout" />
     </group>
 

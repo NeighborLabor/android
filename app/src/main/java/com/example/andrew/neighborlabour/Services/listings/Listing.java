@@ -15,7 +15,7 @@ public class Listing {
     public String description = null;
     public String address = null;
     public Integer duration = 0;
-    public Double compensation = 0.0;
+    public int compensation = 0;
     public Double latitude = 0.0;
     public Double longitude = 0.0;
     public Date startTime = null;
@@ -35,13 +35,13 @@ public class Listing {
         if(listing.getString("address") != null){
             this.address = listing.getString("address");
         }
-        if(listing.getString("duration") != null){
+        if(listing.getInt("duration") != 0){
             this.duration = listing.getInt("duration");
         }
-        if(listing.getString("compensation") != null){
-            this.compensation = listing.getDouble("compensation");
+        if(listing.getInt("compensation") != 0){
+            this.compensation = listing.getInt("compensation");
         }
-        if(listing.getString("startTime") != null){
+        if(listing.getDate("startTime") != null){
             this.startTime = listing.getDate("startTime");
         }
         if(listing.getParseGeoPoint("geopoint") != null){
