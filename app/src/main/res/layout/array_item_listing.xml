@@ -60,7 +60,6 @@
                 android:orientation="vertical"
                 android:paddingTop="10dp">
 
-
                 <ImageView
                     android:background="@drawable/ic_date"
                     android:layout_weight="0"
@@ -82,13 +81,12 @@
             <LinearLayout
                 android:layout_centerVertical="true"
                 android:layout_width="60dp"
-
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="vertical"
                 android:paddingTop="10dp">
 
-                    <ImageView
+                <ImageView
                     android:background="@drawable/ic_map"
                     android:layout_weight="0"
                     android:layout_gravity="center"
