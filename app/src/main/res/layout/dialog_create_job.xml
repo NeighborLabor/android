@@ -28,7 +28,7 @@
 
     <ScrollView android:id="@+id/ScrollView01"
         android:layout_width="fill_parent"
-        android:layout_height="300dp">
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:orientation="vertical"
@@ -160,15 +160,16 @@
 
             </LinearLayout>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create Job"
+                android:id="@+id/btCreate"
+                android:onClick="Create"/>
+
         </LinearLayout>
 
     </ScrollView>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create Job"
-        android:id="@+id/btCreate"
-        android:onClick="Create"/>
 
 </LinearLayout>

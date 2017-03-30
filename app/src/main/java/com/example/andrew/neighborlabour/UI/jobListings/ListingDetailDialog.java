@@ -26,6 +26,11 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseObject;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by chevalierc on 3/29/2017.
@@ -43,6 +48,7 @@ public class ListingDetailDialog extends DialogFragment {
     TextView tvEmployer;
     TextView tvDescription;
     TextView tvAddress;
+    TextView tvDate;
     Button btApply;
 
     @Override
@@ -100,6 +106,7 @@ public class ListingDetailDialog extends DialogFragment {
         tvEmployer = (TextView) view.findViewById(R.id.tvEmployer);
         tvDescription = (TextView) view.findViewById(R.id.tvDescription);
         tvAddress = (TextView) view.findViewById(R.id.tvAddress);
+        tvDate = (TextView) view.findViewById(R.id.tvDate);
         btApply = (Button) view.findViewById(R.id.btApply);
     }
 
@@ -110,15 +117,22 @@ public class ListingDetailDialog extends DialogFragment {
                 tvTitle.setText(listing.title);
                 tvEmployer.setText(listing.employer.getString("name"));
                 tvDescription.setText(listing.description);
-                tvCompensation.setText( "$" + listing.compensation.toString() );
+                tvCompensation.setText( "$" + listing.compensation );
                 tvDuration.setText( Conversions.minutesToString(listing.duration) );
                 tvAddress.setText(listing.address);
+                tvDate.setText(formatDateAsString(listing));
                 setMapLocation(listing);
             }
         });
     }
 
-    void setMapLocation(Listing listing){
+    private String formatDateAsString(Listing listing) {
+        Date date = listing.startTime;
+        DateFormat df = new SimpleDateFormat("M/dd h:mm a");
+        return df.format(date);
+    }
+
+    private void setMapLocation(Listing listing){
         LatLng jobLocation = new LatLng(listing.latitude, listing.longitude);
         map.addMarker(new MarkerOptions().position(jobLocation).title("JobLocation"));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(jobLocation, 12));

@@ -1,6 +1,7 @@
 package com.example.andrew.neighborlabour.UI.jobListings;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,10 +39,14 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.array_item_listing, parent, false);
             final ViewHolder holder = new ViewHolder();
+
             holder.body = (TextView) convertView.findViewById(R.id.tvBody);
             holder.title = (TextView) convertView.findViewById(R.id.tvTitle);
             holder.compensation = (TextView) convertView.findViewById(R.id.tvCompensation);
-            holder.subTitle = (TextView) convertView.findViewById(R.id.tvSubtitle);
+            holder.duration = (TextView) convertView.findViewById(R.id.tvDuration);
+            holder.distance = (TextView) convertView.findViewById(R.id.tvDistance);
+            holder.date = (TextView) convertView.findViewById(R.id.tvDate);
+
             convertView.setTag(holder);
         }
 
@@ -49,21 +54,21 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
         final ParseObject listing = getItem(position);
         final ViewHolder holder = (ViewHolder)convertView.getTag();
 
+
         //set text fields
         holder.body.setText( listing.getString("descr") );
         holder.title.setText( listing.getString("title") );
         holder.compensation.setText( "$" + listing.getInt("compensation") );
-        String duration = Conversions.minutesToString(listing.getInt("duration"));
-        String distance = getDistanceFromUser(listing);
-        String date = formatDateAsString(listing);
-        holder.subTitle.setText( distance + " - " + duration + " - " + date );
+        holder.duration.setText(Conversions.minutesToString(listing.getInt("duration") ));
+        holder.distance.setText(getDistanceFromUser(listing));
+        holder.date.setText(formatDateAsString(listing));
 
         return convertView;
     }
 
     private String formatDateAsString(ParseObject listing) {
         Date date = listing.getDate("startTime");
-        DateFormat df = new SimpleDateFormat("M/dd/ K:mm a");
+        DateFormat df = new SimpleDateFormat("M/dd");
         return df.format(date);
     }
 
@@ -89,7 +94,9 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
     final class ViewHolder {
         public TextView title;
         public TextView body;
-        public TextView subTitle;
+        public TextView duration;
+        public TextView distance;
+        public TextView date;
         public TextView compensation;
     }
 

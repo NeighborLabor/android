@@ -36,7 +36,7 @@ public class ListingManager {
         //TODO: Better content checking on inputs
         final ParseObject newListing = ParseObject.create("Listing");
 
-        if(listing.compensation != null){
+        if(listing.compensation != 0){
             newListing.put("compensation", listing.compensation);
         }else{
             cb.done("Error: compensation doesn't meet requirements", false);

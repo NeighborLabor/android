@@ -71,6 +71,12 @@ public class CreateJobDialog extends DialogFragment{
     int duration = 15;
     int compensation = 10;
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        Dialog dialog = getDialog();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -262,7 +268,7 @@ public class CreateJobDialog extends DialogFragment{
         newListing.description = etDescription.getText().toString();
         newListing.address = etAddress.getText().toString();
         newListing.duration = duration;
-        newListing.compensation = (double) compensation;
+        newListing.compensation = compensation;
         newListing.startTime = new GregorianCalendar(year,month,day,hour,minute).getTime();
 
         ListingManager.createListing(newListing, new SuccessCB() {
