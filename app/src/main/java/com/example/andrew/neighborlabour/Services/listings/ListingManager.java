@@ -140,10 +140,11 @@ public class ListingManager {
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
+                if (e != null) {
                     cb.done(e+ "", null);
                 } else {
                     final ParseObject listing = objects.get(0);
+                    Log.d("SELECT_WORKER", String.valueOf(objects.size()));
                     String currentUserId = (String) ParseUser.getCurrentUser().get("objectId");
                     listing.put("worker", workerId);
                     listing.put("active", false);
@@ -152,8 +153,10 @@ public class ListingManager {
                         public void done(ParseException e) {
                             if( e == null){
                                 cb.done(null, listing);
+
+
                             }else{
-                                cb.done(e + "", listing);
+                                cb.done(e.toString(), listing);
                             }
                         }
                     });
@@ -231,6 +234,7 @@ public class ListingManager {
                         }
                     });
                 } else {
+                    Log.i(TAG, "Listing Not Found");
                     cb.done(e + "", null);
                 }
             }

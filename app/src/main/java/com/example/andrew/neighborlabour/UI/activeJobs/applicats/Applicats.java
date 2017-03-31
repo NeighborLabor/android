@@ -42,7 +42,7 @@ public class Applicats extends ArrayAdapter<ParseUser>{
 
         ViewHolder viewHolder = (ViewHolder) convertView.getTag();
 
-        viewHolder.textView.setText(user.getUsername());
+        viewHolder.textView.setText(user.get("name").toString());
         return convertView;
     }
 

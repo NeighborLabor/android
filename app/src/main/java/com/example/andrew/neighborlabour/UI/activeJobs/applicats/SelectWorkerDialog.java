@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.ListingCB;
+import com.example.andrew.neighborlabour.Services.Utils.ParseObjectCB;
 import com.example.andrew.neighborlabour.Services.listings.Listing;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 import com.example.andrew.neighborlabour.Services.user.UserManager;
@@ -33,6 +35,7 @@ public class SelectWorkerDialog extends Activity {
 
     private ListView list;
 
+    String parseID;
 
     private Applicats arrayAdapter;
 
@@ -52,12 +55,14 @@ public class SelectWorkerDialog extends Activity {
         arrayAdapter = new Applicats(this, userList);
 
         list.setAdapter(arrayAdapter);
+
+        list.setOnItemClickListener(selectTheWorker);
     }
 
 
     private void getUser(){
 
-        final String parseID = getIntent().getStringExtra("ObjectID");
+        parseID = getIntent().getStringExtra("ObjectID");
 
         ListingManager.getListing(parseID, new ListingCB() {
 
@@ -84,6 +89,38 @@ public class SelectWorkerDialog extends Activity {
             Toast.makeText(this,e, Toast.LENGTH_SHORT).show();
 
         }
+
+    public AdapterView.OnItemClickListener selectTheWorker = new AdapterView.OnItemClickListener() {
+
+        @Override
+        public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
+
+            ParseUser selectedWorker = userList.get(position);
+
+            Log.d("SELECT_WORKER", selectedWorker.getObjectId() + " "+ parseID);
+
+            ListingManager.selectWorker(parseID, selectedWorker.getObjectId(), new ParseObjectCB() {
+                @Override
+                public void done(String error, ParseObject response) {
+                    if(response != null){
+                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT);
+                        Log.d("SELECT_WORKER", response.toString());
+
+                    } else if ( error != null){
+
+                        Log.d("SELECT_WORKER 1", error);
+
+                    }else {
+                        Toast.makeText(getApplicationContext(),"Unkown Error", Toast.LENGTH_SHORT);
+                        Log.d("SELECT_WORKER", "Unkown Error");
+                    }
+                }
+            });
+        }
+
+
+    };
+
 
 
 }
