@@ -1,27 +1,25 @@
 package com.example.andrew.neighborlabour.UI.jobListings.Maps;
 
 import android.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.andrew.neighborlabour.MainActivity;
 import com.example.andrew.neighborlabour.R;
+import com.example.andrew.neighborlabour.Services.Utils.Conversions;
+import com.example.andrew.neighborlabour.Services.listings.Listing;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.logging.Filter;
@@ -30,9 +28,11 @@ import java.util.logging.Filter;
  * Created by andrew on 3/12/17.
  */
 
-public class MapDialogFragment  extends DialogFragment implements OnMapReadyCallback{
+public class MapDialogFragment  extends DialogFragment implements GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback{
     double currentLongitude = 0;
     double currentLatitude = 0;
+
+    static Listing theJob;
 
     private MapView mMapView;
 
@@ -74,6 +74,9 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
 
     }
 
+
+
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.mapdialog, null);
         Bundle mapViewBundle = null;
@@ -92,9 +95,13 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        googleMap.setInfoWindowAdapter(new InfoWindowAdapter());
+
+
+        //the marker stores the position of which place this specific job is in the Array
         for(int i = 0; i < jobs.size(); i++){
             JobHolder aJob = jobs.get(i);
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(aJob.latitude, aJob.longitude)).title(aJob.Name));
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(aJob.latitude, aJob.longitude)).title(aJob.Name).snippet(String.valueOf(i)));
         }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude) ,10));
@@ -124,4 +131,73 @@ public class MapDialogFragment  extends DialogFragment implements OnMapReadyCall
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+    }
+
+    public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+
+        private View InfoWidow;
+
+        public InfoWindowAdapter(){
+            InfoWidow = getActivity().getLayoutInflater().inflate(R.layout.info_window_view, null);
+        }
+
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+
+
+            return render(marker, InfoWidow);
+        }
+
+        private View render(Marker marker, View InfoWindow){
+            String ObjectPostion = marker.getSnippet();
+
+            JobHolder jobHolder = new JobHolder();
+
+            try {
+
+                jobHolder = jobs.get(Integer.valueOf(ObjectPostion));
+            } catch(Exception e){
+                //if the array is out of bounds it will display unable to get job
+
+                TextView job_name = (TextView) InfoWindow.findViewById(R.id.Name_of_job);
+                job_name.setText("Unable to find job");
+                TextView address = (TextView) InfoWindow.findViewById(R.id.address);
+                address.setText("");
+                TextView compensation = (TextView) InfoWindow.findViewById(R.id.compensation);
+                compensation.setText("");
+                TextView duration = (TextView) InfoWindow.findViewById(R.id.duration);
+                duration.setText("");
+
+                return InfoWindow;
+
+            }
+
+            try {
+                TextView job_name = (TextView) InfoWindow.findViewById(R.id.Name_of_job);
+                job_name.setText(jobHolder.Name);
+                TextView address = (TextView) InfoWindow.findViewById(R.id.address);
+                address.setText(jobHolder.address);
+                TextView compensation = (TextView) InfoWindow.findViewById(R.id.compensation);
+                compensation.setText("$"+Integer.toString(jobHolder.compensation));
+                TextView duration = (TextView) InfoWindow.findViewById(R.id.duration);
+                duration.setText(Conversions.minutesToString(jobHolder.duration));
+            } catch (Exception e){
+
+            }
+
+
+            return InfoWidow;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return InfoWidow;
+        }
+    }
+
 }

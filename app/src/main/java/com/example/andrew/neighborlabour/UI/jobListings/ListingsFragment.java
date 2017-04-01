@@ -92,7 +92,8 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
 
                     Log.d("ALL_JOBS", geoPoint.toString());
                     if (geoPoint != null) {
-                        jobs.add(new JobHolder(ObjectId, Name, geoPoint.getLongitude(), geoPoint.getLatitude()));
+                        jobs.add(new JobHolder(ObjectId, Name, geoPoint.getLongitude(), geoPoint.getLatitude(), (String) mlistings.get(i).get("address"),
+                                (int) mlistings.get(i).get("compensation"), (int) mlistings.get(i).get("duration")));
                     }
                 }
                 Bundle args = new Bundle();

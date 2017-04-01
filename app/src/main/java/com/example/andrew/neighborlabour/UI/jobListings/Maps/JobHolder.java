@@ -12,12 +12,23 @@ public class JobHolder implements Parcelable {
     String ObjectId;
     Double longitude;
     Double latitude;
+    String address;
+    int compensation;
+    int duration;
 
-    public JobHolder(String ObjectId, String name, Double longitude, Double latitude){
+    public JobHolder(){
+
+    }
+
+    public JobHolder(String ObjectId, String name, Double longitude, Double latitude, String address, int compensation, int duration){
         this.Name = name;
         this.ObjectId = ObjectId;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.address = address;
+        this.compensation = compensation;
+        this.duration = duration;
+
     }
 
 
