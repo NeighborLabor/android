@@ -113,8 +113,8 @@ public class ListingManager {
                 } else {
                     if(objects.size() != 0){
                         final ParseObject listing = objects.get(0);
-                        String currentUserId = ParseUser.getCurrentUser().getObjectId();
-                        listing.addUnique("applicants", currentUserId);
+                        ParseUser currentUser = ParseUser.getCurrentUser();
+                        listing.getRelation("applicants").add(currentUser);
                         listing.saveInBackground(new SaveCallback(){
                             @Override
                             public void done(ParseException e) {

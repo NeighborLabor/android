@@ -21,8 +21,8 @@ public class UserManager {
 
     public static void getListingsUserAppliedFor(final ListCB cb){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Listing");
-        String currentUserId = (String) ParseUser.getCurrentUser().getObjectId();
-        query.whereContains("applicants", currentUserId); //This might not be the correct query
+        ParseUser currentUser =  ParseUser.getCurrentUser();
+        query.whereEqualTo("applicants", currentUser); //This might not be the correct query
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
