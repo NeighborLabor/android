@@ -1,10 +1,9 @@
-package com.example.andrew.neighborlabour.UI.jobListings.Maps;
+package com.example.andrew.neighborlabour.UI.listings.Maps;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by andrew on 3/14/17.

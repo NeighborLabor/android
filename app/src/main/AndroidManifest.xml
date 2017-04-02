@@ -27,14 +27,14 @@
         </activity>
 
         <activity
-            android:name=".MainActivity">
+            android:name=".UI.MainActivity">
         </activity>
         <activity
-            android:name=".UI.activeJobs.applicats.SelectWorkerDialog"
+            android:name=".UI.active.applicants.SelectWorkerDialog"
             android:theme="@style/dialog">
         </activity>
         <activity
-            android:name=".UI.jobListings.ListingDetailActivity"
+            android:name=".UI.listings.ListingDetailActivity"
             android:theme="@android:style/Theme.Dialog">
         </activity>
         <activity

@@ -1,7 +1,6 @@
-package com.example.andrew.neighborlabour.UI.jobListings;
+package com.example.andrew.neighborlabour.UI.listings;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.util.Log;
 import android.view.LayoutInflater;

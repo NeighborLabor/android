@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour;
+package com.example.andrew.neighborlabour.UI;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.andrew.neighborlabour.ParseProject;
+import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.Conversions;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.listings.Listing;

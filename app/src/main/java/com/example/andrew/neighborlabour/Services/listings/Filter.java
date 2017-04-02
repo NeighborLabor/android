@@ -2,7 +2,7 @@ package com.example.andrew.neighborlabour.Services.listings;
 
 import android.location.Location;
 
-import com.example.andrew.neighborlabour.MainActivity;
+import com.example.andrew.neighborlabour.UI.MainActivity;
 
 import java.util.Calendar;
 import java.util.Date;

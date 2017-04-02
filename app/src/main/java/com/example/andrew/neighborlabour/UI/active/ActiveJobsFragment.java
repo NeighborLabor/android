@@ -1,6 +1,5 @@
-package com.example.andrew.neighborlabour.UI.activeJobs;
+package com.example.andrew.neighborlabour.UI.active;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +12,7 @@ import android.widget.Toast;
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
-import com.example.andrew.neighborlabour.Services.listings.Filter;
-import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 import com.example.andrew.neighborlabour.Services.user.UserManager;
-import com.example.andrew.neighborlabour.UI.jobListings.ListingArrayAdapter;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -45,7 +41,7 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstance){
-        return inflater.inflate(R.layout.active_jobs, container, false);
+        return inflater.inflate(R.layout.fragment_active_jobs, container, false);
     }
 
     @Override
@@ -93,8 +89,6 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
                 btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.white));
             }
         });
-
-
 
 
 

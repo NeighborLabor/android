@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour.UI.jobListings.Maps;
+package com.example.andrew.neighborlabour.UI.listings.Maps;
 
 import android.os.Parcel;
 import android.os.Parcelable;

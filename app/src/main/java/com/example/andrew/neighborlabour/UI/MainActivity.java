@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour;
+package com.example.andrew.neighborlabour.UI;
 
 import android.Manifest;
 import android.content.Intent;
@@ -24,10 +24,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.andrew.neighborlabour.ParseProject;
+import com.example.andrew.neighborlabour.R;
+import com.example.andrew.neighborlabour.UI.CreateJobDialog;
 import com.example.andrew.neighborlabour.UI.PagerAdapter.SectionPagerAdapter;
 import com.example.andrew.neighborlabour.UI.auth.LoginActivity;
 import com.example.andrew.neighborlabour.UI.auth.ProfileActivity;
-import com.example.andrew.neighborlabour.UI.jobListings.FiltersDialogFragment;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -79,9 +81,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast toast = Toast.makeText(ParseProject.getContext(), "Location Service Not Enabled!", Toast.LENGTH_SHORT);
             toast.show();
             return;
+        }else{
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME, LOCATION_REFRESH_DISTANCE, mLocationListener);
+            location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME, LOCATION_REFRESH_DISTANCE, mLocationListener);
-        location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         if(ParseUser.getCurrentUser() == null){
             toLogInScreen();
@@ -166,6 +169,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setPage(int pageNumber){
+        viewPager.setCurrentItem(pageNumber);
     }
 
 

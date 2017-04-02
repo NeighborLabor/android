@@ -1,6 +1,5 @@
-package com.example.andrew.neighborlabour.UI.jobListings;
+package com.example.andrew.neighborlabour.UI.listings;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,15 +14,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.andrew.neighborlabour.MainActivity;
+import com.example.andrew.neighborlabour.UI.MainActivity;
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
 import com.example.andrew.neighborlabour.Services.listings.Filter;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 
-import com.example.andrew.neighborlabour.UI.jobListings.Maps.JobHolder;
-import com.example.andrew.neighborlabour.UI.jobListings.Maps.MapDialogFragment;
+import com.example.andrew.neighborlabour.UI.listings.Maps.JobHolder;
+import com.example.andrew.neighborlabour.UI.listings.Maps.MapDialogFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;

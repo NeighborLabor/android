@@ -145,7 +145,6 @@ public class ListingManager {
                 } else {
                     final ParseObject listing = objects.get(0);
                     Log.d("SELECT_WORKER", String.valueOf(objects.size()));
-                    String currentUserId = (String) ParseUser.getCurrentUser().get("objectId");
                     listing.put("worker", workerId);
                     listing.put("active", false);
                     listing.saveInBackground(new SaveCallback(){

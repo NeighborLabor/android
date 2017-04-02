@@ -1,7 +1,6 @@
-package com.example.andrew.neighborlabour.UI.activeJobs.applicats;
+package com.example.andrew.neighborlabour.UI.active.applicants;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -19,11 +18,11 @@ import java.util.ArrayList;
  * Created by andrew on 3/20/17.
  */
 
-public class Applicats extends ArrayAdapter<ParseUser>{
+public class Applicants extends ArrayAdapter<ParseUser>{
 
 
 
-    public Applicats(@NonNull Context context, ArrayList<ParseUser> user) {
+    public Applicants(@NonNull Context context, ArrayList<ParseUser> user) {
         super(context,0, user);
     }
 
@@ -35,7 +34,7 @@ public class Applicats extends ArrayAdapter<ParseUser>{
 
         if(convertView == null){
             ViewHolder viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.applicantlistitem, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.array_item_applicant, parent, false);
             viewHolder.textView = (TextView) convertView.findViewById(R.id.applicant);
             convertView.setTag(viewHolder);
         }

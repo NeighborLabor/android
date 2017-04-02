@@ -9,13 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.andrew.neighborlabour.MainActivity;
+import com.example.andrew.neighborlabour.UI.MainActivity;
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.user.AuthManager;
 import com.example.andrew.neighborlabour.Services.user.User;
-import com.parse.ParseUser;
 
 public class RegisterActivity extends AppCompatActivity {
 

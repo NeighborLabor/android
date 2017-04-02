@@ -1,10 +1,7 @@
-package com.example.andrew.neighborlabour.UI.activeJobs;
+package com.example.andrew.neighborlabour.UI.active;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +13,9 @@ import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
-import com.example.andrew.neighborlabour.UI.activeJobs.applicats.SelectWorkerDialog;
-import com.parse.Parse;
+import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
+import com.example.andrew.neighborlabour.Services.chat.ChatManager;
+import com.example.andrew.neighborlabour.UI.MainActivity;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -25,25 +23,18 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 
 /**
- * Created by chevalierc on 2/26/2017.
+ * Created by andrew on 3/17/17.
  */
 
-public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
+public class AppliedJobsArrayAdapter extends ArrayAdapter<ParseObject>{
     final String TAG = "ListingArrayAdapter";
 
     ListView listView;
 
 
-
-
-
-    public ActiveJobsArrayAdapter(Context context, ArrayList<ParseObject> listings){
-
+    public AppliedJobsArrayAdapter(Context context, ArrayList<ParseObject> listings){
         super(context,0,listings);
-
-
     }
-
 
 
     @Override
@@ -53,8 +44,8 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         //create view if it doesnt exist
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext())
-                    .inflate(R.layout.active_listing_item, parent, false);
-            final ViewHolder holder = new ViewHolder();
+                    .inflate(R.layout.array_item_active_listing, parent, false);
+            final AppliedJobsArrayAdapter.ViewHolder holder = new AppliedJobsArrayAdapter.ViewHolder();
             holder.body = (TextView) convertView.findViewById(R.id.active_tvBody);
             holder.title = (TextView) convertView.findViewById(R.id.active_tvTitle);
             holder.compensationDuration = (TextView) convertView.findViewById(R.id.active_tvCompensationDuration);
@@ -64,25 +55,19 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
 
         //set
         final ParseObject listing = getItem(position);
-        final ViewHolder holder = (ViewHolder)convertView.getTag();
+        final AppliedJobsArrayAdapter.ViewHolder holder = (AppliedJobsArrayAdapter.ViewHolder)convertView.getTag();
 
 
         holder.allApps = (Button) convertView.findViewById(R.id.active_seeApps);
         holder.messaging = (Button) convertView.findViewById(R.id.active_Message);
 
 
-        if(listing.get("worker") == null){
-            //if this is a job you posted that you haven't selected a worker
-            holder.allApps.setVisibility(View.VISIBLE);
-            holder.messaging.setVisibility(View.GONE);
 
-        } else if(listing.get("worker") != null) {
-            //jobs you posted posted and have selected a worker
-            holder.allApps.setVisibility(View.GONE);
-            holder.messaging.setVisibility(View.VISIBLE);
-        }
+        holder.allApps.setVisibility(View.GONE);
+        holder.messaging.setVisibility(View.VISIBLE);
 
 
+        //set text fields
         holder.body.setText(listing.getString("descr"));
         holder.title.setText(listing.getString("title"));
         holder.compensationDuration.setText(getCompensationDuration(listing));
@@ -129,15 +114,7 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         public void onClick(View v) {
             final int position = listView.getPositionForView((View) v.getParent());
             ParseObject object = getItem(position);
-
-
-            Intent intent = new Intent(getContext(), SelectWorkerDialog.class);
-
-            intent.putExtra("ObjectID", object.getObjectId().toString());
-
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            getContext().startActivity(intent);
+            Toast.makeText(getContext(), object.get("createdBy").toString(), Toast.LENGTH_SHORT).show();
 
         }
     };
@@ -146,9 +123,24 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         @Override
         public void onClick(View v) {
             final int position = listView.getPositionForView((View) v.getParent());
-            ParseObject object = getItem(position);
-            Toast.makeText(getContext(), object.get("title").toString(), Toast.LENGTH_SHORT).show();
+            ParseObject listing = getItem(position);
+            ParseUser employer = listing.getParseUser("createdBy");
+            String employerid = employer.getObjectId();
+            ChatManager.createChatThread(employerid, new SuccessCB() {
+                @Override
+                public void done(String error, boolean success) {
+                    if (success == false){
+                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                    }else{
+                        try{
+                            MainActivity mainActivity = (MainActivity) getContext();
+                            mainActivity.setPage(2);
+                        }catch(Exception e){
 
+                        }
+                    }
+                }
+            });
         }
     };
 
@@ -161,5 +153,4 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         public Button allApps;
         public Button messaging;
     }
-
 }

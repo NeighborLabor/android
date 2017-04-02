@@ -4,8 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.andrew.neighborlabour.UI.activeJobs.ActiveJobsFragment;
-import com.example.andrew.neighborlabour.UI.jobListings.ListingsFragment;
+import com.example.andrew.neighborlabour.UI.active.ActiveJobsFragment;
+import com.example.andrew.neighborlabour.UI.chat.ChatFragment;
+import com.example.andrew.neighborlabour.UI.listings.ListingsFragment;
 
 /**
  * Created by andrew on 2/24/17.
@@ -26,7 +27,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new ActiveJobsFragment();
             case 2:
-                return new Messages();
+                return new ChatFragment();
 
         }
 

@@ -1,4 +1,4 @@
-package com.example.andrew.neighborlabour.UI.jobListings.Maps;
+package com.example.andrew.neighborlabour.UI.listings.Maps;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.andrew.neighborlabour.MainActivity;
+import com.example.andrew.neighborlabour.UI.MainActivity;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.Conversions;
 import com.example.andrew.neighborlabour.Services.listings.Listing;
@@ -78,7 +78,7 @@ public class MapDialogFragment  extends DialogFragment implements GoogleMap.OnIn
 
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.mapdialog, null);
+        View v = inflater.inflate(R.layout.dialog_map, null);
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
@@ -142,7 +142,7 @@ public class MapDialogFragment  extends DialogFragment implements GoogleMap.OnIn
         private View InfoWidow;
 
         public InfoWindowAdapter(){
-            InfoWidow = getActivity().getLayoutInflater().inflate(R.layout.info_window_view, null);
+            InfoWidow = getActivity().getLayoutInflater().inflate(R.layout.map_info_window_view, null);
         }
 
 
