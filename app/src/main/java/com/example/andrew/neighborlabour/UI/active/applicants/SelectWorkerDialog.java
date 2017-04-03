@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.R;
@@ -33,10 +34,14 @@ public class SelectWorkerDialog extends Activity {
 
     private ArrayList<ParseUser> userList;
 
+    TextView header;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_select_worker);
+
+        header = (TextView) findViewById(R.id.select_worker_header);
 
         getUser();
 
@@ -63,8 +68,8 @@ public class SelectWorkerDialog extends Activity {
                 if(error == null && response != null){
                     userList.addAll(response.applicants);
                     arrayAdapter.notifyDataSetChanged();
+                    changeHeader(userList.size());
 
-                    Log.d("USER_LIST", String.valueOf(userList.size()));
 
 
 
@@ -81,6 +86,13 @@ public class SelectWorkerDialog extends Activity {
             Toast.makeText(this,e, Toast.LENGTH_SHORT).show();
 
         }
+
+    public void changeHeader(int amount){
+        if(amount == 0){
+            header.setText("currently no applicants");
+        }
+
+    }
 
     public AdapterView.OnItemClickListener selectTheWorker = new AdapterView.OnItemClickListener() {
 

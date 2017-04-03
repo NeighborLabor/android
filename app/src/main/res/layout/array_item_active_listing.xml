@@ -98,12 +98,26 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:visibility="gone"/>
-        <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
             android:visibility="gone"
             android:id="@+id/active_Message"
             android:text ="Message"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"/>
+            android:layout_width="wrap_content"/>
+            <ImageButton android:id="@+id/add_review"
+                         android:layout_width="wrap_content"
+                         android:layout_height="fill_parent"
+                         android:src="@android:drawable/btn_star"
+                         android:background="#00ffffff"
+                         android:visibility="gone"
+                         android:layout_gravity="end"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

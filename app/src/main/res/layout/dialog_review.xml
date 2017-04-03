@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+    <TextView
+        android:id="@+id/review_name"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="leave review"
+        android:paddingBottom="14dp"/>
+    <RatingBar
+        android:id="@+id/rating"
+        android:stepSize="1"
+        android:numStars="5"
+
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingBottom="14dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="17dp"
+        android:minLines="5"/>
+    <Button
+        android:background="@color/colorGreen"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="4dp"
+        android:text="Submit"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textAlignment="center"/>
+
+</LinearLayout>

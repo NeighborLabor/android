@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,9 +20,11 @@ import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.chat.ChatManager;
 import com.example.andrew.neighborlabour.UI.MainActivity;
+import com.example.andrew.neighborlabour.UI.active.Review.ReviewDialog;
 import com.example.andrew.neighborlabour.UI.active.applicants.SelectWorkerDialog;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -63,17 +67,20 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
 
         holder.allApps = (Button) convertView.findViewById(R.id.active_seeApps);
         holder.messaging = (Button) convertView.findViewById(R.id.active_Message);
+        holder.leaveReview = (ImageButton) convertView.findViewById(R.id.add_review);
 
 
         if(listing.get("worker") == null){
             //if this is a job you posted that you haven't selected a worker
             holder.allApps.setVisibility(View.VISIBLE);
             holder.messaging.setVisibility(View.GONE);
+            holder.leaveReview.setVisibility(View.GONE);
 
         } else if(listing.get("worker") != null) {
             //jobs you posted posted and have selected a worker
             holder.allApps.setVisibility(View.GONE);
             holder.messaging.setVisibility(View.VISIBLE);
+            holder.leaveReview.setVisibility(View.VISIBLE);
         }
 
 
@@ -84,6 +91,7 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
 
         holder.messaging.setOnClickListener(mMessagingClickListener);
         holder.allApps.setOnClickListener(mAllAppsClickListener);
+        holder.leaveReview.setOnClickListener(mLeaveReview);
 
         listView = (ListView) parent;
 
@@ -118,6 +126,26 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         return null;
     }
 
+    public View.OnClickListener mLeaveReview = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            final int position = listView.getPositionForView((View) v.getParent());
+            ParseObject object = getItem(position);
+            Intent intent = new Intent(getContext(), ReviewDialog.class);
+
+            String parseUser = (String) object.get("worker");
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            intent.putExtra("USER_ID", parseUser);
+
+            Log.d("USER_ID", parseUser);
+
+            getContext().startActivity(intent);
+        }
+    };
+
     public View.OnClickListener mAllAppsClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -149,6 +177,7 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         public TextView address;
         public Button allApps;
         public Button messaging;
+        public ImageButton leaveReview;
     }
 
 }

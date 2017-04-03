@@ -34,6 +34,10 @@
             android:theme="@style/dialog">
         </activity>
         <activity
+            android:name=".UI.active.Review.ReviewDialog"
+            android:theme="@style/dialog">
+        </activity>
+        <activity
             android:name=".UI.listings.ListingDetailActivity"
             android:theme="@android:style/Theme.Dialog">
         </activity>
