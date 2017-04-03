@@ -3,9 +3,13 @@ package com.example.andrew.neighborlabour.UI.active.Review;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.andrew.neighborlabour.R;
+import com.example.andrew.neighborlabour.Services.Utils.UserCB;
+import com.example.andrew.neighborlabour.Services.listings.Listing;
+import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 import com.example.andrew.neighborlabour.Services.user.UserManager;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -26,9 +30,28 @@ public class ReviewDialog extends Activity{
 
         review_title = (TextView) findViewById(R.id.review_name);
 
+
         String user_id = getIntent().getStringExtra("USER_ID");
 
-
-
+        UserManager.getUser(user_id, new UserCB() {
+            @Override
+            public void done(String error, ParseUser parseUser) {
+                if (error == null) {
+                    reviewed_user = parseUser;
+                    setText();
+                } else {
+                    Log.d("USER_CB", error);
+                }
+            }
+        });
     }
+
+        public void setText() {
+        try {
+            review_title.setText("Leave review for: " + reviewed_user.get("name"));
+        } catch (Exception e) {
+            Log.d("REVIEW_DIALOG", e.toString());
+         }
+        }
+
 }
