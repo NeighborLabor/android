@@ -12,11 +12,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
+import com.example.andrew.neighborlabour.Services.Utils.StringCB;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.chat.ChatManager;
 import com.parse.ParseObject;
@@ -31,12 +33,12 @@ import java.util.List;
 
 public class ChatDialogFragment extends DialogFragment {
     final String TAG = "ChatDialogFragment";
-    static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     static final int POLL_INTERVAL = 1000;
 
     String threadId;
 
     EditText etMessage;
+    TextView etTitle;
     Button btSend;
     ListView lvChat;
 
@@ -66,6 +68,7 @@ public class ChatDialogFragment extends DialogFragment {
         threadId = getArguments().getString("threadId");
 
         setupMessagePosting(view);
+        setTitle(view);
 
         mHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 
@@ -78,6 +81,20 @@ public class ChatDialogFragment extends DialogFragment {
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         return dialog;
+    }
+
+    void setTitle(View view){
+        etTitle = (TextView) view.findViewById(R.id.tvTitle);
+        ChatManager.getThreadTitle(threadId, new StringCB() {
+            @Override
+            public void done(String error, String title) {
+                if(error == null){
+                    etTitle.setText(title);
+                }else{
+                    Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 

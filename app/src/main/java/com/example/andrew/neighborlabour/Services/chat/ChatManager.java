@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
+import com.example.andrew.neighborlabour.Services.Utils.StringCB;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -101,6 +102,35 @@ public class ChatManager {
                 }else{
                     cb.done(e + "", false);
                 }
+            }
+        });
+    }
+
+    public static void getThreadTitle(String threadId, final StringCB cb){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Thread");
+        query.whereEqualTo("objectId", threadId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> threads, ParseException e) {
+                ParseObject chatThread = threads.get(0);
+                ParseQuery<ParseObject> query = chatThread.getRelation("participants").getQuery();
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> participants, ParseException e) {
+                        String currentUserId = ParseUser.getCurrentUser().getObjectId();
+                        for(int i = 0; i < participants.size(); i++ ){
+                            String userId = participants.get(i).getObjectId();
+                            if (!currentUserId.equals(userId) ){
+                                String title = participants.get(i).getString("name");
+                                if(e == null && title!= null){
+                                    cb.done(null, title );
+                                }else{
+                                    cb.done(e + "", "error");
+                                }
+                            }
+                        }
+                    }
+                });
             }
         });
     }
