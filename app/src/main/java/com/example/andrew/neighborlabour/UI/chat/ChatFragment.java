@@ -24,7 +24,7 @@ public class ChatFragment extends Fragment {
 
     private static final String TAG = "ChatThreadFragment";
 
-    ListView lvThreads;
+    static ListView lvThreads;
     static ChatThreadArrayAdapter threadAdapter;
     static ArrayList<ParseObject> threads;
 
@@ -36,12 +36,16 @@ public class ChatFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        lvThreads = (ListView) getView().findViewById(R.id.lvThreads);
+        getChatThreads();
+    }
+
+    public static void refresh(){
         getChatThreads();
     }
 
 
-    void getChatThreads() {
-        lvThreads = (ListView) getView().findViewById(R.id.lvThreads);
+    static void getChatThreads() {
         ChatManager.getChatThreads(new ListCB() {
             @Override
             public void done(String error, List<ParseObject> threads) {

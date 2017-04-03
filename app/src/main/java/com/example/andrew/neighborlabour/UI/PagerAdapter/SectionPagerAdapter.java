@@ -21,14 +21,14 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch(position){
-            case 0:
             default:
+            case 0:
+                ListingsFragment.refreshListings();
                 return new ListingsFragment();
             case 1:
                 return new ActiveJobsFragment();
             case 2:
                 return new ChatFragment();
-
         }
 
     }

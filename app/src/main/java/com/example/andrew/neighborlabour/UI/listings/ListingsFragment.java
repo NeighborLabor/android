@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,16 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            Toast.makeText(ParseProject.getContext(), "hiden", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(ParseProject.getContext(), "shown", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstance) {
         return inflater.inflate(R.layout.fragment_job_listings, container, false);
     }
@@ -72,9 +83,12 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
         setUpButtonListeners();
 
         refreshListings();
-
        mGoogleAPI.connect();
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
     }
 
     void setUpButtonListeners() {
@@ -160,7 +174,8 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
         });
     }
 
-    static void refreshListings() {
+    public static void refreshListings() {
+        Toast.makeText(ParseProject.getContext(), "merow", Toast.LENGTH_SHORT).show();
         filter.latitude = MainActivity.location.getLatitude();
         filter.longitude = MainActivity.location.getLongitude();
         ListingManager.getListings(ListingsFragment.filter, new ListCB() {

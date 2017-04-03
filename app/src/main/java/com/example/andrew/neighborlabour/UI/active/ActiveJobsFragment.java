@@ -13,10 +13,12 @@ import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
 import com.example.andrew.neighborlabour.Services.user.UserManager;
+import com.example.andrew.neighborlabour.UI.listings.ListingArrayAdapter;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by chevalierc on 2/27/2017.
@@ -26,12 +28,10 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
 
     private static final String TAG = "ListingsActivity";
 
-
-
     ListView lvListings;
-    ActiveJobsArrayAdapter listingAdapter;
-    ArrayList<ParseObject> mlistings;
-    AppliedJobsArrayAdapter appliedListingAdapter;
+    static ActiveJobsArrayAdapter listingAdapter;
+    static ArrayList<ParseObject> mlistings;
+    static AppliedJobsArrayAdapter appliedListingAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,8 +53,6 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
     void setupListings(){
         lvListings = (ListView) getView().findViewById(R.id.lvListings);
         mlistings = new ArrayList<>();
-
-
 
         final Button btJobsAppliedFor = (Button) getView().findViewById(R.id.btJobsAppliedFor);
         final Button btJobsPosted = (Button) getView().findViewById(R.id.btJobsPosted);
@@ -97,9 +95,18 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
         btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
     }
 
+    public static void refresh(){
+        if(appliedListingAdapter != null){
+            refreshJobsApplied();
+        }
+        if(listingAdapter != null){
+            refreshJobsPosted();
+        }
+    }
 
 
-    void refreshJobsApplied(){
+
+    static void refreshJobsApplied(){
         UserManager.getListingsUserAppliedFor( new ListCB() {
             @Override
             public void done(String error, List<ParseObject> listings) {
@@ -116,7 +123,7 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
         });
     }
 
-    void refreshJobsPosted(){
+    static void refreshJobsPosted(){
         UserManager.getListingsUserPosted( new ListCB() {
             @Override
             public void done(String error, List<ParseObject> listings) {

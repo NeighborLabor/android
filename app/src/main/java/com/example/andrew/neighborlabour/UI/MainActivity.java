@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,8 +29,11 @@ import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.UI.CreateJobDialog;
 import com.example.andrew.neighborlabour.UI.PagerAdapter.SectionPagerAdapter;
+import com.example.andrew.neighborlabour.UI.active.ActiveJobsFragment;
 import com.example.andrew.neighborlabour.UI.auth.LoginActivity;
 import com.example.andrew.neighborlabour.UI.auth.ProfileActivity;
+import com.example.andrew.neighborlabour.UI.chat.ChatFragment;
+import com.example.andrew.neighborlabour.UI.listings.ListingsFragment;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -106,6 +110,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     void setUpMenuAndToolbar(){
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(new SectionPagerAdapter( getSupportFragmentManager() ));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+            @Override
+            public void onPageSelected(int position) {
+                switch(position){
+                    default:
+                    case 0:
+                        ListingsFragment.refreshListings();
+                    case 1:
+                        ActiveJobsFragment.refresh();
+                    case 2:
+                        ChatFragment.refresh();
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
