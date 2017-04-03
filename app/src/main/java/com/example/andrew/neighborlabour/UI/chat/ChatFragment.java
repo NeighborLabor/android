@@ -24,9 +24,9 @@ public class ChatFragment extends Fragment {
 
     private static final String TAG = "ChatThreadFragment";
 
-    static ListView lvThreads;
+    ListView lvThreads;
     static ChatThreadArrayAdapter threadAdapter;
-    static ArrayList<ParseObject> threads;
+    static ArrayList<ParseObject> threads = new ArrayList<ParseObject>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstance) {
@@ -36,43 +36,39 @@ public class ChatFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        setupThreadArrayAdapter();
+        refresh();
+    }
+
+    private void setupThreadArrayAdapter() {
         lvThreads = (ListView) getView().findViewById(R.id.lvThreads);
-        getChatThreads();
+        lvThreads.setTranscriptMode(1);
+        threadAdapter = new ChatThreadArrayAdapter(ParseProject.getContext(), (ArrayList<ParseObject>) threads);
+        lvThreads.setAdapter(threadAdapter);
+        lvThreads.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+                ChatDialogFragment chatDialog = new ChatDialogFragment();
+                String threadId = threads.get(i).getObjectId();
+                Bundle args = new Bundle();
+                args.putString("threadId", threadId );
+                chatDialog.setArguments(args);
+                chatDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
+            }
+        });
     }
 
     public static void refresh(){
-        getChatThreads();
-    }
-
-
-    static void getChatThreads() {
         ChatManager.getChatThreads(new ListCB() {
             @Override
-            public void done(String error, List<ParseObject> threads) {
-                lvThreads.setTranscriptMode(1);
-                threadAdapter = new ChatThreadArrayAdapter(ParseProject.getContext(), (ArrayList<ParseObject>) threads);
-                lvThreads.setAdapter(threadAdapter);
-
+            public void done(String error, List<ParseObject> newThreads) {
                 Log.i(TAG, "Listing Adapter Setup");
-
-//                lvThreads.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
-////                ListingDetailDialog listingDetailDialog = new ListingDetailDialog();
-////                String listingId = mlistings.get(i).getObjectId();
-////                Bundle args = new Bundle();
-////                args.putString("listingId", listingId);
-////                listingDetailDialog.setArguments(args);
-////                listingDetailDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
-////
-////                Intent intent = new Intent(ParseProject.getContext(), ListingDetailActivity.class);
-////                intent.putExtra("ObjectId", mlistings.get(i).getObjectId());
-////                startActivity(intent);
-//                    }
-//                });
+                threads.clear();
+                threads.addAll(newThreads);
+                threadAdapter.notifyDataSetChanged();
             }
         });
-
     }
+
 
 }

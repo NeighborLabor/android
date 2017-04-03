@@ -1,7 +1,9 @@
 package com.example.andrew.neighborlabour.Services.chat;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.parse.FindCallback;
@@ -86,10 +88,26 @@ public class ChatManager {
         });
     }
 
-    public static void getMessages(String threadId, final ListCB cb){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Messages");
-        query.whereEqualTo("threadId",threadId );
+    public static void sendMessage(String threadId, String body, String userId, final SuccessCB cb){
+        ParseObject message = new ParseObject("Message");
+        message.put("threadId", threadId);
+        message.put("body", body);
+        message.put("userId", userId);
+        message.saveInBackground(new SaveCallback(){
+            @Override
+            public void done(ParseException e){
+                if(e == null) {
+                    cb.done(null, true);
+                }else{
+                    cb.done(e + "", false);
+                }
+            }
+        });
+    }
 
+    public static void getMessages(String threadId, final ListCB cb){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Message");
+        query.whereEqualTo("threadId",threadId );
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> messages, ParseException e) {

@@ -62,16 +62,6 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden) {
-            Toast.makeText(ParseProject.getContext(), "hiden", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(ParseProject.getContext(), "shown", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstance) {
         return inflater.inflate(R.layout.fragment_job_listings, container, false);
     }
@@ -83,7 +73,7 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
         setUpButtonListeners();
 
         refreshListings();
-       mGoogleAPI.connect();
+        mGoogleAPI.connect();
     }
 
     @Override
@@ -166,16 +156,11 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
                 args.putString("listingId", listingId);
                 listingDetailDialog.setArguments(args);
                 listingDetailDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
-
-//                Intent intent = new Intent(ParseProject.getContext(), ListingDetailActivity.class);
-//                intent.putExtra("ObjectId", mlistings.get(i).getObjectId());
-//                startActivity(intent);
             }
         });
     }
 
     public static void refreshListings() {
-        Toast.makeText(ParseProject.getContext(), "merow", Toast.LENGTH_SHORT).show();
         filter.latitude = MainActivity.location.getLatitude();
         filter.longitude = MainActivity.location.getLongitude();
         ListingManager.getListings(ListingsFragment.filter, new ListCB() {
@@ -203,7 +188,6 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
     @Override
     public void onConnectionSuspended(int i) {
         mGoogleAPI.connect();
-
     }
 
     @Override
