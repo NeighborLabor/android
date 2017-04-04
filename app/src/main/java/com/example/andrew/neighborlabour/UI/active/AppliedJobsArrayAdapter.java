@@ -98,7 +98,7 @@ public class AppliedJobsArrayAdapter extends ArrayAdapter<ParseObject>{
     }
 
     public String getDistanceFromUser(ParseObject listing){
-        Location userLocation = ParseProject.getUserLocation();
+        Location userLocation = MainActivity.location;
         if(userLocation != null){
             ParseGeoPoint parseListingLocation = listing.getParseGeoPoint("geopoint");
             Location listingLocation = new Location("");

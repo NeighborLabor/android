@@ -145,8 +145,6 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
         listingAdapter = new ListingArrayAdapter(ParseProject.getContext(), mlistings);
         lvListings.setAdapter(listingAdapter);
 
-        Log.i(TAG, "Listing Adapter Setup");
-
         lvListings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
@@ -161,8 +159,10 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
     }
 
     public static void refreshListings() {
-        filter.latitude = MainActivity.location.getLatitude();
-        filter.longitude = MainActivity.location.getLongitude();
+        if(MainActivity.location != null){
+            filter.latitude = MainActivity.location.getLatitude();
+            filter.longitude = MainActivity.location.getLongitude();
+        }
         ListingManager.getListings(ListingsFragment.filter, new ListCB() {
             @Override
             public void done(String error, List<ParseObject> listings) {
@@ -181,9 +181,7 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
+    public void onConnected(@Nullable Bundle bundle) {}
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -191,9 +189,7 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
 
     @Override
     public void onStop() {

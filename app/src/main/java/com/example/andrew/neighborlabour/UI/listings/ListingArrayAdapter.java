@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.Conversions;
+import com.example.andrew.neighborlabour.UI.MainActivity;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
@@ -55,40 +56,15 @@ public class ListingArrayAdapter extends ArrayAdapter<ParseObject> {
 
 
         //set text fields
-        holder.body.setText( listing.getString("descr") );
         holder.title.setText( listing.getString("title") );
+        holder.body.setText( listing.getString("descr") );
         holder.compensation.setText( "$" + listing.getInt("compensation") );
         holder.duration.setText(Conversions.minutesToString(listing.getInt("duration") ));
-        holder.distance.setText(getDistanceFromUser(listing));
-        holder.date.setText(formatDateAsString(listing));
+        holder.distance.setText(Conversions.getDistanceFromUser(listing));
+        holder.date.setText(Conversions.dateAsString(listing.getDate("startTime")));
 
         return convertView;
     }
-
-    private String formatDateAsString(ParseObject listing) {
-        Date date = listing.getDate("startTime");
-        DateFormat df = new SimpleDateFormat("M/dd");
-        return df.format(date);
-    }
-
-    public String getDistanceFromUser(ParseObject listing){
-        Location userLocation = ParseProject.getUserLocation();
-        Log.i(TAG, userLocation + "");
-        if(userLocation != null){
-            ParseGeoPoint parseListingLocation = listing.getParseGeoPoint("geopoint");
-            Location listingLocation = new Location("");
-            listingLocation.setLatitude( parseListingLocation.getLatitude() );
-            listingLocation.setLongitude( parseListingLocation.getLongitude() );
-
-            Log.i(TAG, parseListingLocation.getLatitude() +", " + parseListingLocation.getLongitude() );
-            Log.i(TAG, userLocation.getLatitude() + ", " + userLocation.getLongitude() );
-
-            float distanceInKM = userLocation.distanceTo(listingLocation)/1000;
-            return (Math.round(distanceInKM * 0.621371 * 10) / 10) + " miles";
-        }
-        return null;
-    }
-
 
     final class ViewHolder {
         public TextView title;
