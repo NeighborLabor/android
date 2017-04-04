@@ -21,7 +21,7 @@ import com.parse.ParseUser;
  * Created by chevalierc on 3/7/2017.
  */
 
-public class ProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity {
 
     public final static String TAG = "PROFILE_ACTIVITY";
 

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
+import com.example.andrew.neighborlabour.Services.Utils.Conversions;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.chat.ChatManager;
 import com.example.andrew.neighborlabour.UI.MainActivity;
@@ -46,10 +47,12 @@ public class AppliedJobsArrayAdapter extends ArrayAdapter<ParseObject>{
             convertView = LayoutInflater.from(getContext())
                     .inflate(R.layout.array_item_active_listing, parent, false);
             final AppliedJobsArrayAdapter.ViewHolder holder = new AppliedJobsArrayAdapter.ViewHolder();
-            holder.body = (TextView) convertView.findViewById(R.id.active_tvBody);
-            holder.title = (TextView) convertView.findViewById(R.id.active_tvTitle);
-            holder.compensationDuration = (TextView) convertView.findViewById(R.id.active_tvCompensationDuration);
-            holder.address = (TextView) convertView.findViewById(R.id.active_tvAddress);
+            holder.body = (TextView) convertView.findViewById(R.id.tvBody);
+            holder.title = (TextView) convertView.findViewById(R.id.tvTitle);
+            holder.compensation = (TextView) convertView.findViewById(R.id.tvCompensation);
+            holder.duration = (TextView) convertView.findViewById(R.id.tvDuration);
+            holder.distance = (TextView) convertView.findViewById(R.id.tvDistance);
+            holder.date = (TextView) convertView.findViewById(R.id.tvDate);
             convertView.setTag(holder);
         }
 
@@ -68,10 +71,12 @@ public class AppliedJobsArrayAdapter extends ArrayAdapter<ParseObject>{
 
 
         //set text fields
-        holder.body.setText(listing.getString("descr"));
-        holder.title.setText(listing.getString("title"));
-        holder.compensationDuration.setText(getCompensationDuration(listing));
-        holder.address.setText( listing.getString("address") + " ( 1mile");
+        holder.title.setText( listing.getString("title") );
+        holder.body.setText( listing.getString("descr") );
+        holder.compensation.setText( "$" + listing.getInt("compensation") );
+        holder.duration.setText(Conversions.minutesToString(listing.getInt("duration") ));
+        holder.distance.setText(Conversions.getDistanceFromUser(listing));
+        holder.date.setText(Conversions.dateAsString(listing.getDate("startTime")));
 
         holder.messaging.setOnClickListener(mMessagingClickListener);
 
@@ -148,8 +153,10 @@ public class AppliedJobsArrayAdapter extends ArrayAdapter<ParseObject>{
     final class ViewHolder {
         public TextView title;
         public TextView body;
-        public TextView compensationDuration;
-        public TextView address;
+        public TextView duration;
+        public TextView distance;
+        public TextView date;
+        public TextView compensation;
         public Button allApps;
         public Button messaging;
     }

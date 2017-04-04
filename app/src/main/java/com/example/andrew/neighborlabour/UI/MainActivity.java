@@ -1,8 +1,6 @@
 package com.example.andrew.neighborlabour.UI;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -22,7 +20,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,11 +27,10 @@ import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
-import com.example.andrew.neighborlabour.UI.CreateJobDialog;
 import com.example.andrew.neighborlabour.UI.PagerAdapter.SectionPagerAdapter;
 import com.example.andrew.neighborlabour.UI.active.ActiveJobsFragment;
 import com.example.andrew.neighborlabour.UI.auth.LoginActivity;
-import com.example.andrew.neighborlabour.UI.auth.ProfileActivity;
+import com.example.andrew.neighborlabour.UI.auth.EditProfileActivity;
 import com.example.andrew.neighborlabour.UI.chat.ChatFragment;
 import com.example.andrew.neighborlabour.UI.listings.ListingsFragment;
 import com.parse.ParseUser;
@@ -181,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //actions
     void openProfile() {
-        Intent intent = new Intent(ParseProject.getContext(), ProfileActivity.class);
+        Intent intent = new Intent(ParseProject.getContext(), EditProfileActivity.class);
         startActivity(intent);
     }
 
