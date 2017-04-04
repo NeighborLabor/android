@@ -129,14 +129,6 @@
             android:orientation="horizontal">
 
             <TextView
-                android:text="Employer: "
-                android:textAppearance="@color/colorPrimaryDark"
-                android:textSize="14dp"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content">
-            </TextView>
-
-            <TextView
                 android:gravity="top"
                 android:id="@+id/tvEmployer"
                 android:textAppearance="@color/colorPrimaryDark"

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     Button reset;
     Button update;
-    Button back;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         reset = (Button) findViewById(R.id.reset);
         update = (Button) findViewById(R.id.update);
-        back = (Button) findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.btBack);
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override

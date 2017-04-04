@@ -113,7 +113,7 @@ public class ListingDetailDialog extends DialogFragment {
             @Override
             public void done(String error, Listing listing) {
                 tvTitle.setText(listing.title);
-                tvEmployer.setText(listing.employer.getString("name"));
+                if(listing.employer != null) tvEmployer.setText("Employer " + listing.employer.getString("name"));
                 tvDescription.setText(listing.description);
                 tvCompensation.setText( "$" + listing.compensation );
                 tvDuration.setText( Conversions.minutesToString(listing.duration) );

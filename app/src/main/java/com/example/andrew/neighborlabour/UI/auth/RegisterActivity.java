@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView bio;
 
     Button register;
-    Button back;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         bio = (TextView) findViewById(R.id.bio);
 
         register = (Button) findViewById(R.id.register);
-        back = (Button) findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.btBack);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override

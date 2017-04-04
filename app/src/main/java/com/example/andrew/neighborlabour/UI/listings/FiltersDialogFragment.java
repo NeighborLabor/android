@@ -33,7 +33,6 @@ public class FiltersDialogFragment extends DialogFragment {
 
     DatePickerDialog startDatePicker;
     int sYear = 0, sMonth = 0, sDay = 0;
-    int eYear = 0, eMonth = 0, eDay = 0;
 
     TextView tvMinCompensation;
     TextView tvMaxCompensation;

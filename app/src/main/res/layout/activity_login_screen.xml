@@ -16,40 +16,49 @@
 
     </LinearLayout>
 
-    <TextView
-        android:text="Neighbor-Labor"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:id="@+id/title"
-        android:gravity="center_vertical|center_horizontal"
-        android:textSize="32sp" />
-
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:id="@+id/username"/>
+        android:padding="20dp"
+        android:orientation="vertical">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="Password"
-        android:id="@+id/password"/>
+        <TextView
+            android:text="Neighbor-Labor"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/title"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="32sp" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Log in"
-        android:textAlignment="center"
-        android:id="@+id/login"
-        android:onClick="login"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:id="@+id/username"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        android:id="@+id/register"
-        android:onClick="register"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Password"
+            android:id="@+id/password"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log in"
+            android:textAlignment="center"
+            android:id="@+id/login"
+            android:onClick="login"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:id="@+id/register"
+            android:onClick="register"/>
+
+
+    </LinearLayout>
 
 </LinearLayout>
