@@ -2,6 +2,7 @@ package com.example.andrew.neighborlabour.UI.chat;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -21,6 +22,8 @@ import com.example.andrew.neighborlabour.Services.Utils.ListCB;
 import com.example.andrew.neighborlabour.Services.Utils.StringCB;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.chat.ChatManager;
+import com.example.andrew.neighborlabour.UI.auth.EditProfileActivity;
+import com.example.andrew.neighborlabour.UI.auth.ProfileActivity;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -85,6 +88,16 @@ public class ChatDialogFragment extends DialogFragment {
 
     void setTitle(View view){
         etTitle = (TextView) view.findViewById(R.id.tvTitle);
+        etTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ParseProject.getContext(), ProfileActivity.class);
+                intent.putExtra("userId", ParseUser.getCurrentUser().getObjectId());
+                intent.putExtra("showPhone", true);
+                startActivity(intent);
+            }
+        });
+
         ChatManager.getThreadTitle(threadId, new StringCB() {
             @Override
             public void done(String error, String title) {

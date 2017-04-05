@@ -42,40 +42,58 @@
         android:padding="20dp"
         android:orientation="vertical">
 
-        <TextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:hint="Email"
+            android:id="@+id/username"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Password"
+            android:id="@+id/password"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Password (repeat)"
+            android:id="@+id/password2"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="name"
-            android:id="@+id/tvName"/>
+            android:id="@+id/name"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Rating"
-            android:lines="1"
-            android:id="@+id/tvRating"/>
-
-        <TextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Phone Number"
-            android:id="@+id/tvPhone"/>
+            android:id="@+id/phone"/>
 
-        <TextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Quick Bio"
             android:lines="3"
-            android:id="@+id/tvBio"/>
+            android:id="@+id/bio"/>
 
-        <ListView
-            android:id="@+id/lvReviews"
-            android:transcriptMode="alwaysScroll"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
+        <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:text="Reset Fields"
+            android:id="@+id/reset"
+            android:onClick="reset"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            android:id="@+id/update"
+            android:onClick="update"/>
 
     </LinearLayout>
 

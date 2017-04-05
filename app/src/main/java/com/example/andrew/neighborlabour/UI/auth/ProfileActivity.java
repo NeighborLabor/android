@@ -46,21 +46,20 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        setContentView(R.layout.activity_profile);
 
         userId = getIntent().getStringExtra("userId");
         showPhone = getIntent().getBooleanExtra("showPhone", false);
 
         getGuiRefs();
-        setUpReviews();
+        //setUpReviews();
         setFields();
-
     }
 
     void getGuiRefs(){
-        name = (TextView) findViewById(R.id.name);
-        phone = (TextView) findViewById(R.id.phone);
-        bio = (TextView) findViewById(R.id.bio);
+        name = (TextView) findViewById(R.id.tvName);
+        phone = (TextView) findViewById(R.id.tvPhone);
+        bio = (TextView) findViewById(R.id.tvBio);
 
         back = (ImageView) findViewById(R.id.btBack);
         back.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     void setUpReviews() {
-        lvReviews = (ListView) findViewById(R.id.lvListings);
+        lvReviews = (ListView) findViewById(R.id.lvReviews);
         reviews = new ArrayList<>();
 
         lvReviews.setTranscriptMode(1);

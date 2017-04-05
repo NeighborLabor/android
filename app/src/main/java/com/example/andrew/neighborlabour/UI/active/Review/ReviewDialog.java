@@ -7,10 +7,12 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.andrew.neighborlabour.R;
+import com.example.andrew.neighborlabour.Services.Utils.ParseObjectCB;
 import com.example.andrew.neighborlabour.Services.Utils.UserCB;
 import com.example.andrew.neighborlabour.Services.listings.Listing;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 import com.example.andrew.neighborlabour.Services.user.UserManager;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -33,11 +35,11 @@ public class ReviewDialog extends Activity{
 
         String user_id = getIntent().getStringExtra("USER_ID");
 
-        UserManager.getUser(user_id, new UserCB() {
+        UserManager.getUser(user_id, new ParseObjectCB() {
             @Override
-            public void done(String error, ParseUser parseUser) {
+            public void done(String error, ParseObject parseUser) {
                 if (error == null) {
-                    reviewed_user = parseUser;
+                    reviewed_user = (ParseUser) parseUser;
                     setText();
                 } else {
                     Log.d("USER_CB", error);
