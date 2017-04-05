@@ -14,7 +14,6 @@ import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.user.AuthManager;
 import com.example.andrew.neighborlabour.Services.user.User;
-import com.parse.Parse;
 import com.parse.ParseUser;
 
 /**
@@ -39,7 +38,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_edit_profile);
 
         username = (TextView) findViewById(R.id.username);
         password = (TextView)findViewById(R.id.password);

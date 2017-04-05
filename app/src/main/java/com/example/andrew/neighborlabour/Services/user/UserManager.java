@@ -3,6 +3,7 @@ package com.example.andrew.neighborlabour.Services.user;
 import android.util.Log;
 
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
+import com.example.andrew.neighborlabour.Services.Utils.ParseObjectCB;
 import com.example.andrew.neighborlabour.Services.Utils.UserCB;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -55,17 +56,30 @@ public class UserManager {
         });
     }
 
-    public static void getUser(String userId, final UserCB cb){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-        query.whereEqualTo("objectId", userId);
-
-
+    public static void getReviews(String userId, final ListCB cb){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
+        query.whereEqualTo("user", userId);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if(e == null && !objects.isEmpty()){
-                    cb.done(null, (ParseUser) objects.get(0));
-                } else if(objects != null && objects.isEmpty()){
+            public void done(List<ParseObject> reviews, ParseException e) {
+                if(reviews != null && !reviews.isEmpty()){
+                    cb.done(null, reviews);
+                } else{
+                    cb.done(e +"", null);
+                }
+            }
+        });
+    }
+
+    public static void getUser(String userId, final ParseObjectCB cb){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+        query.whereEqualTo("objectId", userId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> users, ParseException e) {
+                if(e == null && !users.isEmpty()){
+                    cb.done(null, (ParseUser) users.get(0));
+                } else if(users != null && users.isEmpty()){
                     cb.done("Returned no results", null);
                 } else{
                     cb.done(e +"", null);
