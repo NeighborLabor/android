@@ -18,8 +18,7 @@
             android:value="AIzaSyB151f1l-Rr5H3jWNYTTWlIFklHbDpGchg"/>
 
         <activity
-            android:name=".UI.auth.LoginActivity"
-            android:label="login">
+            android:name=".UI.auth.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -36,10 +35,6 @@
         <activity
             android:name=".UI.active.Review.ReviewDialog"
             android:theme="@style/dialog">
-        </activity>
-        <activity
-            android:name=".UI.listings.ListingDetailActivity"
-            android:theme="@android:style/Theme.Dialog">
         </activity>
         <activity
             android:name=".UI.auth.RegisterActivity">
