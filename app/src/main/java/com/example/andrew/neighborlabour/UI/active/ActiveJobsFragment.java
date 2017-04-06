@@ -33,6 +33,11 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
     static ArrayList<ParseObject> mlistings;
     static AppliedJobsArrayAdapter appliedListingAdapter;
 
+    final static int APPLIED = 1;
+    final static int POSTED = 2;
+
+    static int ApplyOrPosted = APPLIED;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +65,7 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
         lvListings.setTranscriptMode(1);
         appliedListingAdapter = new AppliedJobsArrayAdapter(ParseProject.getContext(), mlistings);
         lvListings.setAdapter(appliedListingAdapter);
+        ApplyOrPosted = APPLIED;
 
 
         btJobsAppliedFor.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +78,7 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
                 refreshJobsApplied();
                 btJobsAppliedFor.setBackgroundColor(getResources().getColor(android.R.color.white));
                 btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+                ApplyOrPosted = APPLIED;
             }
         });
 
@@ -85,6 +92,8 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
                 refreshJobsPosted();
                 btJobsAppliedFor.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
                 btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.white));
+
+                ApplyOrPosted = POSTED;
             }
         });
 
@@ -96,10 +105,10 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
     }
 
     public static void refresh(){
-        if(appliedListingAdapter != null){
+        if(ApplyOrPosted  == APPLIED){
             refreshJobsApplied();
         }
-        if(listingAdapter != null){
+        if(ApplyOrPosted == POSTED){
             refreshJobsPosted();
         }
     }

@@ -176,7 +176,6 @@ public class ListingManager {
 
                     //get applicants
 
-
                     listing.applicants = new ArrayList<ParseObject>();
 
 

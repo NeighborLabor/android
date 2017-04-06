@@ -15,10 +15,13 @@ import com.example.andrew.neighborlabour.Services.Utils.ListingCB;
 import com.example.andrew.neighborlabour.Services.Utils.ParseObjectCB;
 import com.example.andrew.neighborlabour.Services.listings.Listing;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
+import com.example.andrew.neighborlabour.UI.active.ActiveJobsFragment;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+
+import static java.security.AccessController.getContext;
 
 /**
  * Created by andrew on 3/17/17.
@@ -52,20 +55,10 @@ public class SelectWorkerDialog extends Activity {
 
         list.setAdapter(arrayAdapter);
 
-
-
         list.setOnItemClickListener(selectTheWorker);
 
 
         getUser();
-
-
-
-
-
-
-
-
 
     }
 
@@ -97,7 +90,11 @@ public class SelectWorkerDialog extends Activity {
                 } else {
                     Log.d("SELECT_WORKER", "happened2");
                 }
+
         }
+
+
+
         });
     }
 
@@ -105,6 +102,13 @@ public class SelectWorkerDialog extends Activity {
             Log.d("SELECT_WORKER", e);
 
         }
+
+    private void closeWindow(){
+
+
+
+        this.finish();
+    }
 
     public void changeHeader(int amount){
         Log.d("SELECT_WORKER", String.valueOf(amount));
@@ -128,6 +132,7 @@ public class SelectWorkerDialog extends Activity {
                 @Override
                 public void done(String error, ParseObject response) {
                     if(response != null){
+                        ActiveJobsFragment.refresh();
                         Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT);
                         Log.d("SELECT_WORKER", response.toString());
 
@@ -141,8 +146,8 @@ public class SelectWorkerDialog extends Activity {
                     }
                 }
             });
+            closeWindow();
         }
-
 
     };
 

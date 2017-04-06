@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 
 /**
@@ -40,8 +42,11 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
 
 
 
+
     public ActiveJobsArrayAdapter(Context context, ArrayList<ParseObject> listings){
         super(context,0,listings);
+
+
     }
 
 
@@ -66,6 +71,8 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         //set
         final ParseObject listing = getItem(position);
         final ViewHolder holder = (ViewHolder)convertView.getTag();
+
+
 
 
         holder.allApps = (Button) convertView.findViewById(R.id.active_seeApps);
@@ -148,6 +155,10 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
             Log.d("USER_ID", parseUser);
 
             getContext().startActivity(intent);
+
+
+
+
         }
     };
 
@@ -159,6 +170,8 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
             Intent intent = new Intent(getContext(), SelectWorkerDialog.class);
 
             intent.putExtra("ObjectID", object.getObjectId().toString());
+
+
 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
