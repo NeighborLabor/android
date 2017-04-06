@@ -144,15 +144,17 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         public void onClick(View v) {
             final int position = listView.getPositionForView((View) v.getParent());
             ParseObject object = getItem(position);
+
             Intent intent = new Intent(getContext(), ReviewDialog.class);
 
             String parseUser = object.getParseUser("worker").getObjectId();
 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+            intent.putExtra("Listing_ID", object.getObjectId());
+
             intent.putExtra("USER_ID", parseUser);
 
-            Log.d("USER_ID", parseUser);
 
             getContext().startActivity(intent);
 
