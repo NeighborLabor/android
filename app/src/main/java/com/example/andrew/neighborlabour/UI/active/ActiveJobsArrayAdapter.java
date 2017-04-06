@@ -70,16 +70,16 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
 
         holder.allApps = (Button) convertView.findViewById(R.id.active_seeApps);
         holder.messaging = (Button) convertView.findViewById(R.id.active_Message);
-        holder.leaveReview = (ImageButton) convertView.findViewById(R.id.add_review);
+        holder.leaveReview = (Button) convertView.findViewById(R.id.add_review);
 
 
-        if(listing.get("worker") == null){
+        if(listing.getParseUser("worker") == null){
             //if this is a job you posted that you haven't selected a worker
             holder.allApps.setVisibility(View.VISIBLE);
             holder.messaging.setVisibility(View.GONE);
             holder.leaveReview.setVisibility(View.GONE);
 
-        } else if(listing.get("worker") != null) {
+        } else if(listing.getParseUser("worker") != null) {
             //jobs you posted posted and have selected a worker
             holder.allApps.setVisibility(View.GONE);
             holder.messaging.setVisibility(View.VISIBLE);
@@ -139,7 +139,7 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
             ParseObject object = getItem(position);
             Intent intent = new Intent(getContext(), ReviewDialog.class);
 
-            String parseUser = (String) object.get("worker");
+            String parseUser = object.getParseUser("worker").getObjectId();
 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -163,7 +163,6 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             getContext().startActivity(intent);
-
         }
     };
 
@@ -184,7 +183,7 @@ public class ActiveJobsArrayAdapter extends ArrayAdapter<ParseObject> {
         public TextView compensation;
         public Button allApps;
         public Button messaging;
-        public ImageButton leaveReview;
+        public Button leaveReview;
     }
 
 }

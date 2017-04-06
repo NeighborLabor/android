@@ -135,7 +135,7 @@ public class ListingManager {
         });
     }
 
-    public static void selectWorker(String listingId, final String workerId, final ParseObjectCB cb){
+    public static void selectWorker(String listingId, final ParseUser workerId, final ParseObjectCB cb){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Listing");
         query.whereEqualTo("objectId", listingId);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -146,7 +146,7 @@ public class ListingManager {
                 } else {
                     final ParseObject listing = objects.get(0);
                     Log.d("SELECT_WORKER", String.valueOf(objects.size()));
-                    listing.put("worker", workerId);
+                    listing.put("worker",workerId);
                     listing.put("active", false);
                     listing.saveInBackground(new SaveCallback(){
                         @Override

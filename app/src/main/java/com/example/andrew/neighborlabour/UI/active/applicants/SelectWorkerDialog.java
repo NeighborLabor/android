@@ -124,7 +124,7 @@ public class SelectWorkerDialog extends Activity {
 
             Log.d("SELECT_WORKER", selectedWorker.getObjectId() + " "+ parseID);
 
-            ListingManager.selectWorker(parseID, selectedWorker.getObjectId(), new ParseObjectCB() {
+            ListingManager.selectWorker(parseID, selectedWorker, new ParseObjectCB() {
                 @Override
                 public void done(String error, ParseObject response) {
                     if(response != null){

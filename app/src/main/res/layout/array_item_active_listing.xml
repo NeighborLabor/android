@@ -153,12 +153,11 @@
                     android:text ="Message"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"/>
-                <ImageButton
+                <Button
                     android:id="@+id/add_review"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:src="@android:drawable/btn_star"
-                    android:background="#00ffffff"
+                    android:text="Close Job"
                     android:visibility="gone"
                     android:layout_gravity="end"/>
 
