@@ -21,11 +21,13 @@
         android:layout_height="match_parent"
         android:paddingBottom="14dp"/>
     <EditText
+        android:id="@+id/text_review"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="17dp"
         android:minLines="5"/>
     <Button
+        android:id="@+id/submit_rating"
         android:background="@color/colorGreen"
         android:layout_width="300dp"
         android:layout_height="match_parent"
