@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ListView DrawerList;
     public static Location location;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    ViewPager viewPager;
+    static ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void setPage(int pageNumber) {
+    public static void setPage(int pageNumber) {
         viewPager.setCurrentItem(pageNumber);
     }
 

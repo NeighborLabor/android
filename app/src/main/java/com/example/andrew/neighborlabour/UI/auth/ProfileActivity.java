@@ -2,12 +2,14 @@ package com.example.andrew.neighborlabour.UI.auth;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
@@ -38,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     String userId;
     Boolean showPhone = false;
 
-    ListingArrayAdapter reviewsAdapter;
+    ReviewArrayAdapter reviewsAdapter;
     ArrayList<ParseObject> reviews;
 
     ImageView back;
@@ -52,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
         showPhone = getIntent().getBooleanExtra("showPhone", false);
 
         getGuiRefs();
-        //setUpReviews();
+        setUpReviews();
         setFields();
     }
 
@@ -75,15 +77,20 @@ public class ProfileActivity extends AppCompatActivity {
         reviews = new ArrayList<>();
 
         lvReviews.setTranscriptMode(1);
-        reviewsAdapter = new ListingArrayAdapter(ParseProject.getContext(), reviews);
+        reviewsAdapter = new ReviewArrayAdapter(ParseProject.getContext(), reviews);
         lvReviews.setAdapter(reviewsAdapter);
 
         UserManager.getReviews(userId, new ListCB() {
             @Override
             public void done(String error, List<ParseObject> newReviews) {
-                reviews.clear();
-                reviews.addAll(newReviews);
-                reviewsAdapter.notifyDataSetChanged();
+                if(newReviews == null || error != null ){
+                    Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
+                }else{
+                    Log.i(TAG, newReviews.size() + "");
+                    reviews.clear();
+                    reviews.addAll(newReviews);
+                    reviewsAdapter.notifyDataSetChanged();
+                }
             }
         });
     }

@@ -45,27 +45,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:hint="name"
+            android:textSize="18dp"
             android:id="@+id/tvName"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Rating"
-            android:lines="1"
-            android:id="@+id/tvRating"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Phone Number"
+            android:textSize="18dp"
+            android:visibility="visible"
             android:id="@+id/tvPhone"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quick Bio"
+            android:textSize="16dp"
             android:lines="3"
             android:id="@+id/tvBio"/>
 
@@ -75,7 +68,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

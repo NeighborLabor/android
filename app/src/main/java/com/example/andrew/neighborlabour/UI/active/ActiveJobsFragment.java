@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,7 +19,6 @@ import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by chevalierc on 2/27/2017.
@@ -29,9 +29,12 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
     private static final String TAG = "ListingsActivity";
 
     ListView lvListings;
-    static ActiveJobsArrayAdapter listingAdapter;
+    static ListingArrayAdapter listingAdapter;
     static ArrayList<ParseObject> mlistings;
-    static AppliedJobsArrayAdapter appliedListingAdapter;
+    Button btJobsAppliedFor;
+    Button btJobsPosted;
+    static String page = "posted";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,64 +50,85 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        setupListings();
+        setupGui();
+        setUpPosted();
     }
 
-    void setupListings(){
+    void setupGui(){
+        btJobsAppliedFor = (Button) getView().findViewById(R.id.btJobsAppliedFor);
+        btJobsPosted = (Button) getView().findViewById(R.id.btJobsPosted);
+
         lvListings = (ListView) getView().findViewById(R.id.lvListings);
         mlistings = new ArrayList<>();
 
-        final Button btJobsAppliedFor = (Button) getView().findViewById(R.id.btJobsAppliedFor);
-        final Button btJobsPosted = (Button) getView().findViewById(R.id.btJobsPosted);
-
         lvListings.setTranscriptMode(1);
-        appliedListingAdapter = new AppliedJobsArrayAdapter(ParseProject.getContext(), mlistings);
-        lvListings.setAdapter(appliedListingAdapter);
-
+        listingAdapter = new ListingArrayAdapter(ParseProject.getContext(), mlistings);
+        lvListings.setAdapter(listingAdapter);
 
         btJobsAppliedFor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                appliedListingAdapter = new AppliedJobsArrayAdapter(ParseProject.getContext(), mlistings);
-                lvListings.setAdapter(appliedListingAdapter);
-
-                refreshJobsApplied();
-                btJobsAppliedFor.setBackgroundColor(getResources().getColor(android.R.color.white));
-                btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+                setUpApplied();
             }
         });
 
         btJobsPosted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                listingAdapter = new ActiveJobsArrayAdapter(ParseProject.getContext(), mlistings);
-                lvListings.setAdapter(listingAdapter);
-
-                refreshJobsPosted();
-                btJobsAppliedFor.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-                btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.white));
+                setUpPosted();
             }
         });
+    }
 
+    void setUpPosted(){
+        page = "posted";
+        refreshJobsPosted();
+        btJobsAppliedFor.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+        btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.white));
+        lvListings.setOnItemClickListener(jobsPostedListener);
+    }
 
-
+    void setUpApplied(){
+        page = "applied";
         refreshJobsApplied();
         btJobsAppliedFor.setBackgroundColor(getResources().getColor(android.R.color.white));
         btJobsPosted.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+        lvListings.setOnItemClickListener(jobsAppliedListener);
     }
+
+    AdapterView.OnItemClickListener jobsAppliedListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+            AppliedListingDetailDialog appliedListingDetailDialog = new AppliedListingDetailDialog();
+            String listingId = mlistings.get(i).getObjectId();
+            Bundle args = new Bundle();
+            args.putString("listingId", listingId);
+            appliedListingDetailDialog.setArguments(args);
+            appliedListingDetailDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
+        }
+    };
+
+    AdapterView.OnItemClickListener jobsPostedListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+            PostedListingDetailDialog postedListingDetailDialog = new PostedListingDetailDialog();
+            String listingId = mlistings.get(i).getObjectId();
+            Bundle args = new Bundle();
+            args.putString("listingId", listingId);
+            postedListingDetailDialog.setArguments(args);
+            postedListingDetailDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
+        }
+    };
 
     public static void refresh(){
-        if(appliedListingAdapter != null){
-            refreshJobsApplied();
-        }
         if(listingAdapter != null){
-            refreshJobsPosted();
+            if (page == "posted") {
+                refreshJobsPosted();
+            }else{
+                refreshJobsApplied();
+            }
         }
     }
-
-
 
     static void refreshJobsApplied(){
         UserManager.getListingsUserAppliedFor( new ListCB() {
@@ -113,7 +137,7 @@ public class ActiveJobsFragment extends android.support.v4.app.Fragment {
                 if(error == null){
                     mlistings.clear();
                     mlistings.addAll(listings);
-                    appliedListingAdapter.notifyDataSetChanged();
+                    listingAdapter.notifyDataSetChanged();
                     Log.i(TAG, "Listing Adapter Data Set. Items found: " + listings.size());
                 }else{
                     Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();

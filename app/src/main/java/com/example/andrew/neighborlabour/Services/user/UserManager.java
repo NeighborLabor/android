@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
 import com.example.andrew.neighborlabour.Services.Utils.ParseObjectCB;
+import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.Utils.UserCB;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -11,6 +12,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 import java.util.Queue;
@@ -56,9 +58,26 @@ public class UserManager {
         });
     }
 
+    public static void writeReview(String userId, int stars, String body, final SuccessCB cb){
+        ParseObject review = new ParseObject("Review");
+        review.put("userId", userId);
+        review.put("stars", stars);
+        review.put("body", body);
+        review.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null ){
+                    cb.done(null, true);
+                } else{
+                    cb.done(e + "", false);
+                }
+            }
+        });
+    }
+
     public static void getReviews(String userId, final ListCB cb){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
-        query.whereEqualTo("user", userId);
+        //query.whereEqualTo("user", userId);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> reviews, ParseException e) {

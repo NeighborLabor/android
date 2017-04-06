@@ -1,6 +1,7 @@
 package com.example.andrew.neighborlabour.UI.auth;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,8 @@ public class ReviewArrayAdapter extends ArrayAdapter<ParseObject> {
         //set
         final ParseObject review = getItem(position);
         final ViewHolder holder = (ViewHolder)convertView.getTag();
+
+        Log.i(TAG, review.getString("body"));
 
 
         //set text fields
