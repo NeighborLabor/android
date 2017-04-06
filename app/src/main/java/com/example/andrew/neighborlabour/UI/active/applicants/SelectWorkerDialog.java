@@ -32,63 +32,84 @@ public class SelectWorkerDialog extends Activity {
 
     private Applicants arrayAdapter;
 
-    private ArrayList<ParseUser> userList;
+    private ArrayList<ParseObject> userList;
 
     TextView header;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_select_worker);
-
-        header = (TextView) findViewById(R.id.select_worker_header);
-
-        getUser();
 
         userList = new ArrayList<>();
 
+        arrayAdapter = new Applicants(this, userList);
+
+        setContentView(R.layout.dialog_select_worker);
+
         list =  (ListView) findViewById(R.id.select_worker_list);
 
-        arrayAdapter = new Applicants(this, userList);
+        header = (TextView) findViewById(R.id.select_worker_header);
 
         list.setAdapter(arrayAdapter);
 
+
+
         list.setOnItemClickListener(selectTheWorker);
+
+
+        getUser();
+
+
+
+
+
+
+
+
+
     }
 
 
     private void getUser(){
 
         parseID = getIntent().getStringExtra("ObjectID");
+        Log.d("SELECT_WORKER", "happened");
 
         ListingManager.getListing(parseID, new ListingCB() {
 
             @Override
             public void done(String error, Listing response) {
+
                 if(error == null && response != null){
                     userList.addAll(response.applicants);
                     arrayAdapter.notifyDataSetChanged();
                     changeHeader(userList.size());
+                    Log.d("SELECT_WORKER", "happened4");
 
 
 
 
                 } else if(error != null){
                     thefinish(error + " ");
+                    Log.d("SELECT_WORKER", "happened3");
 
+
+                } else {
+                    Log.d("SELECT_WORKER", "happened2");
                 }
         }
         });
     }
 
     public void thefinish(String e) {
-
-            Toast.makeText(this,e, Toast.LENGTH_SHORT).show();
+            Log.d("SELECT_WORKER", e);
 
         }
 
     public void changeHeader(int amount){
+        Log.d("SELECT_WORKER", String.valueOf(amount));
         if(amount == 0){
+
             header.setText("currently no applicants");
         }
 
@@ -99,7 +120,7 @@ public class SelectWorkerDialog extends Activity {
         @Override
         public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
 
-            ParseUser selectedWorker = userList.get(position);
+            ParseUser selectedWorker = (ParseUser) userList.get(position);
 
             Log.d("SELECT_WORKER", selectedWorker.getObjectId() + " "+ parseID);
 

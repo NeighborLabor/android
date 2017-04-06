@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.andrew.neighborlabour.R;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -18,11 +19,11 @@ import java.util.ArrayList;
  * Created by andrew on 3/20/17.
  */
 
-public class Applicants extends ArrayAdapter<ParseUser>{
+public class Applicants extends ArrayAdapter<ParseObject>{
 
 
 
-    public Applicants(@NonNull Context context, ArrayList<ParseUser> user) {
+    public Applicants(@NonNull Context context, ArrayList<ParseObject> user) {
         super(context,0, user);
     }
 
@@ -30,7 +31,7 @@ public class Applicants extends ArrayAdapter<ParseUser>{
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        ParseUser user = getItem(position);
+        ParseUser user = (ParseUser) getItem(position);
 
         if(convertView == null){
             ViewHolder viewHolder = new ViewHolder();

@@ -17,6 +17,7 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -174,64 +175,61 @@ public class ListingManager {
                     final Listing listing = new Listing(parseListing);
 
                     //get applicants
-                    ParseQuery<ParseUser> applicantsQuery = ParseUser.getQuery();
-                    List<String> userIds = parseListing.getList("applicants");
-                    if(userIds == null){
-                        Log.i(TAG, "ApplicantIDS not found");
-                        userIds = new ArrayList<String>();//above call returns null instead of empty list
+
+
+                    listing.applicants = new ArrayList<ParseObject>();
+
+
+                    ParseQuery<ParseObject> query = parseListing.getRelation("applicants").getQuery();
+
+                    try {
+
+                       listing.applicants.addAll(query.find());
+
+
+                    } catch (ParseException e1) {
+
+                        Log.d("SELECT_WORKER",e1.toString());
+                    } catch (Exception e2){
+
+                        Log.d("SELECT_WORKER",e2.toString());
                     }
-                    applicantsQuery.whereContainedIn("objectId", userIds);
-                    applicantsQuery.findInBackground(new FindCallback<ParseUser>() {
+
+                    parseListing.getParseUser("createdBy").fetchIfNeededInBackground(new GetCallback<ParseUser>() {
                         @Override
-                        public void done(final List<ParseUser> applicants, ParseException e) {
-                            if(e == null) {
+                        public void done(ParseUser employer, ParseException e) {
 
-                                //set applicants
-                                if (applicants == null) {
-                                    Log.i(TAG, "applicants not found");
-                                } else {
-                                    listing.applicants = applicants;
-                                }
-
-                                //get Employer
-                                parseListing.getParseUser("createdBy").fetchIfNeededInBackground(new GetCallback<ParseUser>() {
-                                    @Override
-                                    public void done(ParseUser employer, ParseException e) {
-
-                                        //set employer
-                                        if(e == null){
-                                            listing.setEmployer(employer);
-                                        }else{
-                                            Log.i(TAG, "employer not found");
-                                        }
-
-                                        if(parseListing.getParseUser("worker") == null){
-                                            cb.done(null, listing);
-                                            return;
-                                        }
-
-                                        //get worker
-                                        parseListing.getParseUser("worker").fetchIfNeededInBackground(new GetCallback<ParseUser>() {
-                                            @Override
-                                            public void done(ParseUser worker, ParseException e) {
-
-                                                //set worker
-                                                if(e == null){
-                                                    listing.setWorker(worker);
-                                                }else{
-                                                    Log.i(TAG, "employer not found");
-                                                }
-
-                                                cb.done(null, listing);
-                                                return;
-                                            }
-                                        });
-
-                                    }
-                                });
+                            //set employer
+                            if(e == null){
+                                listing.setEmployer(employer);
+                            }else{
+                                Log.i(TAG, "employer not found");
                             }
-                        }
-                    });
+
+                            if(parseListing.getParseUser("worker") == null){
+                                cb.done(null, listing);
+                                return;
+                            }
+
+                            //get worker
+                            parseListing.getParseUser("worker").fetchIfNeededInBackground(new GetCallback<ParseUser>() {
+                                @Override
+                                public void done(ParseUser worker, ParseException e) {
+
+                                    //set worker
+                                    if(e == null){
+                                        listing.setWorker(worker);
+                                    }else{
+                                        Log.i(TAG, "employer not found");
+                                    }
+
+                                    cb.done(null, listing);
+                                    return;
+                                }
+                            });
+                }
+            });
+
                 } else {
                     Log.i(TAG, "Listing Not Found");
                     cb.done(e + "", null);

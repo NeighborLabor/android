@@ -19,7 +19,7 @@ public class Listing {
     public Double latitude = 0.0;
     public Double longitude = 0.0;
     public Date startTime = null;
-    public List<ParseUser> applicants = null;
+    public List<ParseObject> applicants = null;
     public ParseUser employer = null;
     public ParseUser worker = null;
 
@@ -50,9 +50,9 @@ public class Listing {
         }
     }
 
-    public void setApplicant(List<ParseUser> applicants){
+    /**public void setApplicant(List<ParseUser> applicants){
         this.applicants = applicants;
-    }
+    }**/
 
     public void setEmployer(ParseUser employer){
         this.employer = employer;
