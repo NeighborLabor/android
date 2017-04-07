@@ -43,9 +43,6 @@ public class ReviewArrayAdapter extends ArrayAdapter<ParseObject> {
         final ParseObject review = getItem(position);
         final ViewHolder holder = (ViewHolder)convertView.getTag();
 
-        Log.i(TAG, review.getString("body"));
-
-
         //set text fields
         String starsString = "";
         for(int i = 0; i < review.getInt("stars") ; i++){

@@ -73,6 +73,56 @@ public class ChatManager {
         });
     }
 
+    public static void getOrCreateChatThread(String otherUserId, final StringCB cb){
+        //Get Other user as parseObject
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+        query.whereEqualTo("objectId", otherUserId);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> users, ParseException e) {
+                if(users.size() == 0 ){
+                    cb.done( "User not found", null);
+                }else if(e == null){
+                    final ParseUser otherUser = users.get(0);
+                    Log.i(TAG, otherUser.getString("name"));
+                    //Check that thread doesn't exist allready
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Thread");
+                    query.whereEqualTo("participants", ParseUser.getCurrentUser() );
+                    query.whereEqualTo("participants", otherUser );
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> threads, ParseException e) {
+                            if(threads.size() != 0 ){
+                                String threadId = threads.get(0).getObjectId();
+                                cb.done( "Thread Exists", threadId);
+                            }else if(e == null){
+                                //Create thread
+                                final ParseObject newThread = ParseObject.create("Thread");
+                                newThread.getRelation("participants").add( ParseUser.getCurrentUser() );
+                                newThread.getRelation("participants").add( otherUser );
+                                final String threadId = newThread.getObjectId();
+                                newThread.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if(e == null){
+                                            cb.done(null, threadId);
+                                        }else{
+                                            cb.done(e + "", null);
+                                        }
+                                    }
+                                });
+                            }else{
+                                cb.done(e + "", null);
+                            }
+                        }
+                    });
+                }else{
+                    cb.done(e + "", null);
+                }
+            }
+        });
+    }
+
     public static void getChatThreads(final ListCB cb){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Thread");
         query.whereEqualTo("participants", ParseUser.getCurrentUser() );

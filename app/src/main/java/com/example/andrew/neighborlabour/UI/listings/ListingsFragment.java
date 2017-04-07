@@ -1,5 +1,7 @@
 package com.example.andrew.neighborlabour.UI.listings;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +24,7 @@ import com.example.andrew.neighborlabour.Services.Utils.ListCB;
 import com.example.andrew.neighborlabour.Services.listings.Filter;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 
+import com.example.andrew.neighborlabour.UI.active.PostedListingDetailDialog;
 import com.example.andrew.neighborlabour.UI.listings.Maps.JobHolder;
 import com.example.andrew.neighborlabour.UI.listings.Maps.MapDialogFragment;
 import com.google.android.gms.common.ConnectionResult;
@@ -153,7 +156,8 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
                 Bundle args = new Bundle();
                 args.putString("listingId", listingId);
                 listingDetailDialog.setArguments(args);
-                listingDetailDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
+//                FragmentManager fm = ((Activity) ).getFragmentManager();
+//                listingDetailDialog.show(fm, "NoticeDialogFragment");
             }
         });
     }

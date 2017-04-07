@@ -136,7 +136,7 @@ import java.util.Date;
 
     public void setUpWorkerList(){
         workers = new ArrayList<>();
-        applicantArrayAdapter = new ApplicantArrayAdapter(ParseProject.getContext(), workers);
+        applicantArrayAdapter = new ApplicantArrayAdapter(ParseProject.getContext(), workers, PostedListingDetailDialog.this);
         workerList.setAdapter(applicantArrayAdapter);
         applicantArrayAdapter.notifyDataSetChanged();
     }

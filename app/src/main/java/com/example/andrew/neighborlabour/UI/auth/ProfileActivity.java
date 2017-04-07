@@ -51,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         userId = getIntent().getStringExtra("userId");
+        Log.i(TAG, userId);
         showPhone = getIntent().getBooleanExtra("showPhone", false);
 
         getGuiRefs();

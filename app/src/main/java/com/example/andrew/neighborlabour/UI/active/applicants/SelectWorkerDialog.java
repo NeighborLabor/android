@@ -43,7 +43,7 @@ public class SelectWorkerDialog extends Activity {
 
         userList = new ArrayList<>();
 
-        arrayAdapter = new ApplicantArrayAdapter(this, userList);
+        //arrayAdapter = new ApplicantArrayAdapter(this, userList);
 
         setContentView(R.layout.dialog_select_worker);
 
