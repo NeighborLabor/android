@@ -2,10 +2,12 @@ package com.example.andrew.neighborlabour.UI.active.applicants;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,18 +85,26 @@ public class ApplicantArrayAdapter extends ArrayAdapter<ParseObject>{
             viewHolder.ivAcceptWorker.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ListingManager.selectWorker(listingId, user, new ParseObjectCB() {
-                        @Override
-                        public void done(String error, ParseObject response) {
-                            if(response != null){
-                                Toast.makeText(ParseProject.getContext(), "Worker selcted!", Toast.LENGTH_SHORT);
-                                Log.d("SELECT_WORKER", response.toString());
-                            } else if ( error != null){
-                                Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT);
-                            }
-                            parentDialog.dismiss();
-                        }
-                    });
+                    new AlertDialog.Builder(parentDialog.getContext())
+                            .setTitle("Accept Worker")
+                            .setMessage("Do you really want to " + user.getString("name") + "?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    ListingManager.selectWorker(listingId, user, new ParseObjectCB() {
+                                        @Override
+                                        public void done(String error, ParseObject response) {
+                                            if(response != null){
+                                                Toast.makeText(ParseProject.getContext(), "Worker selcted!", Toast.LENGTH_SHORT);
+                                                Log.d("SELECT_WORKER", response.toString());
+                                            } else if ( error != null){
+                                                Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT);
+                                            }
+                                            parentDialog.dismiss();
+                                        }
+                                    });
+                                }})
+                            .setNegativeButton(android.R.string.no, null).show();
                 }
             });
 

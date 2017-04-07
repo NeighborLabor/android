@@ -15,11 +15,13 @@ import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.Conversions;
 import com.example.andrew.neighborlabour.Services.Utils.ListingCB;
+import com.example.andrew.neighborlabour.Services.Utils.StringCB;
 import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.chat.ChatManager;
 import com.example.andrew.neighborlabour.Services.listings.Listing;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 import com.example.andrew.neighborlabour.UI.MainActivity;
+import com.example.andrew.neighborlabour.UI.chat.ChatDialogFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -31,6 +33,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by chevalierc on 3/29/2017.
@@ -69,7 +72,6 @@ public class AppliedListingDetailDialog extends DialogFragment {
         setUpGUI();
         getMap(savedInstanceState);
         setValues(listingId);
-        setListeners(listingId);
 
         return view;
     }
@@ -125,6 +127,7 @@ public class AppliedListingDetailDialog extends DialogFragment {
                 tvAddress.setText(listing.address);
                 tvDate.setText(formatDateAsString(listing));
                 setMapLocation(listing);
+                setListeners(listing);
             }
         });
     }
@@ -141,21 +144,24 @@ public class AppliedListingDetailDialog extends DialogFragment {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(jobLocation, 12));
     }
 
-    public void setListeners(String curListingId){
-        final String listingId = curListingId;
+    public void setListeners(Listing theListing){
+        final Listing listing = theListing;
         btMessage.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if( listing == null) return;
-                ChatManager.createChatThread(listing.employer.getObjectId(), new SuccessCB() {
+            @Override
+            public void onClick(View view) {
+                ChatManager.getOrCreateChatThread(listing.employer.getObjectId(), new StringCB() {
                     @Override
-                    public void done(String error, boolean success) {
+                    public void done(String error, String threadId) {
                         if(error == null){
-                            MainActivity.setPage(2);
+                            Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast toast = Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT);
-                            toast.show();
+                            //TODO: open message dialog
+                            ChatDialogFragment chatDialog = new ChatDialogFragment();
+                            Bundle args = new Bundle();
+                            args.putString("threadId", threadId );
+                            chatDialog.setArguments(args);
+                            chatDialog.show(getFragmentManager(), "NoticeDialogFragment");
                         }
-                        dismiss();
                     }
                 });
             }
