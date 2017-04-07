@@ -13,6 +13,7 @@ import com.example.andrew.neighborlabour.UI.MainActivity;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.Conversions;
 import com.example.andrew.neighborlabour.Services.listings.Listing;
+import com.example.andrew.neighborlabour.UI.listings.ListingDetailDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -97,6 +98,20 @@ public class MapDialogFragment  extends DialogFragment implements GoogleMap.OnIn
 
         googleMap.setInfoWindowAdapter(new InfoWindowAdapter());
 
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                ListingDetailDialog listingDetailDialog = new ListingDetailDialog();
+
+                Bundle args = new Bundle();
+
+                JobHolder jobHolder = jobs.get(Integer.valueOf(marker.getSnippet()));
+                args.putString("listingId", jobHolder.ObjectId);
+                listingDetailDialog.setArguments(args);
+                listingDetailDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
+            }
+        });
+
 
         //the marker stores the position of which place this specific job is in the Array
         for(int i = 0; i < jobs.size(); i++){
@@ -134,8 +149,18 @@ public class MapDialogFragment  extends DialogFragment implements GoogleMap.OnIn
 
     @Override
     public void onInfoWindowClick(Marker marker) {
+        ListingDetailDialog listingDetailDialog = new ListingDetailDialog();
 
+        Bundle args = new Bundle();
+
+        JobHolder jobHolder = jobs.get(Integer.valueOf(marker.getSnippet()));
+        args.putString("listingId", jobHolder.ObjectId);
+        listingDetailDialog.setArguments(args);
+        listingDetailDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
     }
+
+
+
 
     public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
