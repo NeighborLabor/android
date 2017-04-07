@@ -39,6 +39,8 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
 
     private static final String TAG = "ListingsActivity";
 
+    static MapDialogFragment mapDialogFragment;
+
     ListView lvListings;
     static ListingArrayAdapter listingAdapter;
     static ArrayList<ParseObject> mlistings;
@@ -103,7 +105,7 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
 
                 args.putParcelableArrayList("ALL_LISTINGS", jobs);
 
-                MapDialogFragment mapDialogFragment = new MapDialogFragment();
+                mapDialogFragment = new MapDialogFragment();
                 mapDialogFragment.setArguments(args);
                 mapDialogFragment.show(getActivity().getFragmentManager(), "MapDialog");
             }
@@ -133,6 +135,7 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
         refreshListings();
     }
 
+    
     static Filter getFilter() {
         return ListingsFragment.filter;
     }
