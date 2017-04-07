@@ -16,6 +16,7 @@ import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.ListCB;
 import com.example.andrew.neighborlabour.Services.Utils.ParseObjectCB;
 import com.example.andrew.neighborlabour.Services.Utils.UserCB;
+import com.example.andrew.neighborlabour.Services.user.ReviewManager;
 import com.example.andrew.neighborlabour.Services.user.UserManager;
 import com.example.andrew.neighborlabour.UI.listings.ListingArrayAdapter;
 import com.example.andrew.neighborlabour.UI.listings.ListingDetailDialog;
@@ -81,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
         reviewsAdapter = new ReviewArrayAdapter(ParseProject.getContext(), reviews);
         lvReviews.setAdapter(reviewsAdapter);
 
-        UserManager.getReviews(userId, new ListCB() {
+        ReviewManager.getReviews(userId, new ListCB() {
             @Override
             public void done(String error, List<ParseObject> newReviews) {
                 if(newReviews == null || error != null ){

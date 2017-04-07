@@ -21,6 +21,7 @@ import com.example.andrew.neighborlabour.Services.chat.ChatManager;
 import com.example.andrew.neighborlabour.Services.listings.Listing;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 import com.example.andrew.neighborlabour.UI.MainActivity;
+import com.example.andrew.neighborlabour.UI.active.Review.ReviewDialog;
 import com.example.andrew.neighborlabour.UI.chat.ChatDialogFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -53,6 +54,7 @@ public class AppliedListingDetailDialog extends DialogFragment {
     TextView tvAddress;
     TextView tvDate;
     Button btMessage;
+    Button btReview;
     Listing listing;
     static String listingId;
 
@@ -67,7 +69,7 @@ public class AppliedListingDetailDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_applied_listing_detail, container, true);
 
-        String listingId = getArguments().getString("listingId");
+        this.listingId = getArguments().getString("listingId");
 
         setUpGUI();
         getMap(savedInstanceState);
@@ -112,6 +114,7 @@ public class AppliedListingDetailDialog extends DialogFragment {
         tvAddress = (TextView) view.findViewById(R.id.tvAddress);
         tvDate = (TextView) view.findViewById(R.id.tvDate);
         btMessage = (Button) view.findViewById(R.id.btMessage);
+        btReview = (Button) view.findViewById(R.id.btReview);
     }
 
     public void setValues(final String listingId){
@@ -164,6 +167,18 @@ public class AppliedListingDetailDialog extends DialogFragment {
                         }
                     }
                 });
+            }
+        });
+        btReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReviewDialog reviewDialog = new ReviewDialog();
+                String userId = listing.employer.getObjectId();
+                Bundle args = new Bundle();
+                args.putString("USER_ID", userId);
+                args.putString("LISTING_ID", listing.id);
+                reviewDialog.setArguments(args);
+                reviewDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
             }
         });
     }

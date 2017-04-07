@@ -185,6 +185,14 @@
                 android:padding="5dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/colorAccent"/>
+            <Button
+                android:id="@+id/btReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Review Worker"
+                android:padding="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorAccent"/>
         </LinearLayout>
 
         <LinearLayout

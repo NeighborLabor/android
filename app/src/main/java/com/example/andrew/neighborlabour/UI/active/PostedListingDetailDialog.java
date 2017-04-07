@@ -21,6 +21,7 @@ import com.example.andrew.neighborlabour.Services.Utils.StringCB;
 import com.example.andrew.neighborlabour.Services.chat.ChatManager;
 import com.example.andrew.neighborlabour.Services.listings.Listing;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
+import com.example.andrew.neighborlabour.UI.active.Review.ReviewDialog;
 import com.example.andrew.neighborlabour.UI.active.applicants.ApplicantArrayAdapter;
 import com.example.andrew.neighborlabour.UI.chat.ChatDialogFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -60,6 +61,7 @@ import java.util.Date;
     ListView workerList;
 
     Button btMessageWorker;
+    Button btReview;
     ApplicantArrayAdapter applicantArrayAdapter;
     ArrayList<ParseObject> applicants;
 
@@ -124,13 +126,14 @@ import java.util.Date;
         tvAddress = (TextView) view.findViewById(R.id.tvAddress);
         tvDate = (TextView) view.findViewById(R.id.tvDate);
         btMessageWorker = (Button) view.findViewById(R.id.btMessage);
+        btReview = (Button) view.findViewById(R.id.btReview);
         workerList = (ListView) view.findViewById(R.id.select_worker_list);
         applicantsLayout = (LinearLayout) view.findViewById(R.id.applicants);
         workerLayout = (LinearLayout) view.findViewById(R.id.worker);
         tvWorker = (TextView) view.findViewById(R.id.tvWorker);
     }
 
-    public void setValues(String listingId){
+    public void setValues(final String listingId){
         ListingManager.getListing(listingId, new ListingCB() {
             @Override
             public void done(String error, Listing theListing) {
@@ -144,6 +147,7 @@ import java.util.Date;
                 tvDate.setText(formatDateAsString(listing));
                 setMapLocation(listing);
                 if(listing.worker != null){
+
                     workerLayout.setVisibility(View.VISIBLE);
                     tvWorker.setText( "Worker: " + listing.worker.getString("name"));
                     btMessageWorker.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +170,20 @@ import java.util.Date;
                             });
                         }
                     });
+
+                    btReview.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ReviewDialog reviewDialog = new ReviewDialog();
+                            String userId = listing.worker.getObjectId();
+                            Bundle args = new Bundle();
+                            args.putString("USER_ID", userId);
+                            args.putString("LISTING_ID", listingId);
+                            reviewDialog.setArguments(args);
+                            reviewDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
+                        }
+                    });
+
                 }else{
                     applicantsLayout.setVisibility(View.VISIBLE);
                     applicants.addAll(listing.applicants);

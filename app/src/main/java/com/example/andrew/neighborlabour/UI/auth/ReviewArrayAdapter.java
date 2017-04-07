@@ -45,12 +45,12 @@ public class ReviewArrayAdapter extends ArrayAdapter<ParseObject> {
 
         //set text fields
         String starsString = "";
-        for(int i = 0; i < review.getInt("stars") ; i++){
+        for(int i = 0; i < review.getInt("rating") ; i++){
             starsString += "★";
         }
 
         holder.stars.setText( starsString );
-        holder.body.setText( review.getString("body") );
+        holder.body.setText( review.getString("descr") );
 
         return convertView;
     }

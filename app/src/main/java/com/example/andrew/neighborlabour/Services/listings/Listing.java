@@ -22,12 +22,15 @@ public class Listing {
     public List<ParseObject> applicants = null;
     public ParseUser employer = null;
     public ParseUser worker = null;
+    public ParseObject listing;
     public String id;
 
     public Listing(){}
 
     public Listing(ParseObject listing){
         id = listing.getObjectId();
+        this.listing = listing;
+
         if(listing.getString("title") != null){
             this.title = listing.getString("title");
         }
