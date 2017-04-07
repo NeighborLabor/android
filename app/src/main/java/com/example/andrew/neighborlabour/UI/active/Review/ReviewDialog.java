@@ -48,9 +48,9 @@ public class ReviewDialog extends Activity{
 
         review_title = (TextView) findViewById(R.id.review_name);
 
-        submit_button = (Button) findViewById(R.id.submit_rating);
-
-        text_review = (TextView) findViewById(R.id.text_review);
+//        submit_button = (Button) findViewById(R.id.submit_rating);
+//
+//        text_review = (TextView) findViewById(R.id.text_review);
 
         ratingBar = (RatingBar) findViewById(R.id.rating);
 

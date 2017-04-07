@@ -21,8 +21,6 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
-import static java.security.AccessController.getContext;
-
 /**
  * Created by andrew on 3/17/17.
  */
@@ -33,7 +31,7 @@ public class SelectWorkerDialog extends Activity {
 
     String parseID;
 
-    private Applicants arrayAdapter;
+    private ApplicantArrayAdapter arrayAdapter;
 
     private ArrayList<ParseObject> userList;
 
@@ -45,7 +43,7 @@ public class SelectWorkerDialog extends Activity {
 
         userList = new ArrayList<>();
 
-        arrayAdapter = new Applicants(this, userList);
+        arrayAdapter = new ApplicantArrayAdapter(this, userList);
 
         setContentView(R.layout.dialog_select_worker);
 
@@ -78,8 +76,6 @@ public class SelectWorkerDialog extends Activity {
                     arrayAdapter.notifyDataSetChanged();
                     changeHeader(userList.size());
                     Log.d("SELECT_WORKER", "happened4");
-
-
 
 
                 } else if(error != null){

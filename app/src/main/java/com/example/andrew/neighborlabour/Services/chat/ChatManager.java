@@ -89,6 +89,10 @@ public class ChatManager {
         });
     }
 
+    public static void getThread(String userId, final ListCB cb){
+        //implement
+    }
+
     public static void sendMessage(String threadId, String body, String userId, final SuccessCB cb){
         ParseObject message = new ParseObject("Message");
         message.put("threadId", threadId);

@@ -51,6 +51,7 @@ public class AppliedListingDetailDialog extends DialogFragment {
     TextView tvDate;
     Button btMessage;
     Listing listing;
+    static String listingId;
 
     @Override
     public void onStart(){
@@ -111,7 +112,7 @@ public class AppliedListingDetailDialog extends DialogFragment {
         btMessage = (Button) view.findViewById(R.id.btMessage);
     }
 
-    public void setValues(String listingId){
+    public void setValues(final String listingId){
         ListingManager.getListing(listingId, new ListingCB() {
             @Override
             public void done(String error, Listing newListing) {

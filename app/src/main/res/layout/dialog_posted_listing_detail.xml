@@ -159,15 +159,24 @@
             android:paddingTop="10dp">
         </TextView>
 
-        <Button
-            android:id="@+id/btReview"
+        <TextView
+            android:gravity="top"
+            android:textAppearance="@color/colorPrimaryDark"
+            android:text="Applicants:"
+            android:textSize="14dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Write a review"
-            android:padding="5dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/colorAccent"/>
+            android:paddingTop="10dp">
+        </TextView>
+
+        <ListView
+            android:background="@color/colorWhite"
+            android:id="@+id/select_worker_list"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"  />
 
     </LinearLayout>
+
+
 
 </LinearLayout>

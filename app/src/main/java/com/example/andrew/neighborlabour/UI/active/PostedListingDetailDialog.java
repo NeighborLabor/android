@@ -8,16 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.Conversions;
 import com.example.andrew.neighborlabour.Services.Utils.ListingCB;
-import com.example.andrew.neighborlabour.Services.Utils.SuccessCB;
 import com.example.andrew.neighborlabour.Services.listings.Listing;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
+import com.example.andrew.neighborlabour.UI.active.applicants.ApplicantArrayAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -25,16 +25,18 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by chevalierc on 3/29/2017.
  */
 
-public class PostedListingDetailDialog extends DialogFragment {
+ public class PostedListingDetailDialog extends DialogFragment {
     final String TAG = "ListingActivity";
 
     View view;
@@ -47,7 +49,12 @@ public class PostedListingDetailDialog extends DialogFragment {
     TextView tvDescription;
     TextView tvAddress;
     TextView tvDate;
+    ListView workerList;
     Button btApply;
+    ApplicantArrayAdapter applicantArrayAdapter;
+    ArrayList<ParseObject> workers;
+
+    public static String listingId;
 
     @Override
     public void onStart(){
@@ -60,9 +67,10 @@ public class PostedListingDetailDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_posted_listing_detail, container, true);
 
-        String listingId = getArguments().getString("listingId");
+        listingId = getArguments().getString("listingId");
 
         setUpGUI();
+        setUpWorkerList();
         getMap(savedInstanceState);
         setValues(listingId);
 
@@ -105,6 +113,7 @@ public class PostedListingDetailDialog extends DialogFragment {
         tvAddress = (TextView) view.findViewById(R.id.tvAddress);
         tvDate = (TextView) view.findViewById(R.id.tvDate);
         btApply = (Button) view.findViewById(R.id.btApply);
+        workerList = (ListView) view.findViewById(R.id.select_worker_list);
     }
 
     public void setValues(String listingId){
@@ -119,8 +128,17 @@ public class PostedListingDetailDialog extends DialogFragment {
                 tvAddress.setText(listing.address);
                 tvDate.setText(formatDateAsString(listing));
                 setMapLocation(listing);
+                workers.addAll(listing.applicants);
+                applicantArrayAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    public void setUpWorkerList(){
+        workers = new ArrayList<>();
+        applicantArrayAdapter = new ApplicantArrayAdapter(ParseProject.getContext(), workers);
+        workerList.setAdapter(applicantArrayAdapter);
+        applicantArrayAdapter.notifyDataSetChanged();
     }
 
     private String formatDateAsString(Listing listing) {
