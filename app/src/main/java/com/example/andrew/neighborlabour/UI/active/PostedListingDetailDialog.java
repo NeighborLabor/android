@@ -8,16 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andrew.neighborlabour.ParseProject;
 import com.example.andrew.neighborlabour.R;
 import com.example.andrew.neighborlabour.Services.Utils.Conversions;
 import com.example.andrew.neighborlabour.Services.Utils.ListingCB;
+import com.example.andrew.neighborlabour.Services.Utils.StringCB;
+import com.example.andrew.neighborlabour.Services.chat.ChatManager;
 import com.example.andrew.neighborlabour.Services.listings.Listing;
 import com.example.andrew.neighborlabour.Services.listings.ListingManager;
 import com.example.andrew.neighborlabour.UI.active.applicants.ApplicantArrayAdapter;
+import com.example.andrew.neighborlabour.UI.chat.ChatDialogFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -41,6 +46,9 @@ import java.util.Date;
 
     View view;
 
+    LinearLayout applicantsLayout;
+    LinearLayout workerLayout;
+
     GoogleMap map;
     TextView tvTitle;
     TextView tvCompensation;
@@ -50,9 +58,12 @@ import java.util.Date;
     TextView tvAddress;
     TextView tvDate;
     ListView workerList;
-    Button btApply;
+
+    Button btMessageWorker;
     ApplicantArrayAdapter applicantArrayAdapter;
-    ArrayList<ParseObject> workers;
+    ArrayList<ParseObject> applicants;
+
+    TextView tvWorker;
 
     public static String listingId;
 
@@ -112,14 +123,18 @@ import java.util.Date;
         tvDescription = (TextView) view.findViewById(R.id.tvDescription);
         tvAddress = (TextView) view.findViewById(R.id.tvAddress);
         tvDate = (TextView) view.findViewById(R.id.tvDate);
-        btApply = (Button) view.findViewById(R.id.btApply);
+        btMessageWorker = (Button) view.findViewById(R.id.btMessage);
         workerList = (ListView) view.findViewById(R.id.select_worker_list);
+        applicantsLayout = (LinearLayout) view.findViewById(R.id.applicants);
+        workerLayout = (LinearLayout) view.findViewById(R.id.worker);
+        tvWorker = (TextView) view.findViewById(R.id.tvWorker);
     }
 
     public void setValues(String listingId){
         ListingManager.getListing(listingId, new ListingCB() {
             @Override
-            public void done(String error, Listing listing) {
+            public void done(String error, Listing theListing) {
+                final Listing listing = theListing;
                 tvTitle.setText(listing.title);
                 if(listing.employer != null) tvEmployer.setText("Employer " + listing.employer.getString("name"));
                 tvDescription.setText(listing.description);
@@ -128,15 +143,41 @@ import java.util.Date;
                 tvAddress.setText(listing.address);
                 tvDate.setText(formatDateAsString(listing));
                 setMapLocation(listing);
-                workers.addAll(listing.applicants);
-                applicantArrayAdapter.notifyDataSetChanged();
+                if(listing.worker != null){
+                    workerLayout.setVisibility(View.VISIBLE);
+                    tvWorker.setText( "Worker: " + listing.worker.getString("name"));
+                    btMessageWorker.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ChatManager.getOrCreateChatThread(listing.worker.getObjectId(), new StringCB() {
+                                @Override
+                                public void done(String error, String threadId) {
+                                    if(error == null){
+                                        Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        //TODO: open message dialog
+                                        ChatDialogFragment chatDialog = new ChatDialogFragment();
+                                        Bundle args = new Bundle();
+                                        args.putString("threadId", threadId );
+                                        chatDialog.setArguments(args);
+                                        chatDialog.show(getFragmentManager(), "NoticeDialogFragment");
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }else{
+                    applicantsLayout.setVisibility(View.VISIBLE);
+                    applicants.addAll(listing.applicants);
+                    applicantArrayAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
 
     public void setUpWorkerList(){
-        workers = new ArrayList<>();
-        applicantArrayAdapter = new ApplicantArrayAdapter(ParseProject.getContext(), workers, PostedListingDetailDialog.this);
+        applicants = new ArrayList<>();
+        applicantArrayAdapter = new ApplicantArrayAdapter(ParseProject.getContext(), applicants, PostedListingDetailDialog.this);
         workerList.setAdapter(applicantArrayAdapter);
         applicantArrayAdapter.notifyDataSetChanged();
     }

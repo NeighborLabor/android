@@ -159,21 +159,56 @@
             android:paddingTop="10dp">
         </TextView>
 
-        <TextView
-            android:gravity="top"
-            android:textAppearance="@color/colorPrimaryDark"
-            android:text="Applicants:"
-            android:textSize="14dp"
+
+
+        <LinearLayout
+            android:id="@+id/worker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp">
-        </TextView>
+            android:visibility="gone"
+            android:orientation="vertical">
+            <TextView
+                android:gravity="top"
+                android:id="@+id/tvWorker"
+                android:textAppearance="@color/colorPrimaryDark"
+                android:text="Worker:"
+                android:textSize="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp">
+            </TextView>
+            <Button
+                android:id="@+id/btMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Message Worker"
+                android:padding="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorAccent"/>
+        </LinearLayout>
 
-        <ListView
-            android:background="@color/colorWhite"
-            android:id="@+id/select_worker_list"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"  />
+        <LinearLayout
+            android:id="@+id/applicants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <TextView
+                android:gravity="top"
+                android:textAppearance="@color/colorPrimaryDark"
+                android:text="Applicants:"
+                android:textSize="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp">
+            </TextView>
+            <ListView
+                android:background="@color/colorWhite"
+                android:id="@+id/select_worker_list"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"  />
+        </LinearLayout>
+
 
     </LinearLayout>
 
