@@ -155,8 +155,7 @@ public class ListingsFragment extends Fragment implements GoogleApiClient.Connec
                 Bundle args = new Bundle();
                 args.putString("listingId", listingId);
                 listingDetailDialog.setArguments(args);
-//                FragmentManager fm = ((Activity) ).getFragmentManager();
-//                listingDetailDialog.show(fm, "NoticeDialogFragment");
+                listingDetailDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
             }
         });
     }
