@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.durgaslist.andrew.durgaslist.ParseProject;
 import com.andrew.durgaslist.R;
 import com.durgaslist.andrew.durgaslist.Services.Utils.ListCB;
+import com.durgaslist.andrew.durgaslist.Services.Utils.ParseObjectCB;
 import com.durgaslist.andrew.durgaslist.Services.Utils.StringCB;
 import com.durgaslist.andrew.durgaslist.Services.Utils.SuccessCB;
 import com.durgaslist.andrew.durgaslist.Services.chat.ChatManager;
@@ -86,21 +87,21 @@ public class ChatDialogFragment extends DialogFragment {
 
     void setTitle(View view){
         etTitle = (TextView) view.findViewById(R.id.tvTitle);
-        etTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ParseProject.getContext(), ProfileActivity.class);
-                intent.putExtra("userId", ParseUser.getCurrentUser().getObjectId());
-                intent.putExtra("showPhone", true);
-                startActivity(intent);
-            }
-        });
 
-        ChatManager.getThreadTitle(threadId, new StringCB() {
+        ChatManager.getThreadParticipant(threadId, new ParseObjectCB() {
             @Override
-            public void done(String error, String title) {
+            public void done(String error, final ParseObject particpant) {
                 if(error == null){
-                    etTitle.setText(title);
+                    etTitle.setText(particpant.getString("name"));
+                    etTitle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(ParseProject.getContext(), ProfileActivity.class);
+                            intent.putExtra("userId", particpant.getObjectId() );
+                            intent.putExtra("showPhone", true);
+                            startActivity(intent);
+                        }
+                    });
                 }else{
                     Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
                 }

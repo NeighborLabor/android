@@ -39,7 +39,7 @@ public class ReviewManager {
                 final Listing listing = nListing;
                 final String employerId = listing.employer.getObjectId();
 
-                if(employerId.equals(ParseUser.getCurrentUser())){
+                if(employerId.equals(ParseUser.getCurrentUser().getObjectId())){
                     listing.listing.put("employerReview", true);
                 }else{
                     listing.listing.put("workerReview", true);
@@ -53,9 +53,15 @@ public class ReviewManager {
                         new_review.put("rating", reviewRating);
                         new_review.put("descr", reviewDescription);
 
-                        if(employerId.equals(ParseUser.getCurrentUser())){
+                        Log.i(TAG, employerId);
+                        Log.i(TAG, ParseUser.getCurrentUser().getObjectId() );
+
+
+                        if(employerId.equals(ParseUser.getCurrentUser().getObjectId())){
+                            Log.i(TAG, "worker");
                             new_review.getRelation("user").add(listing.worker);
                         }else{
+                            Log.i(TAG, "employer");
                             new_review.getRelation("user").add(listing.employer);
                         }
 

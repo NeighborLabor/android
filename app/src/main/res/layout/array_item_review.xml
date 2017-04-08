@@ -11,13 +11,18 @@ android:padding="14dp">
         android:layout_height="match_parent"
         android:textStyle="bold"
         android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/tvDate"
+        android:textColor="@color/colorBlack"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="10sp"/>
 
     <TextView
         android:id="@+id/tvBody"
         android:textColor="@color/colorBlack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textStyle="bold"
-        android:textSize="16sp"/>
+        android:textSize="14sp"/>
 
 </LinearLayout>

@@ -191,6 +191,7 @@
                     android:background="@color/colorPrimary"/>
                 <Button
                     android:id="@+id/btReview"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Review Worker"

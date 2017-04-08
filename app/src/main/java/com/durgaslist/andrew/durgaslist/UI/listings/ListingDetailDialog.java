@@ -25,6 +25,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseUser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -120,6 +121,10 @@ public class ListingDetailDialog extends DialogFragment {
                 tvAddress.setText(listing.address);
                 tvDate.setText(formatDateAsString(listing));
                 setMapLocation(listing);
+                //hide message employer if your the meployer
+                if(!listing.employer.getObjectId().equals(ParseUser.getCurrentUser().getObjectId() )){
+                    btApply.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

@@ -128,6 +128,9 @@ public class AppliedListingDetailDialog extends DialogFragment {
                 tvDate.setText(formatDateAsString(listing));
                 setMapLocation(listing);
                 setListeners(listing);
+                if( listing.startTime.before(new Date()) && !listing.listing.getBoolean("employerReview") ){
+                    btReview.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

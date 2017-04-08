@@ -146,6 +146,9 @@ import java.util.Date;
                 tvAddress.setText(listing.address);
                 tvDate.setText(formatDateAsString(listing));
                 setMapLocation(listing);
+                if( listing.startTime.before(new Date()) && !listing.listing.getBoolean("workerReview") ){
+                    btReview.setVisibility(View.VISIBLE);
+                }
                 if(listing.worker != null){
 
                     workerLayout.setVisibility(View.VISIBLE);

@@ -52,8 +52,7 @@ public class ReviewDialog extends DialogFragment{
             @Override
             public void onClick(View v) {
                 String textReview = text_review.getText().toString();
-                int rating = ratingBar.getNumStars();
-
+                int rating = (int) ratingBar.getRating();
                 ReviewManager.PostReview(listingId, textReview, rating, new SuccessCB() {
                     @Override
                     public void done(String error, boolean success) {

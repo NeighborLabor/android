@@ -3,6 +3,7 @@ package com.durgaslist.andrew.durgaslist.Services.chat;
 import android.util.Log;
 
 import com.durgaslist.andrew.durgaslist.Services.Utils.ListCB;
+import com.durgaslist.andrew.durgaslist.Services.Utils.ParseObjectCB;
 import com.durgaslist.andrew.durgaslist.Services.Utils.StringCB;
 import com.durgaslist.andrew.durgaslist.Services.Utils.SuccessCB;
 import com.parse.FindCallback;
@@ -136,10 +137,6 @@ public class ChatManager {
         });
     }
 
-    public static void getThread(String userId, final ListCB cb){
-        //implement
-    }
-
     public static void sendMessage(String threadId, String body, String userId, final SuccessCB cb){
         ParseObject message = new ParseObject("Message");
         message.put("threadId", threadId);
@@ -157,7 +154,7 @@ public class ChatManager {
         });
     }
 
-    public static void getThreadTitle(String threadId, final StringCB cb){
+    public static void getThreadParticipant(String threadId, final ParseObjectCB cb){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Thread");
         query.whereEqualTo("objectId", threadId);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -174,9 +171,9 @@ public class ChatManager {
                             if (!currentUserId.equals(userId) ){
                                 String title = participants.get(i).getString("name");
                                 if(e == null && title!= null){
-                                    cb.done(null, title );
+                                    cb.done(null, participants.get(i) );
                                 }else{
-                                    cb.done(e + "", "error");
+                                    cb.done(e + "", null);
                                 }
                             }
                         }

@@ -33,6 +33,7 @@ public class ReviewArrayAdapter extends ArrayAdapter<ParseObject> {
 
             holder.body = (TextView) convertView.findViewById(R.id.tvBody);
             holder.stars = (TextView) convertView.findViewById(R.id.tvStars);
+            holder.date = (TextView) convertView.findViewById(R.id.tvDate);
 
             convertView.setTag(holder);
         }
@@ -50,12 +51,15 @@ public class ReviewArrayAdapter extends ArrayAdapter<ParseObject> {
         holder.stars.setText( starsString );
         holder.body.setText( review.getString("descr") );
 
+        holder.date.setText( review.getCreatedAt().toString());
+
         return convertView;
     }
 
     final class ViewHolder {
         public TextView stars;
         public TextView body;
+        public TextView date;
     }
 
 }
