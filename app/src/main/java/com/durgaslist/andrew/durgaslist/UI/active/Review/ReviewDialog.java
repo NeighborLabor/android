@@ -1,6 +1,7 @@
 package com.durgaslist.andrew.durgaslist.UI.active.Review;
 
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,8 @@ public class ReviewDialog extends DialogFragment{
     static ParseUser reviewed_user;
     View view;
 
+    private DialogInterface.OnDismissListener onDismissListener;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_review, container, true);
@@ -58,6 +61,7 @@ public class ReviewDialog extends DialogFragment{
                     public void done(String error, boolean success) {
                         if(success && error == null){
                             Toast.makeText(ParseProject.getContext(), "Review Left!", Toast.LENGTH_SHORT).show();
+                            onDismissListener.onDismiss(getDialog());
                             endDialog();
                         }else {
                             Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
@@ -90,6 +94,19 @@ public class ReviewDialog extends DialogFragment{
                 Log.d("REVIEW_DIALOG", e.toString());
             }
         }
+
+    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (onDismissListener != null) {
+            Log.i(TAG, "called");
+            onDismissListener.onDismiss(dialog);
+        }
+    }
 
     public void endDialog(){
         dismiss();

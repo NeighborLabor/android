@@ -257,6 +257,8 @@ public class ListingManager {
             query.whereContains("title", filter.searchTerm);
         }
 
+        query.orderByAscending("startTime");
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> listings, ParseException e) {

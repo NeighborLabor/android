@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.durgaslist.andrew.durgaslist.UI.active.ActiveJobsFragment;
-import com.durgaslist.andrew.durgaslist.UI.chat.ChatFragment;
+import com.durgaslist.andrew.durgaslist.UI.chat.ChatThreadFragment;
 import com.durgaslist.andrew.durgaslist.UI.listings.ListingsFragment;
 
 /**
@@ -28,7 +28,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new ActiveJobsFragment();
             case 2:
-                return new ChatFragment();
+                return new ChatThreadFragment();
         }
 
     }

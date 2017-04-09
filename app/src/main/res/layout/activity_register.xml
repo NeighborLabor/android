@@ -65,7 +65,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="name"
+            android:hint="Name"
             android:id="@+id/name"/>
 
         <EditText
@@ -77,7 +77,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quick Bio"
+            android:hint="Quick Bio (Optional)"
             android:lines="3"
             android:id="@+id/bio"/>
 

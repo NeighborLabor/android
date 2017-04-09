@@ -24,7 +24,7 @@ import com.durgaslist.andrew.durgaslist.Services.chat.ChatManager;
 import com.durgaslist.andrew.durgaslist.Services.listings.ListingManager;
 import com.durgaslist.andrew.durgaslist.UI.active.PostedListingDetailDialog;
 import com.durgaslist.andrew.durgaslist.UI.auth.ProfileActivity;
-import com.durgaslist.andrew.durgaslist.UI.chat.ChatDialogFragment;
+import com.durgaslist.andrew.durgaslist.UI.chat.ChatMessageDialogFragment;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -70,7 +70,7 @@ public class ApplicantArrayAdapter extends ArrayAdapter<ParseObject>{
                                 Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
                             }else{
                                 //TODO: open message dialog
-                                ChatDialogFragment chatDialog = new ChatDialogFragment();
+                                ChatMessageDialogFragment chatDialog = new ChatMessageDialogFragment();
                                 Bundle args = new Bundle();
                                 args.putString("threadId", threadId );
                                 chatDialog.setArguments(args);

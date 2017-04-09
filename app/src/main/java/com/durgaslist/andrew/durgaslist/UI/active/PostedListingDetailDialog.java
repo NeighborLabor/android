@@ -2,7 +2,9 @@ package com.durgaslist.andrew.durgaslist.UI.active;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +25,7 @@ import com.durgaslist.andrew.durgaslist.Services.listings.Listing;
 import com.durgaslist.andrew.durgaslist.Services.listings.ListingManager;
 import com.durgaslist.andrew.durgaslist.UI.active.Review.ReviewDialog;
 import com.durgaslist.andrew.durgaslist.UI.active.applicants.ApplicantArrayAdapter;
-import com.durgaslist.andrew.durgaslist.UI.chat.ChatDialogFragment;
+import com.durgaslist.andrew.durgaslist.UI.chat.ChatMessageDialogFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -68,6 +70,7 @@ import java.util.Date;
     TextView tvWorker;
 
     public static String listingId;
+    public Listing listing;
 
     @Override
     public void onStart(){
@@ -137,7 +140,7 @@ import java.util.Date;
         ListingManager.getListing(listingId, new ListingCB() {
             @Override
             public void done(String error, Listing theListing) {
-                final Listing listing = theListing;
+                listing = theListing;
                 tvTitle.setText(listing.title);
                 if(listing.employer != null) tvEmployer.setText("Employer " + listing.employer.getString("name"));
                 tvDescription.setText(listing.description);
@@ -146,54 +149,69 @@ import java.util.Date;
                 tvAddress.setText(listing.address);
                 tvDate.setText(formatDateAsString(listing));
                 setMapLocation(listing);
-                if( listing.startTime.before(new Date()) && !listing.listing.getBoolean("workerReview") ){
-                    btReview.setVisibility(View.VISIBLE);
-                }
-                if(listing.worker != null){
-
-                    workerLayout.setVisibility(View.VISIBLE);
-                    tvWorker.setText( "Worker: " + listing.worker.getString("name"));
-                    btMessageWorker.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ChatManager.getOrCreateChatThread(listing.worker.getObjectId(), new StringCB() {
-                                @Override
-                                public void done(String error, String threadId) {
-                                    if(error == null){
-                                        Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        //TODO: open message dialog
-                                        ChatDialogFragment chatDialog = new ChatDialogFragment();
-                                        Bundle args = new Bundle();
-                                        args.putString("threadId", threadId );
-                                        chatDialog.setArguments(args);
-                                        chatDialog.show(getFragmentManager(), "NoticeDialogFragment");
-                                    }
-                                }
-                            });
-                        }
-                    });
-
-                    btReview.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ReviewDialog reviewDialog = new ReviewDialog();
-                            String userId = listing.worker.getObjectId();
-                            Bundle args = new Bundle();
-                            args.putString("USER_ID", userId);
-                            args.putString("LISTING_ID", listingId);
-                            reviewDialog.setArguments(args);
-                            reviewDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
-                        }
-                    });
-
-                }else{
-                    applicantsLayout.setVisibility(View.VISIBLE);
-                    applicants.addAll(listing.applicants);
-                    applicantArrayAdapter.notifyDataSetChanged();
-                }
+                showReviewButtonIfNeeded();
+                setListeners();
             }
         });
+    }
+
+    public void setListeners(){
+        //If you have selected a worker show worker details else show applicants
+        if(listing.worker != null){
+            workerLayout.setVisibility(View.VISIBLE);
+            tvWorker.setText( "Worker: " + listing.worker.getString("name"));
+            btMessageWorker.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ChatManager.getOrCreateChatThread(listing.worker.getObjectId(), new StringCB() {
+                        @Override
+                        public void done(String error, String threadId) {
+                            if(error == null){
+                                Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
+                            }else{
+                                //TODO: open message dialog
+                                ChatMessageDialogFragment chatDialog = new ChatMessageDialogFragment();
+                                Bundle args = new Bundle();
+                                args.putString("threadId", threadId );
+                                chatDialog.setArguments(args);
+                                chatDialog.show(getFragmentManager(), "NoticeDialogFragment");
+                            }
+                        }
+                    });
+                }
+            });
+            btReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ReviewDialog reviewDialog = new ReviewDialog();
+                    String userId = listing.worker.getObjectId();
+                    Bundle args = new Bundle();
+                    args.putString("USER_ID", userId);
+                    args.putString("LISTING_ID", listingId);
+                    reviewDialog.setArguments(args);
+                    reviewDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            Log.i(TAG, "dismissed");
+                            showReviewButtonIfNeeded();
+                        }
+                    });
+                    reviewDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
+                }
+            });
+        }else{
+            applicantsLayout.setVisibility(View.VISIBLE);
+            applicants.addAll(listing.applicants);
+            applicantArrayAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void showReviewButtonIfNeeded(){
+        if( listing.startTime.before(new Date()) && !listing.listing.getBoolean("workerReview") ){
+            btReview.setVisibility(View.VISIBLE);
+        }else{
+            btReview.setVisibility(View.GONE);
+        }
     }
 
     public void setUpWorkerList(){

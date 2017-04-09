@@ -71,7 +71,7 @@ public class ChatManager {
         });
     }
 
-    public static void getOrCreateChatThread(String otherUserId, final StringCB cb){
+    public static void getOrCreateChatThread(final String otherUserId, final StringCB cb){
         //Get Other user as parseObject
         ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
         query.whereEqualTo("objectId", otherUserId);
@@ -103,7 +103,16 @@ public class ChatManager {
                                     @Override
                                     public void done(ParseException e) {
                                         if(e == null){
-                                            cb.done(null, threadId);
+                                            ChatManager.getOrCreateChatThread(otherUserId, new StringCB() {
+                                                @Override
+                                                public void done(String error, String threadId) {
+                                                    if(error == null){
+                                                        cb.done(null, threadId);
+                                                    }else{
+                                                        cb.done(error + "", null);
+                                                    }
+                                                }
+                                            });
                                         }else{
                                             cb.done(e + "", null);
                                         }

@@ -40,9 +40,9 @@ public class ReviewManager {
                 final String employerId = listing.employer.getObjectId();
 
                 if(employerId.equals(ParseUser.getCurrentUser().getObjectId())){
-                    listing.listing.put("employerReview", true);
-                }else{
                     listing.listing.put("workerReview", true);
+                }else{
+                    listing.listing.put("employerReview", true);
                 }
 
                 listing.listing.saveInBackground(new SaveCallback() {

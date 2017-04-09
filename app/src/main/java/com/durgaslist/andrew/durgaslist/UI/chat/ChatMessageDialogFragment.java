@@ -33,7 +33,7 @@ import java.util.List;
  * Created by chevalierc on 3/10/2017.
  */
 
-public class ChatDialogFragment extends DialogFragment {
+public class ChatMessageDialogFragment extends DialogFragment {
     final String TAG = "ChatDialogFragment";
     static final int POLL_INTERVAL = 1000;
 
@@ -128,18 +128,19 @@ public class ChatDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 String userId = ParseUser.getCurrentUser().getObjectId();
                 String body = etMessage.getText().toString();
-                ChatManager.sendMessage(threadId, body, userId, new SuccessCB() {
-                    @Override
-                    public void done(String error, boolean success) {
-                        if(success){
-                            etMessage.setText(null);
-                            refreshMessages();
-                            Toast.makeText(ParseProject.getContext(), "success", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
+                if(body.length() != 0){
+                    ChatManager.sendMessage(threadId, body, userId, new SuccessCB() {
+                        @Override
+                        public void done(String error, boolean success) {
+                            if(success){
+                                etMessage.setText(null);
+                                refreshMessages();
+                            }else{
+                                Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }

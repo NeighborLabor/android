@@ -8,6 +8,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,7 +22,8 @@ public class UserManager {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Listing");
         ParseUser currentUser =  ParseUser.getCurrentUser();
         query.whereEqualTo("applicants", currentUser); //This might not be the correct query
-
+        query.orderByAscending("startTime");
+        query.whereNotEqualTo("employerReview", true);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> listings, ParseException e) {
@@ -38,7 +40,8 @@ public class UserManager {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Listing");
         ParseUser user = ParseUser.getCurrentUser();
         query.whereEqualTo("createdBy", user); //This might not be the correct query
-
+        query.orderByAscending("startTime");
+        query.whereNotEqualTo("workerReview", true);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> listings, ParseException e) {

@@ -31,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView name;
     TextView phone;
     TextView bio;
+    TextView reviewsHeader;
     ListView lvReviews;
     String userId;
     Boolean showPhone = false;
@@ -58,6 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.tvName);
         phone = (TextView) findViewById(R.id.tvPhone);
         bio = (TextView) findViewById(R.id.tvBio);
+        reviewsHeader = (TextView) findViewById(R.id.tvReviewHeader);
 
         back = (ImageView) findViewById(R.id.btBack);
         back.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +82,8 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void done(String error, List<ParseObject> newReviews) {
                 if(newReviews == null || error != null ){
-                    Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
+                    reviewsHeader.setText("No Reviews For User");
                 }else{
                     Log.i(TAG, newReviews.size() + "");
                     reviews.clear();
@@ -97,7 +100,12 @@ public class ProfileActivity extends AppCompatActivity {
             public void done(String error, ParseObject user) {
                 name.setText(user.getString("name"));
                 phone.setText(user.getString("phone"));
-                bio.setText(user.getString("bio"));
+                String bioText = user.getString("bio");
+                if(bioText.length() == 0){
+                    bio.setText("No Bio");
+                }else{
+                    bio.setText(bioText);
+                }
                 if( showPhone ) phone.setVisibility(View.VISIBLE);
             }
         });

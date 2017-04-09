@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.durgaslist.andrew.durgaslist.ParseProject;
 import com.andrew.durgaslist.R;
@@ -31,7 +30,7 @@ import com.durgaslist.andrew.durgaslist.UI.PagerAdapter.SectionPagerAdapter;
 import com.durgaslist.andrew.durgaslist.UI.active.ActiveJobsFragment;
 import com.durgaslist.andrew.durgaslist.UI.auth.LoginActivity;
 import com.durgaslist.andrew.durgaslist.UI.auth.EditProfileActivity;
-import com.durgaslist.andrew.durgaslist.UI.chat.ChatFragment;
+import com.durgaslist.andrew.durgaslist.UI.chat.ChatThreadFragment;
 import com.durgaslist.andrew.durgaslist.UI.listings.ListingsFragment;
 import com.parse.ParseUser;
 
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case 1:
                         ActiveJobsFragment.refresh();
                     case 2:
-                        ChatFragment.refresh();
+                        ChatThreadFragment.refresh();
                 }
             }
             @Override
@@ -220,20 +219,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public void onStatusChanged(String s, int i, Bundle bundle) {
-            Toast toast = Toast.makeText(ParseProject.getContext(), "I dont know what this means", Toast.LENGTH_SHORT);
-            toast.show();
+
         }
 
         @Override
         public void onProviderEnabled(String s) {
-            Toast toast = Toast.makeText(ParseProject.getContext(), "Location Service Enabled", Toast.LENGTH_SHORT);
-            toast.show();
+
         }
 
         @Override
         public void onProviderDisabled(String s) {
-            Toast toast = Toast.makeText(ParseProject.getContext(), "Location Service Disabled", Toast.LENGTH_SHORT);
-            toast.show();
+
         }
     };
 

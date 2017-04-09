@@ -62,6 +62,12 @@
             android:lines="3"
             android:id="@+id/tvBio"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvReviewHeader"
+            android:text="Reviews:"/>
+
         <ListView
             android:id="@+id/lvReviews"
             android:transcriptMode="alwaysScroll"

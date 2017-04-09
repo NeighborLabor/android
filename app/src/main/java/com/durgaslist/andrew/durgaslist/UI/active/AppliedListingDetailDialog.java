@@ -2,7 +2,9 @@ package com.durgaslist.andrew.durgaslist.UI.active;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,7 @@ import com.durgaslist.andrew.durgaslist.Services.chat.ChatManager;
 import com.durgaslist.andrew.durgaslist.Services.listings.Listing;
 import com.durgaslist.andrew.durgaslist.Services.listings.ListingManager;
 import com.durgaslist.andrew.durgaslist.UI.active.Review.ReviewDialog;
-import com.durgaslist.andrew.durgaslist.UI.chat.ChatDialogFragment;
+import com.durgaslist.andrew.durgaslist.UI.chat.ChatMessageDialogFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -128,11 +130,17 @@ public class AppliedListingDetailDialog extends DialogFragment {
                 tvDate.setText(formatDateAsString(listing));
                 setMapLocation(listing);
                 setListeners(listing);
-                if( listing.startTime.before(new Date()) && !listing.listing.getBoolean("employerReview") ){
-                    btReview.setVisibility(View.VISIBLE);
-                }
+                showReviewButtonIfNeeded();
             }
         });
+    }
+
+    public void showReviewButtonIfNeeded(){
+        if( listing.startTime.before(new Date()) && !listing.listing.getBoolean("employerReview") ){
+            btReview.setVisibility(View.VISIBLE);
+        }else{
+            btReview.setVisibility(View.GONE);
+        }
     }
 
     private String formatDateAsString(Listing listing) {
@@ -159,7 +167,7 @@ public class AppliedListingDetailDialog extends DialogFragment {
                             Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
                         }else{
                             //TODO: open message dialog
-                            ChatDialogFragment chatDialog = new ChatDialogFragment();
+                            ChatMessageDialogFragment chatDialog = new ChatMessageDialogFragment();
                             Bundle args = new Bundle();
                             args.putString("threadId", threadId );
                             chatDialog.setArguments(args);
@@ -178,6 +186,13 @@ public class AppliedListingDetailDialog extends DialogFragment {
                 args.putString("USER_ID", userId);
                 args.putString("LISTING_ID", listing.id);
                 reviewDialog.setArguments(args);
+                reviewDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        Log.i(TAG, "dismissed");
+                        showReviewButtonIfNeeded();
+                    }
+                });
                 reviewDialog.show(getActivity().getFragmentManager(), "NoticeDialogFragment");
             }
         });

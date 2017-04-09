@@ -18,7 +18,7 @@ import com.parse.ParseObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatFragment extends Fragment {
+public class ChatThreadFragment extends Fragment {
 
     private static final String TAG = "ChatThreadFragment";
 
@@ -46,7 +46,7 @@ public class ChatFragment extends Fragment {
         lvThreads.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
-                ChatDialogFragment chatDialog = new ChatDialogFragment();
+                ChatMessageDialogFragment chatDialog = new ChatMessageDialogFragment();
                 String threadId = threads.get(i).getObjectId();
                 Bundle args = new Bundle();
                 args.putString("threadId", threadId );
