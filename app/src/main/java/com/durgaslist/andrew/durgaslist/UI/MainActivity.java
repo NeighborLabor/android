@@ -163,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             viewPager.setCurrentItem(2);
         } else if (id == R.id.logout) {
             logOut();
+        }else if (id == R.id.help) {
+            openHelp();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -177,6 +179,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //actions
     void openProfile() {
         Intent intent = new Intent(ParseProject.getContext(), EditProfileActivity.class);
+        startActivity(intent);
+    }
+
+    void openHelp() {
+        Intent intent = new Intent(ParseProject.getContext(), HelpActivity.class);
         startActivity(intent);
     }
 

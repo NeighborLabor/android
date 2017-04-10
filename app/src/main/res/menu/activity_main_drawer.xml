@@ -19,6 +19,10 @@
             android:icon="@drawable/ic_message"
             android:title="Messages" />
         <item
+            android:id="@+id/help"
+            android:icon="@drawable/ic_help"
+            android:title="Help" />
+        <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             android:title="Logout" />

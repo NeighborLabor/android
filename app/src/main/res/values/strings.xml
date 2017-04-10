@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">"Durgas List"</string>
+    <string name="app_name">"Durga's List"</string>
     <string name="title_activity_login_screen">LoginScreen</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
