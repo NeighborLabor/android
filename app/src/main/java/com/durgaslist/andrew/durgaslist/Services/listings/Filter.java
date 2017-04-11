@@ -21,8 +21,8 @@ public class Filter {
     public Date endDate = null;
     public String category = null;
     public Integer maxDistance = 5;
-    public double longitude = 0;
-    public double latitude = 0;
+    public double longitude = -71.059770;
+    public double latitude = 42.358430;
 
     void Filter(){
         Location userLocation = MainActivity.location;

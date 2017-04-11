@@ -30,8 +30,8 @@ import java.util.logging.Filter;
  */
 
 public class MapDialogFragment  extends DialogFragment implements GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback{
-    double currentLongitude = 0;
-    double currentLatitude = 0;
+    double currentLongitude = -71.059770;
+    double currentLatitude = 42.358430;
 
     static Listing theJob;
 

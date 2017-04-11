@@ -22,55 +22,6 @@ import java.util.List;
 public class ChatManager {
     public static final String TAG = "ChatManager";
 
-    public static void createChatThread(String otherUserId, final SuccessCB cb){
-        //Get Other user as parseObject
-        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
-        query.whereEqualTo("objectId", otherUserId);
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> users, ParseException e) {
-                if(users.size() == 0 ){
-                    cb.done( "User not found", false);
-                }else if(e == null){
-                    final ParseUser otherUser = users.get(0);
-                    Log.i(TAG, otherUser.getString("name"));
-                    //Check that thread doesn't exist allready
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Thread");
-                    query.whereEqualTo("participants", ParseUser.getCurrentUser() );
-                    query.whereEqualTo("participants", otherUser );
-                    query.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> users, ParseException e) {
-                            Log.i(TAG, "" + users.size());
-                            if(users.size() != 0 ){
-                                cb.done( "Thread Exists", false);
-                            }else if(e == null){
-                                //Create thread
-                                final ParseObject newThread = ParseObject.create("Thread");
-                                newThread.getRelation("participants").add( ParseUser.getCurrentUser() );
-                                newThread.getRelation("participants").add( otherUser );
-                                newThread.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if(e == null){
-                                            cb.done(null, true);
-                                        }else{
-                                            cb.done(e + "", false);
-                                        }
-                                    }
-                                });
-                            }else{
-                                cb.done(e + "", false);
-                            }
-                        }
-                    });
-                }else{
-                    cb.done(e + "", false);
-                }
-            }
-        });
-    }
-
     public static void getOrCreateChatThread(final String otherUserId, final StringCB cb){
         //Get Other user as parseObject
         ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
@@ -147,20 +98,24 @@ public class ChatManager {
     }
 
     public static void sendMessage(String threadId, String body, String userId, final SuccessCB cb){
-        ParseObject message = new ParseObject("Message");
-        message.put("threadId", threadId);
-        message.put("body", body);
-        message.put("userId", userId);
-        message.saveInBackground(new SaveCallback(){
-            @Override
-            public void done(ParseException e){
-                if(e == null) {
-                    cb.done(null, true);
-                }else{
-                    cb.done(e + "", false);
+        if( threadId != null && userId != null && body != null){
+            ParseObject message = new ParseObject("Message");
+            message.put("threadId", threadId);
+            message.put("body", body);
+            message.put("userId", userId);
+            message.saveInBackground(new SaveCallback(){
+                @Override
+                public void done(ParseException e){
+                    if(e == null) {
+                        cb.done(null, true);
+                    }else{
+                        cb.done(e + "", false);
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            cb.done("error", false);
+        }
     }
 
     public static void getThreadParticipant(String threadId, final ParseObjectCB cb){
@@ -169,25 +124,29 @@ public class ChatManager {
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> threads, ParseException e) {
-                ParseObject chatThread = threads.get(0);
-                ParseQuery<ParseObject> query = chatThread.getRelation("participants").getQuery();
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> participants, ParseException e) {
-                        String currentUserId = ParseUser.getCurrentUser().getObjectId();
-                        for(int i = 0; i < participants.size(); i++ ){
-                            String userId = participants.get(i).getObjectId();
-                            if (!currentUserId.equals(userId) ){
-                                String title = participants.get(i).getString("name");
-                                if(e == null && title!= null){
-                                    cb.done(null, participants.get(i) );
-                                }else{
-                                    cb.done(e + "", null);
+                if(threads.size() == 0){
+                    cb.done("error", null);
+                }else{
+                    ParseObject chatThread = threads.get(0);
+                    ParseQuery<ParseObject> query = chatThread.getRelation("participants").getQuery();
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> participants, ParseException e) {
+                            String currentUserId = ParseUser.getCurrentUser().getObjectId();
+                            for(int i = 0; i < participants.size(); i++ ){
+                                String userId = participants.get(i).getObjectId();
+                                if (!currentUserId.equals(userId) ){
+                                    String title = participants.get(i).getString("name");
+                                    if(e == null && title!= null){
+                                        cb.done(null, participants.get(i) );
+                                    }else{
+                                        cb.done(e + "", null);
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }

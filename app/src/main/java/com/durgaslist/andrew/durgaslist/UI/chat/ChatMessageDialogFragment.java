@@ -103,7 +103,7 @@ public class ChatMessageDialogFragment extends DialogFragment {
                         }
                     });
                 }else{
-                    Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
                 }
             }
         });

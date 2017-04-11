@@ -66,7 +66,7 @@ public class Conversions {
             float distanceInKM = userLocation.distanceTo(listingLocation)/1000;
             return (Math.round(distanceInKM * 0.621371 * 10) / 10) + " miles";
         }else{
-            return "error";
+            return "0 Miles";
         }
     }
 }

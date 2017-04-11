@@ -72,7 +72,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setupLocation();
             }
         }
-
+        if (ParseUser.getCurrentUser() == null) {
+            toLogInScreen();
+        }
     }
 
     void setMenuHeaderText() {

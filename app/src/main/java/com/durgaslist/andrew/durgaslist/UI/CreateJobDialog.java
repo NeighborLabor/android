@@ -25,6 +25,7 @@ import com.durgaslist.andrew.durgaslist.Services.Utils.Conversions;
 import com.durgaslist.andrew.durgaslist.Services.Utils.SuccessCB;
 import com.durgaslist.andrew.durgaslist.Services.listings.Listing;
 import com.durgaslist.andrew.durgaslist.Services.listings.ListingManager;
+import com.durgaslist.andrew.durgaslist.UI.listings.ListingsFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -278,6 +279,7 @@ public class CreateJobDialog extends DialogFragment{
             public void done(String error, boolean success) {
                 if(error == null){
                     Toast.makeText(ParseProject.getContext(), "Job Created!", Toast.LENGTH_SHORT).show();
+                    ListingsFragment.refreshListings();
                     dismiss();
                 }else{
                     Toast.makeText(ParseProject.getContext(), error, Toast.LENGTH_SHORT).show();
